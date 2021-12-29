@@ -1,0 +1,528 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>5.运输层 | Night's Watch</title><meta name="keywords" content="计算机网络"><meta name="author" content="Candle"><meta name="copyright" content="Candle"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="运输层概述物理层，数据链路层以及网络层共同解决了将主机通过异构网络互联起来所面临的问题，实现了主机到主机之间的通信 实际上在计算机网络中进行通信的实际是位于通信两段主机中的进程  运输层直接为应用进程间的逻辑通信提供服务 运输层向高层用户屏蔽了下面网络核心的细节，它使应用进程看见的就好像是在两个运输层实体之间有一条端到端的逻辑通信信道 根据应用需求不同，因特网的运输层为应用层提供了两种不同的运输协">
+<meta property="og:type" content="article">
+<meta property="og:title" content="5.运输层">
+<meta property="og:url" content="http://candle1220.github.io/post/9992.html">
+<meta property="og:site_name" content="Night&#39;s Watch">
+<meta property="og:description" content="运输层概述物理层，数据链路层以及网络层共同解决了将主机通过异构网络互联起来所面临的问题，实现了主机到主机之间的通信 实际上在计算机网络中进行通信的实际是位于通信两段主机中的进程  运输层直接为应用进程间的逻辑通信提供服务 运输层向高层用户屏蔽了下面网络核心的细节，它使应用进程看见的就好像是在两个运输层实体之间有一条端到端的逻辑通信信道 根据应用需求不同，因特网的运输层为应用层提供了两种不同的运输协">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2021/12/29/RMmal8yxYH4q1f3.jpg">
+<meta property="article:published_time" content="2021-12-28T15:51:19.928Z">
+<meta property="article:modified_time" content="2021-12-28T17:29:47.762Z">
+<meta property="article:author" content="Candle">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2021/12/29/RMmal8yxYH4q1f3.jpg"><link rel="shortcut icon" href="/img/candle.png"><link rel="canonical" href="http://candle1220.github.io/post/9992"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '5.运输层',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-12-29 01:29:47'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/background.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://cdn.jsdelivr.net/gh/candle1220/CDN/head.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">125</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">14</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-crow"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-book"></i><span> 归档</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/candle1220/CDN/background.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Night's Watch</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-crow"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-book"></i><span> 归档</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">5.运输层</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-12-28T15:51:19.928Z" title="发表于 2021-12-28 23:51:19">2021-12-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-12-28T17:29:47.762Z" title="更新于 2021-12-29 01:29:47">2021-12-29</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="5.运输层"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="运输层"><a href="#运输层" class="headerlink" title="运输层"></a>运输层</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p><strong>物理层</strong>，<strong>数据链路层</strong>以及<strong>网络层</strong>共同解决了将主机通过异构网络互联起来所面临的问题，实现了主机到主机之间的通信</p>
+<p>实际上在计算机网络中进行通信的实际是位于通信两段主机中的<strong>进程</strong></p>
+<p><img src="https://s2.loli.net/2021/12/29/g5DYbqGCWcL3KfA.png" alt="image-20210512160739809"></p>
+<p>运输层直接为应用进程间的逻辑通信提供服务</p>
+<p>运输层向高层用户屏蔽了下面网络核心的细节，它使应用进程看见的就好像是在两个运输层实体之间有一条端到端的逻辑通信信道</p>
+<p>根据应用需求不同，因特网的运输层为应用层提供了两种不同的运输协议，即<strong>面向连接的TCP和无连接的UDP</strong>，这两种协议是重点内容</p>
+<hr>
+<h2 id="端口号和复用和分用"><a href="#端口号和复用和分用" class="headerlink" title="端口号和复用和分用"></a>端口号和复用和分用</h2><p>为了使运行在不同操作系统的计算机进程之间能够进行网络通信，就必须使用统一的方法对TCP/IP体系的应用进程进行标识</p>
+<p>TCP/IP体系的运输层采用<strong>端口号</strong>来区分应用层的不同应用进程</p>
+<p>端口号使用<strong>16比特</strong>表示，取值范围0~65535</p>
+<ul>
+<li>熟知端口号：0~1023，IANA把这些端口号指派给了TCP/IP体系中最重要的一些应用协议，例如FTP使用21/20，HTTP使用80</li>
+<li>登记端口号：1024~49151，为没有熟知端口号的应用程序使用，使用这类端口号必须在IANA按照规定登记，防止重复</li>
+<li>短暂端口号：49152~65535，为客户进程选择暂时使用，当服务器进程收到客户进程的报文时，就知道客户进程所使用的动态端口号。通信结束后，这个端口号可供其他客户进程以后使用</li>
+</ul>
+<p><strong>端口号只具有本地意义</strong>，即端口号只是为了标识本计算机应用层中各进程，在因特网中，不同计算机中的相同端口号没有联系</p>
+<hr>
+<p>发送方的某些应用报文在运输层使用UDP协议进行封装，这叫做UDP复用，而另一些应用报文，使用TCP协议封装，叫做TCP复用，运输层使用端口号来区分进程</p>
+<p>无论是UDP的用户数据保，还是TCP的报文，在网络层要通过IP协议封装，这叫做IP复用</p>
+<p><img src="https://s2.loli.net/2021/12/29/WnaL4MjiHroCpqX.png" alt="image-20210512162319927"></p>
+<p>接收方的网络层收到了IP数据报后进行IP分用，根据协议字段的取值来上交给运输层的UDP和TCP协议，然后TCP和UDP协议通过解析端口号将数据上交给不同的应用</p>
+<hr>
+<p>TCP/IP体系的应用层常用协议所使用的运输层熟知端口号</p>
+<p><img src="https://s2.loli.net/2021/12/29/tZMEAXgQHKjaYNf.png" alt="image-20210512162610354"></p>
+<hr>
+<h2 id="TCP和UDP的对比"><a href="#TCP和UDP的对比" class="headerlink" title="TCP和UDP的对比"></a>TCP和UDP的对比</h2><p>用户数据报协议UDP(User Datagram Protocol)</p>
+<p>传输控制协议TCP(Transmission Control Protocol)</p>
+<ul>
+<li>连接方式</li>
+</ul>
+<p>UDP是无连接的，使用通信协议的双方可以随时发送数据</p>
+<p>TCP是有连接的，在进行数据传输之前必须建立连接，传输结束后必须释放连接</p>
+<ul>
+<li>传输方式</li>
+</ul>
+<p>UDP支持单播，多播以及广播</p>
+<p>TCP只支持单播</p>
+<ul>
+<li>面向的对象</li>
+</ul>
+<p>UDP是面向应用报文的</p>
+<p>TCP是面向字节流的</p>
+<ul>
+<li>服务类型</li>
+</ul>
+<p>UDP向上层提供无连接不可靠传输服务</p>
+<p>TCP向上层提供面向连接的可靠传输服务</p>
+<ul>
+<li>首部类型</li>
+</ul>
+<p>UDP首部开销小，仅8字节</p>
+<p>TCP首部最小4字节，最大60字节</p>
+<p><img src="https://s2.loli.net/2021/12/29/sbaecJrmFzoDBT7.png" alt="image-20210512163645535"></p>
+<hr>
+<h2 id="TCP的流量控制"><a href="#TCP的流量控制" class="headerlink" title="TCP的流量控制"></a>TCP的流量控制</h2><p>流量控制(flow control)就是让发送方的发送速率不要太快，让接收方来得及接收</p>
+<p>TCP采用<strong>滑动窗口</strong>机制来很方便的在TCP连接上实现对发送方的流量控制</p>
+<ul>
+<li><p>TCP接收方利用自己的接收窗口的大小来限制发送方发送窗口的大小</p>
+<p><img src="https://s2.loli.net/2021/12/29/89mfxFCRv5XGVIY.png" alt="image-20210512164457098"></p>
+</li>
+</ul>
+<p>接收方可以在确认报文的时候调整接收窗口的大小，从而限制发送方发送窗口的大小，其他的协议细节，与选择重传协议类似</p>
+<p>考虑这样一种情况</p>
+<p><img src="https://s2.loli.net/2021/12/29/t9MmQ6YPxj1IVTi.png" alt="image-20210512164820161"></p>
+<p>此时A会一直等待B发送的非0窗口的通知，B也一直等待A发送的数据，若不采取措施，这种互相等待而形成的死锁局面会一直持续下去</p>
+<p>为了解决这种情况，当发送方的发送窗口被调控到0的时候，就会启动一个<strong>持续计时器</strong>，若持续计时器超时，就发送一个<strong>零窗口探测报文</strong>，仅携带一个字节的数据，而对方在确认这个探测报文段时，给出自己的接收窗口值，如果接受窗口值仍然是0，那么收到这个报文段的一段就会重新启动持续计时器。</p>
+<hr>
+<h2 id="TCP的拥塞控制"><a href="#TCP的拥塞控制" class="headerlink" title="TCP的拥塞控制"></a>TCP的拥塞控制</h2><p>在某些阶段，若对网络中某一资源的需求超过了该资源所能提供的可用部分，网络性能就要变坏，这种情况就叫做<strong>拥塞(congestion)</strong></p>
+<p>若出现拥塞而不进行控制，整个网络的吞吐量将随输入负荷的增大而下降</p>
+<p>TCP有4种拥塞控制算法</p>
+<ul>
+<li>慢开始</li>
+<li>拥塞避免</li>
+<li>快重传</li>
+<li>快恢复</li>
+</ul>
+<p>发送方要维护一个叫做<strong>拥塞窗口cwnd</strong>的状态变量，其值取决于网络的拥塞程度，并且动态变化</p>
+<ul>
+<li>拥塞窗口cwnd的维护原则：只要网络没有出现拥塞，拥塞窗口就在增大一些，但只要网络出现拥塞，拥塞窗口就减少一些</li>
+<li>判断出现网络拥塞的依据：没有按时收到应当到达的确认报文(发生超时重传)</li>
+</ul>
+<p>发送方将拥塞窗口作为<strong>发送窗口swnd</strong>，即<strong>swnd=cwnd</strong></p>
+<p>维护一个慢开始门限<strong>ssthresh(slow start threshold)状态变量</strong>：</p>
+<ul>
+<li>当cwnd&lt;ssthresh时，使用慢开始算法</li>
+<li>当cwnd&gt;ssthresh时，停止使用慢开始算法而改用拥塞避免算法</li>
+<li>当cwnd=ssthresh时，既可以使用慢开始算法，也可以使用拥塞避免算法</li>
+</ul>
+<p><strong>慢开始算法</strong></p>
+<p><img src="https://s2.loli.net/2021/12/29/KpTjQfmAnRoW9ew.png" alt="image-20210512190921019"></p>
+<p>开始设定cwnd=1，ssthresh=16</p>
+<p>当cwnd没有到ssthresh时，cwnd呈指数增长，这就是慢开始算法</p>
+<p><strong>拥塞避免</strong></p>
+<p><img src="https://s2.loli.net/2021/12/29/7C5HRNjYqvlSU3E.png" alt="image-20210512191125121"></p>
+<p>当cwnd超过了ssthresh时，开始使用拥塞避免算法，此时cwnd不再指数增长，而是每次加1，直到出现拥塞情况</p>
+<p> 当重传计时器超时，则判断网络很可能出现了拥塞，进行以下工作：</p>
+<ul>
+<li>将ssthresh值更新为发生拥塞cwnd值的<strong>一半</strong></li>
+<li>将cwnd<strong>减少为1</strong>，并重新开始执行慢开始算法</li>
+</ul>
+<p><img src="https://s2.loli.net/2021/12/29/xFCKuhfEmgVMapT.png" alt="image-20210512191519560"></p>
+<ul>
+<li>慢开始是指一开始向网络注入的报文段少，并不是指拥塞窗口cwnd增长速度慢</li>
+<li>拥塞避免并非完全能够避免拥塞，而是指在拥塞避免阶段将拥塞窗口控制为按线性规律增长，使网络比较不容易出现拥塞</li>
+</ul>
+<p><strong>快重传</strong></p>
+<p>有时候个别报文段会在网络中丢失，但实际上网络并未发生拥塞，这会导致发送方的超时重传，并误认为网络发送了拥塞，这样会启动慢开始算法，降低效率</p>
+<p>采用快重传算法可以让发送方尽早知道发生了个别报文段的丢失</p>
+<p>所谓快重传，就是使发送方<strong>尽快进行重传</strong>，而不是等超时重传计时器超时在重传</p>
+<ul>
+<li>要求接收方不要等待自己发送数据时才进行捎带确认，而是立即发送确认</li>
+<li>即使收到了失序的报文段也要立即发出对已收到报文段的重复确认</li>
+<li>发送方一旦收到了<strong>3个连续的重复确认</strong>，就将相应的报文段立即重传，而不是等待超时重传计时器</li>
+</ul>
+<p><img src="https://s2.loli.net/2021/12/29/r4baEuUdniJSGZK.png" alt="image-20210512192324785"></p>
+<p>发送方一旦收到了3个重复确认，就是现在只是丢失了个别的报文段，于是不启动慢开始算法，而执行<strong>快恢复算法</strong></p>
+<ul>
+<li>发送方将慢开始门限ssthresh值和拥塞窗口cwnd值调整为<strong>当前窗口的一半</strong>，开始执行拥塞避免算法</li>
+</ul>
+<p><img src="https://s2.loli.net/2021/12/29/hvmARyI1MbaCgD8.png" alt="image-20210512194138350" style="zoom:67%;" /></p>
+<hr>
+<h2 id="TCP超时重传时间的选择"><a href="#TCP超时重传时间的选择" class="headerlink" title="TCP超时重传时间的选择"></a>TCP超时重传时间的选择</h2><p>TCP超时重传的时间的选择是一个很复杂的问题</p>
+<p> <img src="https://s2.loli.net/2021/12/29/4b7qsftCFizpUVO.png" alt="image-20210512194423673"></p>
+<p>如果将重传时间RTO的值设置的比RTT0小，那么会导致不必要的重传，使网络负荷增大</p>
+<p>如果将重传时间RTO的值设置的比RTT0大，那么会导致网络的空闲时间增大，降低传输效率</p>
+<p>所以超时重传时间<strong>RTO</strong>的值应<strong>略大于</strong>往返时间<strong>RTT</strong></p>
+<hr>
+<p>问题在于RTT会随着不同网络环境而<strong>发生变化</strong>，所以不能使用某次测量得到的RTT样本来计算超时重传时间RTO</p>
+<p>利用每次测量得到的RTT样本，计算<strong>加权平均往返时间$RTT_s$(</strong>又称为平滑的往返时间)</p>
+<p>$RTT_{S1}=RTT_1$</p>
+<p>新的$RTT_S=(1-α)×旧的RTT_S+α×新的RTT样本$</p>
+<p>在上式中，$0≤α&lt;1$</p>
+<ul>
+<li><p>若α接近0，则新RTT样本对$RTT_s$的影响不大</p>
+</li>
+<li><p>若α接近1，则新RTT样本对$RTT_s$的影响较大</p>
+</li>
+</ul>
+<p>RFC6298推荐的α值为1/8，即<strong>0.125</strong></p>
+<hr>
+<p>RFC6298建议用下式计算超时<strong>重传时间RTO</strong></p>
+<p><strong>$RTO=RTT_S+4×RTT_D$</strong></p>
+<p>$RTT_S$是加权平均往返时间</p>
+<p>$RTT<em>D$是RTT偏差的加权平均，$RTT</em>{D1}=RTT_1/2$</p>
+<p>$RTT_D=(1-β)×旧的RTT_D+β×|RTT_S-新的RTT样本|$</p>
+<p>β的建议值为<strong>0.25</strong></p>
+<p><img src="https://s2.loli.net/2021/12/29/yQj9EDkwAcHTLRX.png" alt="image-20210512201043445" style="zoom:50%;" /></p>
+<hr>
+<p>但是出现超时重传时无法测准往返时间RTT的问题，Karn提出了一个算法：在计算$RTT_S$时，只要报文段重传了，就<strong>不采用</strong>其往返时间RTT样本，进而RTO也不会重新计算</p>
+<p>这样又有新的问题，如果报文段的时延突然增大了很多，并且很长一段时间都会保持这种时延，因此在原来得出的重传时间内，不会收到确认报文段，于是重传报文段，但是根据Karn算法，不考虑重传的往返时间样本，RTO无法更新，这会导致<strong>报文段反复重传</strong></p>
+<p>所以要对Karn算法进行修正，方法是：报文段每重传一次，就把超时重传时间RTO增大一些，典型的做法是将新RTO的值取为旧RTO值的2倍</p>
+<hr>
+<h2 id="TCP可靠传输的实现"><a href="#TCP可靠传输的实现" class="headerlink" title="TCP可靠传输的实现"></a>TCP可靠传输的实现</h2><p>TCP基于以字节为单位的滑动窗口来实现可靠传输</p>
+<p><img src="https://s2.loli.net/2021/12/29/9vDiRKLBI2fc8jh.png" alt="image-20210512201955142"></p>
+<p>接收方会发送自己的接受窗口尺寸以及希望收到下一个字节的序号</p>
+<p><img src="https://s2.loli.net/2021/12/29/5QMlwet7fZb4GXO.png" alt="image-20210512202102075"></p>
+<p>如果要描述发送窗口的状态，可以使用3个指针P1,P2,P3分别指向相应的字节序号</p>
+<p><img src="https://s2.loli.net/2021/12/29/lPJtgTCwxRuI51f.png" alt="image-20210512202702306"></p>
+<p>虽然发送方的发送窗口是根据接收窗口设置的，但在同一时刻，发送方的发送窗口并不总是和接收方的接收窗口一样大</p>
+<ul>
+<li>网络传送窗口需要经历一定的时间滞后，并且时间不确定</li>
+<li>发送方还可能根据网络当时的拥塞情况适当减少自己的发送窗口尺寸</li>
+</ul>
+<p>对于不按序到达的数据应如何处理，TCP并无明确规定</p>
+<ul>
+<li>如果接收方把不按序到达的数据一律丢弃，那么接收窗口管理比较简单，但是会浪费网络资源</li>
+<li>TCP通常对不按序到达的数据临时存放在接收窗口中，等到字节流中所缺少的字节收到后，再按序交付上层的应用进程</li>
+</ul>
+<p>TCP要求接收方必须有<strong>累计确认和捎带确认机制</strong>，这样可以减少传输开销</p>
+<ul>
+<li>接收方不应过分推迟发送确认，否则会导致不必要的超时重传</li>
+<li>捎带确认实际上不会经常发生，因为大多数应用程序很少同时在两个方向上发送数据</li>
+</ul>
+<p><strong>TCP的通信是全双工通信</strong>，通信中的每一行都在发送和接受报文段，因此，每一行都有自己的发送窗口和接收窗口</p>
+<hr>
+<h2 id="TCP的连接建立"><a href="#TCP的连接建立" class="headerlink" title="TCP的连接建立"></a>TCP的连接建立</h2><p> TCP是面向连接的协议，基于运输连接来传送TCP报文段</p>
+<p>TCP运输连接有以下3个阶段</p>
+<ul>
+<li>建立TCP连接</li>
+<li>数据传送</li>
+<li>释放TCP连接</li>
+</ul>
+<p><img src="https://s2.loli.net/2021/12/29/UPaKZB9EMILOdCl.png" alt="image-20210512203914881"></p>
+<hr>
+<p>TCP使用“三报文握手”建立连接</p>
+<p>一开始，两端TCP进程都属于关闭状态</p>
+<p><img src="https://s2.loli.net/2021/12/29/gf7ZFMVlGCpyuD3.png" alt="image-20210512204038983"></p>
+<p>TCP服务器进程首先开始建立传输控制块，用来存储一些重要信息</p>
+<p><img src="https://s2.loli.net/2021/12/29/RvLBPJy4YsMntSF.png" alt="image-20210512204211022"></p>
+<p>之后TCP服务器开始进入监听状态，等待TCP客户发起连接，由于TCP服务器是等待客户建立连接，所以是<strong>被动打开</strong></p>
+<p>然后TCP客户同样建立传输控制块，然后向TCP服务器发送TCP连接请求报文段，并进入同步已发送状态，报文段首部中同部位<strong>SYN被设置为1</strong>，序号字段seq设置为x<img src="https://s2.loli.net/2021/12/29/x4hRL23NcopS6wH.png" alt="image-20210512204454452"></p>
+<p>当TCP服务器接收到报文后，则向TCP客户进程发送TCP连接请求确认报文段，并进入同步已接收状态</p>
+<p>报文中的SYN和ACK都设置为1，表示这是一个TCP连接请求确认报文段，序号字段seq被设置了一个初始值y，作为TCP服务器进程所选择的初始序号，ack=x+1，这是对TCP客户进程所选择的初始序号的确认</p>
+<p><img src="https://s2.loli.net/2021/12/29/7YLctdHjPTC8h1I.png" alt="image-20210512204850732"></p>
+<p>TCP客户进程在收到TCP连接请求确认报文段后，还要向TCP服务器发送一个普通的TCP确认报文段，并进入连接已建立状态，ACK=1，表示这是普通的确认报文段，seq=x+1，因为第一个报文段的序号为x，ack=y+1，是对TCP服务器进程所选择的初始序号的确认</p>
+<p><img src="https://s2.loli.net/2021/12/29/dQwnclMTEVbgfrt.png" alt="image-20210512205406891"></p>
+<p>TCP采取三握手连接是为了防止已失效的连接请求报文段突然又传送到了TCP服务器，因而导致错误</p>
+<p><img src="https://s2.loli.net/2021/12/29/fEYqJ6iDn5o3Uh9.png" alt="image-20210512205704419"></p>
+<hr>
+<h2 id="TCP的连接释放"><a href="#TCP的连接释放" class="headerlink" title="TCP的连接释放"></a>TCP的连接释放</h2><p>TCP通过“四报文挥手”来释放报文段</p>
+<p><img src="https://s2.loli.net/2021/12/29/sd3rkPJYITE6pS4.png" alt="image-20210512210014482"></p>
+<p>如果是TCP客户想要发送释放TCP连接，则会发送TCP连接释放报文段，并进入终止等待1状态，该报文段中的<strong>FIN和ACK都会设置为1</strong>，表明这是一个TCP连接释放报文段，同时也对之前收到的报文段进行确认，序号seq报文段的值设置为u，等<strong>于TCP客户进程之前已传送过的数据的最后一个字节序号加1</strong>，ack=v，等于TCP客户之前收到的数据的最后一个字节加1</p>
+<p><img src="https://s2.loli.net/2021/12/29/xARhSiy2LPbXdVk.png" alt="image-20210512210354884"></p>
+<p>TCP服务器在收到TCP连接释放报文段后，会发送一个普通的TCP确认报文段并进入关闭等待状态，ACK=1表示这是一个普通的TCP确认报文，seq=v，等于TCP服务器进程之前已传送过的数据的最后一个字节，ack=u+1，是对TCP连接释放报文段的确认</p>
+<p>TCP服务进程此时会通知高层进程，TCP客户进程要断开与自己的TCP连接，此时，从TCP客户进程到TCP服务器进程这个方向上的连接就释放了，此时TCP连接属于<strong>半关闭状态</strong>，因为<strong>TCP客户已经没有数据要发送了，但TCP服务器进程如果还有数据要发送</strong>，TCP客户进程<strong>仍要</strong>接收</p>
+<p>这个状态可能要持续一段时间，当TCP客户收到了TCP确认报文段后，会进入终止等待2状态</p>
+<p><img src="https://s2.loli.net/2021/12/29/ERvewlp1BnOMNV4.png" alt="image-20210512211114614"></p>
+<p>当TCP服务器没有数据要发送了，应用就会通知服务器释放连接</p>
+<p>TCP服务器进程发送TCP连接释放报文段并进入<strong>最后确认状态</strong>，报文段中的FIN和ACK设置为1，表明这是一个TCP连接释放报文段，同时也对之前收到的报文段进行确认，假定seq=w，这是在半关闭状态下，TCP服务器进程可能又发送了一些数据，确认号ack的值为u+1，这是对之前收到的TCP连接释放报文段的<strong>重复确认</strong></p>
+<p><img src="https://s2.loli.net/2021/12/29/vzlYWLgTb1a75m6.png" alt="image-20210512211502771"></p>
+<p>TCP客户进程收到了TCP连接释放报文段后，必须针对该报文段发送普通的TCP确认报文段，之后进入时间等待状态，ACK=1，表示这是不同的TCP确认报文段，seq的值为u+1，确认号ack的值设置为w+1，是对收到的TCP连接释放报文段的确认</p>
+<p>TCP服务器进程在收到后就进入关闭状态，而TCP客户进程还要经过2MSL后才能进入关闭状态</p>
+<p>MSL(Maximum Segment Lifetime)意思是最长报文段寿命</p>
+<p><img src="https://s2.loli.net/2021/12/29/enjvk1QtZKyFp7c.png" alt="image-20210512211902948"></p>
+<p>设置2MSL的意义在于，加入最后TCP客户发送的普通的TCP确认报文段丢失了，TCP服务器发送的TCP连接释放报文段会超时重传，如果不设置2MSL，那么TCP客户关闭后，就无法接受到超时重传的消息，就会导致TCP服务器一直在最后确认阶段</p>
+<p><img src="https://s2.loli.net/2021/12/29/Bubr2iHIVqnUpCE.png" alt="image-20210512212138764"></p>
+<hr>
+<p>如果TCP双方在建立连接后，TCP客户方突然出现了故障，显然，TCP服务器就不会再收到TCP客户的数据，应该有措施让TCP服务器进程不要再白白等待下去</p>
+<p><img src="https://s2.loli.net/2021/12/29/dLJcQeHtIjPGlkx.png" alt="image-20210512212609291"></p>
+<p>为了避免这种情况，TCP服务器每收到一次TCP客户进程的数据，就重新设置并启动保活计时器</p>
+<p>若保活计时器定时周期内未收到TCP客户进程发来的数据，则当保活计时器到时候，TCP服务器进程就向TCP客户进程发送一个探测报文段，以后每隔75秒发送一次探测报文段，若一连发送10个探测报文段仍无TCP客户进程的响应，TCP服务器进程就会认为TCP客户端进程故障，则会关闭这个连接</p>
+<hr>
+<h2 id="TCP报文段的首部格式"><a href="#TCP报文段的首部格式" class="headerlink" title="TCP报文段的首部格式"></a>TCP报文段的首部格式</h2><p>为了实现可靠运输，TCP采用了面向字节流的方式</p>
+<p>但TCP在发送数据时，是从发送缓存取出一部分或全部字节并给其添加一个首部使之成为TCP报文段进行发送</p>
+<ul>
+<li>一个TCP报文段由首部和数据载荷两部分构成</li>
+<li>TCP的全部功能都体现在它首部中各字段的作用</li>
+</ul>
+<p><img src="https://s2.loli.net/2021/12/29/iDSjosP6Z5nvOQ8.png" alt="image-20210512223248172"></p>
+<ul>
+<li>源端口：占16比特，写入源端口号，用来标识发送该TCP报文段的应用进程</li>
+<li>目的端口：占16比特，写入目的端口号，用来表示接收该TCP报文段的应用进程</li>
+</ul>
+<ul>
+<li>序号：占32个比特，取值范围$[0,2^{32}-1]$，序号增加到最后一个后，下一个序号就又回到0</li>
+</ul>
+<p>序号指出本TCP报文段数据载荷第一个字节的序号</p>
+<ul>
+<li>确认号：占32比特，取值范围$[0,2^{32}-1]$,确认号增加到最后一个后，下一个确认号就又回到0</li>
+</ul>
+<p>指出期望收到对方下一个TCP报文段的数据载荷的第一个字节的序号，<strong>同时也是对之前收到的所有数据的确认</strong></p>
+<p>若确认好=n，则表明到序号n-1为止的所有数据都已正确接收，期望接收序号为n的数据</p>
+<ul>
+<li>确认标志位ACK：取值为1时，确认号字段才有效，取值为0时，确认号字段无效</li>
+</ul>
+<p>TCP规定，在连接建立后所有传送的TCP报文段都必须把ACK置1</p>
+<p><img src="https://s2.loli.net/2021/12/29/BDkqPgZE2H5d1Yc.png" alt="image-20210512225242924"></p>
+<ul>
+<li>数据偏移：占4比特，并以4字节为单位</li>
+</ul>
+<p>用来指出TCP报文段的数据载荷部分的起始处距离TCP报文段的起始处有多远，这个字段实际上是指出了TCP报文段的<strong>首部长度</strong></p>
+<p>首部的固定长度为20字节，最大长度为60字节，若不是4的倍数，则填充到4的倍数</p>
+<ul>
+<li>窗口：占16比特，以字节为单位，指出发送本报文段的一方的接收窗口</li>
+</ul>
+<p>窗口值作为接收方让发送方设置其发送窗口的依据，以<strong>接收方的接受能力来控制发送能力，称为流量控制</strong></p>
+<ul>
+<li>校验和：占16比特，检查范围包括TCP报文段的首部和数据载荷两部分</li>
+</ul>
+<p>在计算校验和时，要在TCP报文段的前面加上12字节的伪首部</p>
+<p><img src="https://s2.loli.net/2021/12/29/2iQU8dvORr4YTIu.png" alt="image-20210512235922525"></p>
+<ul>
+<li>同步标志位SYN：在TCP连接建立时用来同步序号</li>
+<li>终止标志位FIN：用来释放TCP连接</li>
+<li>复位标志位RST：用来复位TCP连接，当RST=1时，表明TCP连接出现了异常，必须释放连接，然后重新连接</li>
+<li>推动标志位PSH：接收方的TCP收到该标志位为1的报文段会<strong>尽快上交应用进程</strong>，而不必等到接收缓存都填满后再向上交付</li>
+<li><p>紧急标志位URG：取值为1时紧急指针字段有效，取值为0时紧急指针字段无效</p>
+</li>
+<li><p>紧急指针：占16比特，以字节为单位，用来指明紧急数据的长度</p>
+</li>
+</ul>
+<p>当发送方有紧急数据时，可将紧急数据插队到发送缓存的最前面，并立刻封装到一个TCP报文段中发送、紧急指针会指出本报文数据载荷部分包含了多长的紧急数据</p>
+<p>扩展部分扩展了TCP报文的功能</p>
+<ul>
+<li>最大报文段MSS选项：TCP报文段数据载荷的最大长度</li>
+<li>窗口扩大选项：为了扩大窗口</li>
+<li>时间戳选项：用来计算往返时间RTT，用来处理序号超范围的情况，又称为防止序号绕回PAWS</li>
+</ul>
+<p>填充：由于选项的长度可变，因此使用填充来确保报文段首部能被4整除</p>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></div><div class="post_share"><div class="social-share" data-image="https://s2.loli.net/2021/12/29/RMmal8yxYH4q1f3.jpg" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/post/9495.html"><img class="prev-cover" src="https://s2.loli.net/2021/12/29/RMmal8yxYH4q1f3.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">4.网络层</div></div></a></div><div class="next-post pull-right"><a href="/post/60874.html"><img class="next-cover" src="https://s2.loli.net/2021/12/29/RMmal8yxYH4q1f3.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">6.应用层</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://cdn.jsdelivr.net/gh/candle1220/CDN/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Candle</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">125</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">14</div></a></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BF%90%E8%BE%93%E5%B1%82"><span class="toc-number">1.</span> <span class="toc-text">运输层</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E5%8F%B7%E5%92%8C%E5%A4%8D%E7%94%A8%E5%92%8C%E5%88%86%E7%94%A8"><span class="toc-number">1.2.</span> <span class="toc-text">端口号和复用和分用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP%E5%92%8CUDP%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="toc-number">1.3.</span> <span class="toc-text">TCP和UDP的对比</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP%E7%9A%84%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6"><span class="toc-number">1.4.</span> <span class="toc-text">TCP的流量控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP%E7%9A%84%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6"><span class="toc-number">1.5.</span> <span class="toc-text">TCP的拥塞控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP%E8%B6%85%E6%97%B6%E9%87%8D%E4%BC%A0%E6%97%B6%E9%97%B4%E7%9A%84%E9%80%89%E6%8B%A9"><span class="toc-number">1.6.</span> <span class="toc-text">TCP超时重传时间的选择</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.7.</span> <span class="toc-text">TCP可靠传输的实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP%E7%9A%84%E8%BF%9E%E6%8E%A5%E5%BB%BA%E7%AB%8B"><span class="toc-number">1.8.</span> <span class="toc-text">TCP的连接建立</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP%E7%9A%84%E8%BF%9E%E6%8E%A5%E9%87%8A%E6%94%BE"><span class="toc-number">1.9.</span> <span class="toc-text">TCP的连接释放</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP%E6%8A%A5%E6%96%87%E6%AE%B5%E7%9A%84%E9%A6%96%E9%83%A8%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.10.</span> <span class="toc-text">TCP报文段的首部格式</span></a></li></ol></li></ol></div></div><div class="card-widget card-recommend-post"><div class="item-headline"><i class="fas fa-dharmachakra"></i><span>相关推荐</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/post/21933.html" title="1.计算机网络—概述"><img src="https://s2.loli.net/2021/12/29/RMmal8yxYH4q1f3.jpg" alt="1.计算机网络—概述"></a><div class="content"><a class="title" href="/post/21933.html" title="1.计算机网络—概述">1.计算机网络—概述</a><time datetime="2021-12-28" title="������ 2021-12-28">2021-12-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/38801.html" title="2.物理层"><img src="https://s2.loli.net/2021/12/29/RMmal8yxYH4q1f3.jpg" alt="2.物理层"></a><div class="content"><a class="title" href="/post/38801.html" title="2.物理层">2.物理层</a><time datetime="2021-12-28" title="������ 2021-12-28">2021-12-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/9495.html" title="4.网络层"><img src="https://s2.loli.net/2021/12/29/RMmal8yxYH4q1f3.jpg" alt="4.网络层"></a><div class="content"><a class="title" href="/post/9495.html" title="4.网络层">4.网络层</a><time datetime="2021-12-28" title="������ 2021-12-28">2021-12-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/60874.html" title="6.应用层"><img src="https://s2.loli.net/2021/12/29/RMmal8yxYH4q1f3.jpg" alt="6.应用层"></a><div class="content"><a class="title" href="/post/60874.html" title="6.应用层">6.应用层</a><time datetime="2021-12-28" title="������ 2021-12-28">2021-12-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/17624.html" title="3.数据链路层"><img src="https://s2.loli.net/2021/12/29/RMmal8yxYH4q1f3.jpg" alt="3.数据链路层"></a><div class="content"><a class="title" href="/post/17624.html" title="3.数据链路层">3.数据链路层</a><time datetime="2021-12-28" title="������ 2021-12-28">2021-12-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/13956.html" title="计算机网络重点题"><img src="https://s2.loli.net/2021/12/29/RMmal8yxYH4q1f3.jpg" alt="计算机网络重点题"></a><div class="content"><a class="title" href="/post/13956.html" title="计算机网络重点题">计算机网络重点题</a><time datetime="2021-12-28" title="������ 2021-12-28">2021-12-28</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 By Candle</div><div class="framework-info"><span>Powered by </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a></div><div class="footer_custom_text">So Long, and Thanks for All the Fish</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.2
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container:not\([display]\)').forEach(node => {
+            const target = node.parentNode
+            if (target.nodeName.toLowerCase() === 'li') {
+              target.parentNode.classList.add('has-jax')
+            } else {
+              target.classList.add('has-jax')
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script><script>(()=>{
+  const $countDom = document.getElementById('twikoo-count')
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twikoo-candle1220.vercel.app',
+      region: ''
+    }, null))
+  }
+
+  const getCount = () => {
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo-candle1220.vercel.app',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(function (res) {
+      $countDom.innerText = res[0].count
+    }).catch(function (err) {
+      console.error(err);
+    });
+  }
+
+  const loadTwikoo = (bool = false) => {
+    if (typeof twikoo === 'object') {
+      init()
+      bool && $countDom && setTimeout(getCount,0)
+    } else {
+      getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(()=> {
+        init()
+        bool && $countDom && setTimeout(getCount,0)
+      })
+    }
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo(true)
+  } else {
+    window.loadOtherComment = () => {
+      loadTwikoo()
+    }
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

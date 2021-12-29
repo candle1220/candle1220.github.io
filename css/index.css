@@ -3319,6 +3319,12 @@ li.categoryBar-list-item:nth-child(1) {
 li.categoryBar-list-item:nth-child(2) {
   background: url('https://assets.leetcode.com/contest/LeetCode/company_logo');
 }
+li.categoryBar-list-item:nth-child(3) {
+  background: url('https://pic3.zhimg.com/8aad8c72d6a53ff1a879f8dd779599d2_r.jpg');
+}
+li.categoryBar-list-item:nth-child(4) {
+  background: url('https://pic2.zhimg.com/v2-16d997d221222a706345ed08dd13f687_1440w.jpg?source=172ae18b');
+}
 li.categoryBar-list-item:nth-child(1)>span::after {
   content: !important;
 }

@@ -1,0 +1,467 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>6.应用层 | Night's Watch</title><meta name="keywords" content="计算机网络"><meta name="author" content="Candle"><meta name="copyright" content="Candle"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="应用层概述应用层解决应用进程的交互来实现特定网络应用的问题，是计算机网络体系结构的最顶层，是设计和建立计算机网络的最终目的  客户服务器方式和对等方式网络应用程序运行在处于网络边缘的不同的端系统，通过彼此间的通信来共同完成某项任务 开发一种新的网络应用首先要考虑的问题就是网络应用程序在各种端系统上的组织方式和他们之间的关系 目前主要流行的是以下两种：  客户&#x2F;服务器(Client&#x2F;Server,C">
+<meta property="og:type" content="article">
+<meta property="og:title" content="6.应用层">
+<meta property="og:url" content="http://candle1220.github.io/post/60874.html">
+<meta property="og:site_name" content="Night&#39;s Watch">
+<meta property="og:description" content="应用层概述应用层解决应用进程的交互来实现特定网络应用的问题，是计算机网络体系结构的最顶层，是设计和建立计算机网络的最终目的  客户服务器方式和对等方式网络应用程序运行在处于网络边缘的不同的端系统，通过彼此间的通信来共同完成某项任务 开发一种新的网络应用首先要考虑的问题就是网络应用程序在各种端系统上的组织方式和他们之间的关系 目前主要流行的是以下两种：  客户&#x2F;服务器(Client&#x2F;Server,C">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2021/12/29/RMmal8yxYH4q1f3.jpg">
+<meta property="article:published_time" content="2021-12-28T15:51:19.938Z">
+<meta property="article:modified_time" content="2021-12-28T17:50:36.350Z">
+<meta property="article:author" content="Candle">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2021/12/29/RMmal8yxYH4q1f3.jpg"><link rel="shortcut icon" href="/img/candle.png"><link rel="canonical" href="http://candle1220.github.io/post/60874"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '6.应用层',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-12-29 01:50:36'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/background.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://cdn.jsdelivr.net/gh/candle1220/CDN/head.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">125</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">14</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-crow"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-book"></i><span> 归档</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/candle1220/CDN/background.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Night's Watch</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-crow"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-book"></i><span> 归档</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">6.应用层</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-12-28T15:51:19.938Z" title="发表于 2021-12-28 23:51:19">2021-12-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-12-28T17:50:36.350Z" title="更新于 2021-12-29 01:50:36">2021-12-29</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="6.应用层"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>应用层解决应用进程的交互来实现特定网络应用的问题，是计算机网络体系结构的最顶层，是设计和建立计算机网络的最终目的</p>
+<p><img src="https://s2.loli.net/2021/12/29/OSyt5AorhqlB46X.png" alt="image-20210513222908382"></p>
+<h2 id="客户服务器方式和对等方式"><a href="#客户服务器方式和对等方式" class="headerlink" title="客户服务器方式和对等方式"></a>客户服务器方式和对等方式</h2><p>网络应用程序运行在处于网络边缘的不同的端系统，通过彼此间的通信来共同完成某项任务</p>
+<p>开发一种新的网络应用首先要考虑的问题就是网络应用程序在各种端系统上的组织方式和他们之间的关系</p>
+<p>目前主要流行的是以下两种：</p>
+<ul>
+<li>客户/服务器(Client/Server,C/S)方式</li>
+<li>对等(Peer-to-Peer,P2P)方式</li>
+</ul>
+<p>客户/服务器就是指通信中所涉及的两个应用进程</p>
+<p><img src="https://s2.loli.net/2021/12/29/EjC9Fg7wWLGUlNr.png" alt="image-20210513223841461"></p>
+<p>客户是服务请求方，服务器是服务提供方</p>
+<p>服务器总是处于运行状态，并等待客户的服务请求，服务器具有固定端口号(例如HTTP服务器的默认端口号为80)，而运行服务器的主机也具有固定的IP地址</p>
+<p>C/S方式是因特网上传统的，同时也是最成熟的方式，很多网络应用采用的就是C/S方式</p>
+<p>基于C/S方式的应用程序通常是<strong>服务集中型</strong>的，即应用服务集中在网络中比客户计算机少得多的服务器计算机上</p>
+<ul>
+<li>由于一台服务器计算机要为多个客户机提供服务，在C/S应用中，常会出现服务器计算机跟不上众多客户机请求的情况</li>
+<li>为此，在C/S应用中，常用计算机集群来构建一个强大的虚拟服务器</li>
+</ul>
+<p>对等方(Peer-to-Peer)方式</p>
+<p>在P2P方式中，没有固定的服务请求者和服务提供者，分布在网络边缘各端系统中的应用进程是对等的，被称为对等方。对等方相互之间直接通信，每个对等方既是服务的请求者，又是服务的提供者</p>
+<p><img src="https://s2.loli.net/2021/12/29/5sZOb8uQ1XEVGNw.png" alt="image-20210513234930891"></p>
+<p>基于P2P的应用是<strong>服务分散型</strong>的，因为服务不是集中在少数几个服务器中，而是分散在大量对等计算机中</p>
+<p>P2P最突出的特性之一就是它的<strong>可拓展性</strong>，因为系统每增加一个对等方，不仅增加的是服务的请求者，同时也增加恶劣服务的提供者，系统性能不会因为规模的增大而降低</p>
+<p>P2P<strong>具有成本上的优势</strong>，因为它通常不需要庞大的服务器设置和服务器带宽</p>
+<hr>
+<h2 id="动态主机配置协议DHCP"><a href="#动态主机配置协议DHCP" class="headerlink" title="动态主机配置协议DHCP"></a>动态主机配置协议DHCP</h2><p>动态主机配置协议DHCP(Dynamic Host Configuration Protocol)提供了一种机制，称为即插即用。这种机制允许一台计算机加入新网络时可<strong>自动获取</strong>IP地址等网络配置信息</p>
+<p>在网络中配置DHCP服务器，让接入网络中的主机开机启动DHCP，就可以通过DHCP自动获取网络配置信息</p>
+<p>DHCP的工作过程</p>
+<p>DHCP采用C/S方式，是应用层协议，<strong>使用UDP所提供的服务</strong>，也就是说DHCP在运输层会被封装成UDP用户数据报，服务器使用的UDP端口是67，客户使用的UDP端口是68</p>
+<p><img src="https://s2.loli.net/2021/12/29/5KdCRkAHO3czbQY.png" alt="image-20210514222041851"></p>
+<p>DHCP广播发送DHCP发现报文，源IP地址为0.0.0.0，因为主机目前还未分配到IP地址，因此使用该地址代替，目的地址为255.255.255.255，因为主机不知道有几个DHCP服务器，也不知道它们的主机地址是多少，所以采用广播地址</p>
+<p>在DHCP发现报文中，封装有事物ID和DHCP客户端的MAC地址，DHCP服务器收到了发现报文后，根据其中封装的DHCP客户端的MAC地址来查找自己的数据库，看是否有相关的配置信息，如果有，就使用这些配置信息来构建并发送DHCP提供报文，如果没有，则采用默认配置信息构建并发送DHCP提供报文</p>
+<p><img src="https://s2.loli.net/2021/12/29/jQCpqar54WNIcOl.png" alt="image-20210514223448736">因为DHCP客户还没有IP地址，所以采用广播地址，DHCP客户会根据报文中的事物ID来判断是否是自己所请求的报文</p>
+<p>如果DHCP客户接受到多个DHCP服务器报文，则会从中选择一个，并会向所选择的DHCP服务器发送DHCP请求报文</p>
+<p><img src="https://s2.loli.net/2021/12/29/ehaqlTdIUF2x7kS.png" alt="image-20210514224637960"></p>
+<p>源IP地址为0.0.0.0，因为DHCP客户才选择了一个服务器作为自己的DHCP服务器，首先需要征得服务器的同意才能正式使用租用的IP地址</p>
+<p>目的IP地址仍为广播地址，这样不用向网络中的每一个DHCP服务器发送DHCP请求报文，来告知他们是否被选择成为服务器</p>
+<p><img src="https://s2.loli.net/2021/12/29/miT97GJ1fLeh82R.png" alt="image-20210514225517190"></p>
+<p> 如果服务器接收该请求，则会给DHCP客户发送DHCP确认报文，DHCP收到该确认报文后，则会正式使用该IP地址</p>
+<p>当租用期过了一半时，DHCP客户会向DHCP服务器发送DHCP请求报文，来请求更新租用期</p>
+<p>如果DHCP服务器同意延长，则会更新租用期，若不同意，则立即停止使用租用的IP地址，并重新发送发现报文，如果服务器不响应，则在0.875倍租用期的时候重新发送请求报文。</p>
+<p><img src="https://s2.loli.net/2021/12/29/3ROsaMbYg1jHnrA.png" alt="image-20210514230445756"></p>
+<p>DHCP客户可以随时提前终止DHCP服务器所提供的租用期，只需要向DHCP服务器发送DHCP释放报文段即可</p>
+<hr>
+<p>DHCP中继代理</p>
+<p>在实际应用情况下，如果主机网络和DHCP服务器中有路由器的话，则主机无法通过DHCP服务器来配置网络信息，因为路由器不会转发客户的DHCP发现报文</p>
+<p>解决办法是给该路由器配置DHCP服务器的IP地址，并使之成为DHCP中继代理，这样就可以通过DHCP来自动获取网络配置信息了，当路由器获取到广播DHCP发现报文后，会单播转发给DHCP服务器</p>
+<hr>
+<h2 id="域名系统DNS"><a href="#域名系统DNS" class="headerlink" title="域名系统DNS"></a>域名系统DNS</h2><p>域名系统DNS(Domain Name System)是因特网使用的命名系统，用来把便于人们记忆的具有特定含义的主机名，转为方便于机器处理的IP地址</p>
+<p>当我们在浏览器地址栏中输入某个Web服务器的域名时，用户主机会首先在自己的DNS高速缓存中查找该域名所对应的IP地址，如果没有找到，则会向网络中某台DNS服务器查询，DNS服务器中有域名和IP地址的映射数据库</p>
+<p>因特网采用<strong>层次树状结构</strong>的域名结构</p>
+<p>域名的结构由若干个分量组成，各分量之间用点隔开，分别代表不同级别的域名</p>
+<p><img src="https://s2.loli.net/2021/12/29/KYqXzifdwscmZ9r.png" alt="image-20210515120908885"></p>
+<ul>
+<li>每一级的域名都由英文字母和数字组成，不超过63个字符，不区分大小写</li>
+<li>级别最低的域名写在最左边，而级别最高的顶级域名写在最右边</li>
+<li>完整的域名不超过255个字符</li>
+</ul>
+<p>域名系统既不规定一个域名需要包含多少个下级域名，也不规定每一级的域名代表了什么意思</p>
+<p>各级域名由其上一级的域名管理结构管理，而最高的顶级域名则由因特网名称与数字地址分配机构ICANN进行管理</p>
+<p>顶级域名TLD(Top Level Domain)分为以下三类：</p>
+<ul>
+<li>国际顶级域名nTLD   采用ISO 3166的规定，如cn表示中国，us表示美国等</li>
+<li><p>通用顶级域名gTLC   最常用的通用顶级域名有7个，即：com(公司企业)，net(网络服务机构)，org(非营业性组织)，int(国际组织)，edu(美国教育结构)，gov(美国政府部门)，mil(美国军事机构)</p>
+</li>
+<li><p>反向域arpa  用于反向域名解析，即IP地址反向解析为域名</p>
+</li>
+</ul>
+<p>在国家顶级域名下注册的二级域名均由该国家自行确定</p>
+<p>我国将二级域名划分为以下两类：</p>
+<ul>
+<li>类别域名    共7个 ：ac(科研机构)，com(工，商，金融等企业)，edu(教育机构)，gov(政府部门)，net(提供网络服务的机构)，mil(军事机构)和org(非盈利性组织)</li>
+<li>行政区域名：共34个，适用于我国的各省，自治区，直辖市等等</li>
+</ul>
+<p><img src="https://s2.loli.net/2021/12/29/iqCzNKnUvcPTsMS.png" alt="image-20210515134747409"></p>
+<p>域名和IP地址的映射关系必须保存在域名服务器中，供其他应用查询，DNS使用分布在各地的域名服务器来实现域名到IP地址的转换</p>
+<p>域名服务器可以划分为以下四种不同的类型：</p>
+<ul>
+<li>根域名服务器</li>
+</ul>
+<p>根域名服务器是最高层次的域名服务器，每个根服务器都知道所有的顶级域名服务器的域名及其IP地址，因特网共有13个不同IP地址的根域名服务器，根域名服务器通常不直接对域名进行解析，而是返回该域名所属顶级域名的顶级域名服务器的IP地址</p>
+<ul>
+<li>顶级域名服务器</li>
+</ul>
+<p>这些域名服务器负责管理该顶级域名服务器注册的所有二级域名</p>
+<ul>
+<li>权限域名服务器</li>
+</ul>
+<p>这些域名服务器负责管理某个区的域名，每个主机的域名都必须在某个权限域名服务器处注册登记，因此权限域名服务器知道其管辖的域名与IP地址的映射关系，另外，权限域名服务器还知道其下级域名服务器的地址</p>
+<ul>
+<li>本地域名服务器</li>
+</ul>
+<p>本地域名服务器不属于上述的域名服务器的等级结构，当一个主机发出DNS请求报文时，这个报文首先被送往该主机的本地域名服务器，本地域名服务器起着代理的作用，会将该报文转发到上述的域名服务器的等级结构中，有时被称为默认域名服务器</p>
+<hr>
+<p>域名解析的过程</p>
+<ul>
+<li>递归查询</li>
+</ul>
+<p><img src="https://s2.loli.net/2021/12/29/TEr7sRIaFfUeZxm.png" alt="image-20210515135549482"></p>
+<p>本地域名服务器直接询问根域名服务器，然后根域名服务器再层层向下询问，得到信息后，原路返回</p>
+<ul>
+<li>迭代查询</li>
+</ul>
+<p><img src="https://s2.loli.net/2021/12/29/c7uXIAfeao3QKzD.png" alt="image-20210515135633703"></p>
+<p>通过本地域名服务器向直接向根域名服务器查询，然后根域名服务器告诉本地域名服务器下级的域名服务器的地址</p>
+<p>由于递归查询对于被查询的域名服务器负担太大，通常采用以下模式，从请求主机到本地域名服务器的查询是递归查询，而其余的查询是迭代查询</p>
+<hr>
+<p>为了提高DNS的查询效率，并减轻根域名服务器的负荷和减少因特网上的DNS查询报文数量，在域名服务器广泛使用了告诉缓存。高速缓存用来存放查询过的域名以及从何处获得域名映射消息的记录</p>
+<p>由于域名到IP地址的映射关系并不是永久不变，为保持高速缓存中的内容，域名服务器应为每项内容设计计时器并删除超过合理时间的项</p>
+<hr>
+<h2 id="文件传送协议FTP"><a href="#文件传送协议FTP" class="headerlink" title="文件传送协议FTP"></a>文件传送协议FTP</h2><p>将某台计算机中的文件通过网络传送到可能相距很远的另一台计算机中，是一项基本的网络应用，就是文件传送</p>
+<p>文件传送协议(File Transfer Protocol)是因特网上使用得最广泛的文件传送协议</p>
+<ul>
+<li>FTP提供交互式的访问，允许客户指明文件的类型和格式，并允许文件具有存储权限</li>
+<li>FTP屏蔽了各个计算机的细节，因而适合在异构网络中任意计算机之间传送文件</li>
+</ul>
+<p>FTP的常见用途是在计算机之间传输文件，尤其是用于批量传输文件</p>
+<p>FTP的另一个常见用途是让网站设计者将构成网络内容的大量文件批量上传到他们的Web服务器</p>
+<hr>
+<p>FTP的基本工作原理</p>
+<p>主动模式</p>
+<p><img src="https://s2.loli.net/2021/12/29/SHev7QzY3asxqfp.png" alt="image-20210515194212745"></p>
+<p>FTP随机选择一个临时端口号，与FTP服务器的熟知端口号建立TCP连接，用来传送控制命令，当有数据要传输的时候，FTP客户通过FTP服务器来与自己的另一个临时端口号建立TCP连接，建立数据通道，这种模式称为主动模式，建立数据通道时，FTP服务器主动连接FTP客户</p>
+<p>控制连接在整个会话过程中一直保持打开，用于传送FTP相关控制命令</p>
+<p>数据连接用于文件传输，在每次文件传输时才建立，传输结束就关闭</p>
+<p>被动模式</p>
+<p><img src="https://s2.loli.net/2021/12/29/gILweWfCOoKGUDF.png" alt="image-20210515194728197"></p>
+<p>当有数据要传输时，FTP客户通过命令通道告知FTP服务器开启某个临时端口被动等待TCP连接，建立数据通道，这种模式称为被动模式，建立数据通道时，ftp被动等待FTP客户的连接</p>
+<hr>
+<h2 id="电子邮件"><a href="#电子邮件" class="headerlink" title="电子邮件"></a>电子邮件</h2><p>电子邮件系统采用客户/服务器方式</p>
+<p>电子邮件系统的三个主要组成构件：用户代理，邮件服务器，以及电子邮件所需的协议</p>
+<ul>
+<li>用户代理是用户与电子邮件系统的接口，又称为电子邮件客户端软件</li>
+<li>邮件服务器是电子邮件系统的基础设施，因特网上所有的ISP都有邮件服务器，其功能是发送和接收邮件，同时还要负责维护用户的邮箱</li>
+<li>协议包括邮件发送协议(例如STMP)和邮件读取协议(例如POP3，IMAP)</li>
+</ul>
+<p><img src="https://s2.loli.net/2021/12/29/tMcGLlQy4wFsiSv.png" alt="image-20210515195419673"></p>
+<p><img src="C:\Users\烛\AppData\Roaming\Typora\typora-user-images\image-20210515195428356.png" alt="image-20210515195428356"></p>
+<p>简单邮件传送协议SMTP(Simple Mail Transfer Protocol)的基本工作原理</p>
+<p>发送方会周期性地对邮件进行缓存扫描，如果发现有邮件，则会和SMTP服务器进行TCP连接，端口号为25，之后SMTP客户就可以通过该连接对SMTP服务器发送相关的控制命令，SMTP也会给SMTP客户发送相应的应答，共21种</p>
+<p><img src="https://s2.loli.net/2021/12/29/omgxbZTyQkCinLS.png" alt="image-20210515200349045"></p>
+<p>电子邮件的信息格式并不是由SMTP定义的，而是在RFC 822中单独定义，一个电子邮件有信封和内容两部分，而内容又由首部和主体两部分构成</p>
+<hr>
+<p>SMTP协议只能传送ASCII码文本数据，不能传送可执行文件或其他的二进制对象</p>
+<p>SMTP不能满足多媒体邮件的需要，并且许多其他国家的文字也无法用SMTP传送</p>
+<p>为了解决SMTP传送非ASCII码文本的问题，提出了<strong>多用途因特网拓展MIME</strong>(Multipurpose Internet Mail Extensions)，可以将非ASCII码的内容转换为ASCII码的形式</p>
+<ul>
+<li>增加了5个新的邮件首部字段，这些字段提供了有关邮件主体的信息</li>
+<li>定义了许多邮件内容的格式，对多媒体电子邮件的表示方法进行了标准化</li>
+<li>定义了传送编码，可对任何内容格式进行转换，而不会被邮件系统改变</li>
+</ul>
+<p><img src="https://s2.loli.net/2021/12/29/theAIg9qYT7pUGW.png" alt="image-20210515210516453"></p>
+<hr>
+<p>常见的邮件读取协议</p>
+<p>邮局协议POP(Post Office Protocol)：非常简单功能有限的邮件读取协议，用户只能以下载并删除方式或下载并保留方式从邮件服务器下载邮件到用户方计算机，不允许客户在邮件服务器上管理自己的邮件</p>
+<p>因特网邮件访问协议IMAP(Internet Message Access Protocol)：功能比POP3强大的邮件读取协议，用户在自己计算机上就可以操控邮件服务器中的邮箱，就像在本地操控一样，因此IMAP是一个联机协议</p>
+<p>POP3和IMAP4都采用<strong>基于TCP连接的客户/服务器方式</strong>，POP3使用熟知端口110，IMAP使用熟知端口143</p>
+<hr>
+<p>现在越来越多的人使用万维网的电子邮件，通过浏览器登录邮件服务器万维网网站就可以撰写，收发，阅读邮件</p>
+<p>用户可以通过用一个邮箱服务器，之间通过HTTP超文本链接协议发送信息</p>
+<p><img src="https://s2.loli.net/2021/12/29/n7blLXS6uUzmHp3.png" alt="image-20210515211343604"></p>
+<p>不同的邮件服务器之间也可以通过SMTP进行传送</p>
+<p><img src="https://s2.loli.net/2021/12/29/FgwPX8l1CBpbxHv.png" alt="image-20210515211416771"></p>
+<hr>
+<h2 id="万维网WWW"><a href="#万维网WWW" class="headerlink" title="万维网WWW"></a>万维网WWW</h2><p>万维网WWW(World Wide Web)并非某种特殊的计算机网络，它是一个大规模，联机式的信息储存所，是运行在因特网上的一个分布式应用</p>
+<p>利用网页之间的超链接将不同网站的网页链接成一张逻辑上的信息网</p>
+<p>浏览器最重要的部分是<strong>渲染引擎</strong>，也就是浏览器内核，负责对网页内容进行解析和显示</p>
+<hr>
+<p>为了方便地访问在世界范围的文档，万维网使用统一资源定位符URL来指明因特网上任何种类资源的位置</p>
+<p>URL由以下4个部分组成：</p>
+<p>&lt;协议&gt;://&lt;主机&gt;:&lt;端口&gt;/&lt;路径&gt;</p>
+<p>万维网的文档由超文本标记语言HTML,层叠样式表CSS，脚本语言JavaScript</p>
+<hr>
+<p>超文本传输协议HTTP(HyperText Transfer Protocol)</p>
+<p>定义了浏览器怎样向万维网服务器请求万维网文档，以及万维网服务器怎样把万维网文档传送给浏览器</p>
+<p><img src="https://s2.loli.net/2021/12/29/BIcYUuFVzpCxsrZ.png" alt="image-20210515215654346"></p>
+<p>HTTP/1.0采用非持续连接方式，在该方式下，每次浏览器请求一个文件都要与服务器建立TCP连接，收到响应后立即关闭连接</p>
+<ul>
+<li>每请求一个文档就要有两倍的RTT的开销</li>
+<li>为了减少时延，浏览器通常会建立多个并行的TCP连接同时请求多个对象，但是这样会大量占用万维网服务器的资源</li>
+</ul>
+<p>HTTP/1.1采用持续连接方式，在该方式下，万维网服务器在发送响应后仍然保持这条连接，使同一个客户和该服务器可以继续在这条连接上传送HTTP请求报文和响应报文</p>
+<hr>
+<p>HTTP的报文格式</p>
+<p>HTTP是面向文本的，其报文的每一个字段都是一些ASCII码串，并且每个字段的长度都是不确定的</p>
+<p><img src="https://s2.loli.net/2021/12/29/fMioPSTwae4WEAH.png" alt="image-20210515224748271"></p>
+<p>万维网使用Cookie在服务器上记录用户信息</p>
+<ul>
+<li>早期的万维网应用非常简单，仅仅是用户查看存放在不同服务器上的各种静态文档，因此HTTP被设计为一种无状态的协议，这样可以简化服务器的设计</li>
+<li>Cookie提供了一种机制使得万维网服务器能够记住用户，而无需用户主动提供用户标识信息，也就是说，Cookie是一种对无状态的HTTP进行状态化的技术</li>
+</ul>
+<p><img src="https://s2.loli.net/2021/12/29/RkDqZ2bK7Xg6f4r.png" alt="image-20210515225045453"></p>
+<p><img src="https://s2.loli.net/2021/12/29/9ilfFxUJ1wnYXrj.png" alt="image-20210515225139099"></p>
+<hr>
+<p>万维网缓存和代理服务器</p>
+<ul>
+<li>在万维网中还可以使用缓存机制来提高万维网的效率</li>
+<li>万维网缓存又称为Web缓存(Web Cache)，位于中间系统上的Web缓存又称为代理服务器</li>
+<li>Web缓存把最近一些请求和响应暂存在本地磁盘中，当新请求到达时，若发现这个请求与展示存放的记录相同，就返回暂存的响应，而不需要按URL的地址再次去因特网访问该资源</li>
+</ul>
+<hr>
+<p>HTTP连接分为<strong>持续连接和非持续连接</strong></p>
+<p>持续连接又分为非流水的持续连接和流水的持续连接</p>
+<p>如果用户向服务器请求数据，比如说3个图片和1个网页</p>
+<ul>
+<li>非流水的持续连接</li>
+</ul>
+<p><img src="https://s2.loli.net/2021/12/29/lU4m6BxYavrzq7A.png" alt="image-20210526125834400" style="zoom:67%;" /></p>
+<p>需要5个RTT时间+4个对象的传输时间</p>
+<ul>
+<li>流水的持续连接</li>
+</ul>
+<p><img src="https://s2.loli.net/2021/12/29/6tjlfNcrbiuF1ev.png" alt="image-20210526125946863" style="zoom:67%;" /></p>
+<p>需要3个RTT时间+4个对象的传输时间</p>
+<p>非持续连接</p>
+<p><img src="https://s2.loli.net/2021/12/29/RFNlfI5KaYT8JCO.png" alt="image-20210526130048609" style="zoom:67%;" /></p>
+<p>需要8个RTT+4对象传输时间</p>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></div><div class="post_share"><div class="social-share" data-image="https://s2.loli.net/2021/12/29/RMmal8yxYH4q1f3.jpg" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/post/9992.html"><img class="prev-cover" src="https://s2.loli.net/2021/12/29/RMmal8yxYH4q1f3.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">5.运输层</div></div></a></div><div class="next-post pull-right"><a href="/post/13956.html"><img class="next-cover" src="https://s2.loli.net/2021/12/29/RMmal8yxYH4q1f3.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">计算机网络重点题</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://cdn.jsdelivr.net/gh/candle1220/CDN/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Candle</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">125</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">14</div></a></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%B1%82"><span class="toc-number">1.</span> <span class="toc-text">应用层</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%A2%E6%88%B7%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%96%B9%E5%BC%8F%E5%92%8C%E5%AF%B9%E7%AD%89%E6%96%B9%E5%BC%8F"><span class="toc-number">1.2.</span> <span class="toc-text">客户服务器方式和对等方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E4%B8%BB%E6%9C%BA%E9%85%8D%E7%BD%AE%E5%8D%8F%E8%AE%AEDHCP"><span class="toc-number">1.3.</span> <span class="toc-text">动态主机配置协议DHCP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%9F%E5%90%8D%E7%B3%BB%E7%BB%9FDNS"><span class="toc-number">1.4.</span> <span class="toc-text">域名系统DNS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E4%BC%A0%E9%80%81%E5%8D%8F%E8%AE%AEFTP"><span class="toc-number">1.5.</span> <span class="toc-text">文件传送协议FTP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%B5%E5%AD%90%E9%82%AE%E4%BB%B6"><span class="toc-number">1.6.</span> <span class="toc-text">电子邮件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%87%E7%BB%B4%E7%BD%91WWW"><span class="toc-number">1.7.</span> <span class="toc-text">万维网WWW</span></a></li></ol></li></ol></div></div><div class="card-widget card-recommend-post"><div class="item-headline"><i class="fas fa-dharmachakra"></i><span>相关推荐</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/post/21933.html" title="1.计算机网络—概述"><img src="https://s2.loli.net/2021/12/29/RMmal8yxYH4q1f3.jpg" alt="1.计算机网络—概述"></a><div class="content"><a class="title" href="/post/21933.html" title="1.计算机网络—概述">1.计算机网络—概述</a><time datetime="2021-12-28" title="������ 2021-12-28">2021-12-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/38801.html" title="2.物理层"><img src="https://s2.loli.net/2021/12/29/RMmal8yxYH4q1f3.jpg" alt="2.物理层"></a><div class="content"><a class="title" href="/post/38801.html" title="2.物理层">2.物理层</a><time datetime="2021-12-28" title="������ 2021-12-28">2021-12-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/9495.html" title="4.网络层"><img src="https://s2.loli.net/2021/12/29/RMmal8yxYH4q1f3.jpg" alt="4.网络层"></a><div class="content"><a class="title" href="/post/9495.html" title="4.网络层">4.网络层</a><time datetime="2021-12-28" title="������ 2021-12-28">2021-12-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/9992.html" title="5.运输层"><img src="https://s2.loli.net/2021/12/29/RMmal8yxYH4q1f3.jpg" alt="5.运输层"></a><div class="content"><a class="title" href="/post/9992.html" title="5.运输层">5.运输层</a><time datetime="2021-12-28" title="������ 2021-12-28">2021-12-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/17624.html" title="3.数据链路层"><img src="https://s2.loli.net/2021/12/29/RMmal8yxYH4q1f3.jpg" alt="3.数据链路层"></a><div class="content"><a class="title" href="/post/17624.html" title="3.数据链路层">3.数据链路层</a><time datetime="2021-12-28" title="������ 2021-12-28">2021-12-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/13956.html" title="计算机网络重点题"><img src="https://s2.loli.net/2021/12/29/RMmal8yxYH4q1f3.jpg" alt="计算机网络重点题"></a><div class="content"><a class="title" href="/post/13956.html" title="计算机网络重点题">计算机网络重点题</a><time datetime="2021-12-28" title="������ 2021-12-28">2021-12-28</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 By Candle</div><div class="framework-info"><span>Powered by </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a></div><div class="footer_custom_text">So Long, and Thanks for All the Fish</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.2
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container:not\([display]\)').forEach(node => {
+            const target = node.parentNode
+            if (target.nodeName.toLowerCase() === 'li') {
+              target.parentNode.classList.add('has-jax')
+            } else {
+              target.classList.add('has-jax')
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script><script>(()=>{
+  const $countDom = document.getElementById('twikoo-count')
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twikoo-candle1220.vercel.app',
+      region: ''
+    }, null))
+  }
+
+  const getCount = () => {
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo-candle1220.vercel.app',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(function (res) {
+      $countDom.innerText = res[0].count
+    }).catch(function (err) {
+      console.error(err);
+    });
+  }
+
+  const loadTwikoo = (bool = false) => {
+    if (typeof twikoo === 'object') {
+      init()
+      bool && $countDom && setTimeout(getCount,0)
+    } else {
+      getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(()=> {
+        init()
+        bool && $countDom && setTimeout(getCount,0)
+      })
+    }
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo(true)
+  } else {
+    window.loadOtherComment = () => {
+      loadTwikoo()
+    }
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

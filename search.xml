@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>1.计算机概述</title>
+      <link href="/post/6876.html"/>
+      <url>/post/6876.html</url>
+      
+        <content type="html"><![CDATA[<h1 id="计算机概述"><a href="#计算机概述" class="headerlink" title="计算机概述"></a>计算机概述</h1><h2 id="计算机硬件的基本组成"><a href="#计算机硬件的基本组成" class="headerlink" title="计算机硬件的基本组成"></a>计算机硬件的基本组成</h2><hr><h3 id="早期的冯洛伊曼结构"><a href="#早期的冯洛伊曼结构" class="headerlink" title="早期的冯洛伊曼结构"></a><strong>早期的冯洛伊曼结构</strong></h3><p>冯洛伊曼提出了<strong>存储程序</strong>的思想，即在进行操作计算机计算的时候将指令二进制代码的形式提前直接输入到计算机的主储存器中，而计算机会按照存储的指令逐条执行</p><p><img src="https://s2.loli.net/2022/02/26/wilU1R9E2BYjmey.png" alt="image-20220226165739283"></p><p>在计算机系统中的软件和硬件在逻辑上是等效的</p><p>冯洛伊曼计算机的特点有：</p><ul><li>计算机由五大部件组成</li><li>指令和数据以同等地位存储在存储器中，可以按地址寻访</li><li>指令和数据用二进制表示</li><li>指令由操作码(具体运算类型)和地址码组成</li><li>存储程序（提前存储在存储器）</li><li>以<strong>运算器</strong>为中心</li></ul><hr><h3 id="现代计算机结构"><a href="#现代计算机结构" class="headerlink" title="现代计算机结构"></a><strong>现代计算机结构</strong></h3><p><img src="https://s2.loli.net/2022/02/26/WbSRpT1r3zAnB5o.png" alt="image-20220226170159297"></p><p>现代以存储器为中心，运算器和控制器直接和存储器连接，现代将运算器和控制器集合在一起，形成了<strong>CPU</strong></p><p><img src="https://s2.loli.net/2022/02/26/ed9WEmksOIl38ac.png" alt="image-20220226170515990"></p><hr><h2 id="硬件部件"><a href="#硬件部件" class="headerlink" title="硬件部件"></a>硬件部件</h2><h3 id="主存储器的基本组成"><a href="#主存储器的基本组成" class="headerlink" title="主存储器的基本组成"></a>主存储器的基本组成</h3><p><img src="https://s2.loli.net/2022/02/26/SytgaUJL9A1G4lB.png" alt="image-20220226171557536"></p><p>MAR（Memory Address Register）：存储地址寄存器</p><p>MDR   (Memory Data Register)：存储数据寄存器</p><p>MAR存放的是地址，存储体通过MAR的内容寻找需要的信息</p><p>MDR存放的是数据，存储体通过MAR找到数据后，将数据放到MDR中</p><hr><p><img src="https://s2.loli.net/2022/02/26/dlwLAOIP6hMgR1c.png" alt="image-20220226172036544"></p><p>数据在存储体中按地址进行存储</p><p><strong>存储字</strong>：存储单元中二进制代码的组合</p><p><strong>存储子长</strong>：存储单元中二进制的位数</p><p>MAR的位数可以反映存储单元的总个数，而MDR的位数可以反映存储子长</p><p><strong>MAR的位数×MDR的位数=存储器的总容量</strong></p><hr><h3 id="运算器的基本组成"><a href="#运算器的基本组成" class="headerlink" title="运算器的基本组成"></a>运算器的基本组成</h3><p><img src="https://s2.loli.net/2022/02/26/HAGpLb24DlzZUqh.png" alt="image-20220226172430521"></p><p>运算器用于实现算术运算和逻辑运算</p><p>由ACC  MQ  ALU  X组成，核心是ALU</p><p>ACC：累加器，用于存放操作数，或运算结果</p><p>MQ（Multiple-Quotient Register）：乘商寄存器，在乘除运算的时候，用于存放操作数或运算结果</p><p>ALU（Arithmetric and Logic Unit）：算术逻辑单元，通过内部复杂的电路实现算术运算，逻辑运算</p><p>X：通用的操作数寄存器，用于存放操作数</p><hr><h3 id="控制器的基本组成"><a href="#控制器的基本组成" class="headerlink" title="控制器的基本组成"></a>控制器的基本组成</h3><p><img src="https://s2.loli.net/2022/02/26/Rc4gHrSTFBaJYfz.png" alt="image-20220226184759208"></p><p>CU：控制单元，分析指令，给出控制信号</p><p>IR（Instruction Register）：指令寄存器，存放当前执行的指令</p><p>PC：程序计数器，存放下一条<strong>指令地址</strong>，有自动加一功能</p><p>完成一条指令需要先取指令，分析指令，再执行指令</p><hr><h3 id="计算机的工作过程"><a href="#计算机的工作过程" class="headerlink" title="计算机的工作过程"></a>计算机的工作过程</h3><p><img src="https://s2.loli.net/2022/03/04/4gDroFiAhXZtWSp.png" alt="image-20220304195213228"></p><p>从存储体中取一个数的过程：</p><ol><li>PC →MAR  将下一条指令在存储体中的地址传输到MAR中</li><li>MAR→存储体</li><li>MAR→MDR 存储体根据MAR中的地址找到该指令，并将该指令内容传到MDR中去</li><li>MDR→IR  IR存放当前指令</li><li>IR→CU  指令的操作码送到了CU中，分析当前指令的内容，得出这是取数指令</li><li>IR→MAR  指令的地址码送到MAR</li><li>MAR→存储体</li><li>MAR→MDR  MAR根据地址码，取出数放到MDR中</li><li>MDR→ACC  ACC存储了数</li></ol><p>主要是存储体会工作两次，第一次根据PC给出地址码，第二次根据地址码给出数</p><hr><p><img src="https://s2.loli.net/2022/03/04/VhXc84SiBYbs1Dz.png" alt="image-20220304202001740"></p><p>从存储体中存储一个数的过程：</p><ol><li>PC →MAR </li><li>MAR→存储体</li><li>MAR →MDR 存储体根据MAR的值，将指令放在MDR中</li><li>MDR →IR     将MDR的值放入IR中</li><li>IR →CU         将指令的操作码放入CU中，CU分析出这是存数指令</li><li>IR →MAR       指令的地址码放入MAR中</li><li>ACC →MDR    导致MDR等于操作数</li><li>MAR→存储体</li><li>MDR →存储体    MDR中的操作数会被存入到存储体中，地址为MAR中的地址</li></ol><p>对比存数和取数的操作，可以看出在1~4步取指令以及第5步分析指令阶段，执行的操作是一样的，区别只是在分析指令指令后的操作不同</p><p>CPU通过<strong>指令周期</strong>的不同阶段来区分指令和数据</p><hr><h2 id="计算机的层次结构"><a href="#计算机的层次结构" class="headerlink" title="计算机的层次结构"></a>计算机的层次结构</h2><p><img src="https://s2.loli.net/2022/03/04/uefaUcPrqO2JQ16.png" alt="image-20220304203734219"></p><p>实际上，有三种级别的语言，上图中只是比较传统的一种语言</p><ol><li>类似C，C++等语言，会先通过编译程序翻译成汇编语言，再由汇编语言翻译成机器语言</li><li>也可以直接用编译程序将高级语言翻译成机器语言</li><li>类似JAVAScript等语言，需要解释器，将源程序的一条语句翻译成机器语言后，立即执行，才会接着翻译下一句</li></ol><hr><h2 id="计算机性能指标"><a href="#计算机性能指标" class="headerlink" title="计算机性能指标"></a>计算机性能指标</h2><p><strong>存储器的性能指标</strong></p><p><strong>容量</strong>=存储单元个数×存储子长/8  =Byte</p><hr><p><strong>CPU的性能指标</strong></p><p>主频：CPU内数字脉冲信号振荡的频率，和时钟周期互为倒数，单位Hz，反映每秒有多少个时钟周期</p><p>CPI(Clock cycle Per Instruction)：执行一条指令所需的时钟周期数</p><p>执行一条指令的耗时为：CPI×CPU时钟周期</p><p>IPS（Instruction Per Second）：每秒执行多少条指令   =主频/平均CPI</p><p>FLOPS：每秒执行的浮点运算次数</p><p>（K=$10^3$，M=$10^6$，G=$10^9$，T=$10^{12}$）</p><hr><h3 id="系统整体的指标"><a href="#系统整体的指标" class="headerlink" title="系统整体的指标"></a>系统整体的指标</h3><p>数据通路带宽：数据总线一次能并行的位数</p><p>吞吐量：系统在单位时间内处理请求的数量</p><p>响应时间：从用户向计算机发送一个请求，到系统对该请求做出响应并获得它所需要的结果的等待时间</p><hr>]]></content>
+      
+      
+      <categories>
+          
+          <category> 组成原理 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 组成原理 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>372.超级次方</title>
       <link href="/post/19997.html"/>
       <url>/post/19997.html</url>

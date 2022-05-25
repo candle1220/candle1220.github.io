@@ -3323,19 +3323,19 @@ li.categoryBar-list-item:nth-child(3) {
   background: url('https://pic3.zhimg.com/8aad8c72d6a53ff1a879f8dd779599d2_r.jpg');
 }
 li.categoryBar-list-item:nth-child(4) {
-  background: url('https://cdn.jsdelivr.net/gh/candle1220/CDN/chip1.jpg');
+  background: url('https://cdn.jsdelivr.net/gh/candle1220/CDN/data.png');
 }
 li.categoryBar-list-item:nth-child(5) {
-  background: url('https://cdn.jsdelivr.net/gh/candle1220/CDN/hacker1.jpg');
+  background: url('https://cdn.jsdelivr.net/gh/candle1220/CDN/chip1.jpg');
 }
 li.categoryBar-list-item:nth-child(6) {
-  background: url('https://cdn.jsdelivr.net/gh/candle1220/CDN/data.png');
+  background: url('https://cdn.jsdelivr.net/gh/candle1220/CDN/hacker1.jpg');
 }
 li.categoryBar-list-item:nth-child(1)>span::after {
   content: !important;
 }
 li.categoryBar-list-item {
-  width: 24% !important;
+  width: 32.3% !important;
 }
 @media screen and (max-width: 650px) {
   li.categoryBar-list-item {

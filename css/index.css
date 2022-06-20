@@ -3317,19 +3317,19 @@ li.categoryBar-list-item:nth-child(1) {
   background: url('https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/caINwfqTzrBMLE2.png');
 }
 li.categoryBar-list-item:nth-child(2) {
-  background: url('https://assets.leetcode.com/contest/LeetCode/company_logo');
+  background: url('https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/21e8200bba3d6737220729077f8586c0_company_logo.png');
 }
 li.categoryBar-list-item:nth-child(3) {
   background: url('https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/8aad8c72d6a53ff1a879f8dd779599d2_r.jpg');
 }
 li.categoryBar-list-item:nth-child(4) {
-  background: url('https://cdn.jsdelivr.net/gh/candle1220/CDN/data.png');
+  background: url('https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/data.png');
 }
 li.categoryBar-list-item:nth-child(5) {
-  background: url('https://cdn.jsdelivr.net/gh/candle1220/CDN/chip1.jpg');
+  background: url('https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/chip1.jpg');
 }
 li.categoryBar-list-item:nth-child(6) {
-  background: url('https://cdn.jsdelivr.net/gh/candle1220/CDN/hacker1.jpg');
+  background: url('https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/hacker1.jpg');
 }
 li.categoryBar-list-item:nth-child(1)>span::after {
   content: !important;

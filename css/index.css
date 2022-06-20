@@ -3314,13 +3314,13 @@ span.categoryBar-list-count::after {
   right: -100%;
 }
 li.categoryBar-list-item:nth-child(1) {
-  background: url('https://s2.loli.net/2021/12/23/caINwfqTzrBMLE2.png');
+  background: url('https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/caINwfqTzrBMLE2.png');
 }
 li.categoryBar-list-item:nth-child(2) {
   background: url('https://assets.leetcode.com/contest/LeetCode/company_logo');
 }
 li.categoryBar-list-item:nth-child(3) {
-  background: url('https://pic3.zhimg.com/8aad8c72d6a53ff1a879f8dd779599d2_r.jpg');
+  background: url('https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/8aad8c72d6a53ff1a879f8dd779599d2_r.jpg');
 }
 li.categoryBar-list-item:nth-child(4) {
   background: url('https://cdn.jsdelivr.net/gh/candle1220/CDN/data.png');

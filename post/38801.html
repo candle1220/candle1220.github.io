@@ -1,13 +1,13 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>2.物理层 | Night's Watch</title><meta name="keywords" content="计算机网络"><meta name="author" content="Candle"><meta name="copyright" content="Candle"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="物理层基本概念 物理层的作用是解决在各种传输媒体上传输比特0和1的问题 物理层的接口主要有以下4个特性： 机械特性：指明接口所用接线器的形状和尺寸，引脚数目和排列，固定和锁定装置 电气特性：指明在接口电缆的各条线上出现的电压的范围 功能特性：指明某条线上出现的某一电平表示何种意义 过程特性：指明对于不同功能的各种可能事件的出现顺序 物理层的协议比较多，都包含了以上4种特性，需要掌握特性，而不是具体">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>2.物理层 | Night's Watch</title><meta name="keywords" content="计算机网络"><meta name="author" content="Candle"><meta name="copyright" content="Candle"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="物理层基本概念 物理层的作用是解决在各种传输媒体上传输比特0和1的问题 物理层的接口主要有以下4个特性：  机械特性：指明接口所用接线器的形状和尺寸，引脚数目和排列，固定和锁定装置  电气特性：指明在接口电缆的各条线上出现的电压的范围  功能特性：指明某条线上出现的某一电平表示何种意义  过程特性：指明对于不同功能的各种可能事件的出现顺序   物理层的协议比较多，都包含了以上4种特性，需要掌握特性">
 <meta property="og:type" content="article">
 <meta property="og:title" content="2.物理层">
 <meta property="og:url" content="http://candle1220.github.io/post/38801.html">
 <meta property="og:site_name" content="Night&#39;s Watch">
-<meta property="og:description" content="物理层基本概念 物理层的作用是解决在各种传输媒体上传输比特0和1的问题 物理层的接口主要有以下4个特性： 机械特性：指明接口所用接线器的形状和尺寸，引脚数目和排列，固定和锁定装置 电气特性：指明在接口电缆的各条线上出现的电压的范围 功能特性：指明某条线上出现的某一电平表示何种意义 过程特性：指明对于不同功能的各种可能事件的出现顺序 物理层的协议比较多，都包含了以上4种特性，需要掌握特性，而不是具体">
+<meta property="og:description" content="物理层基本概念 物理层的作用是解决在各种传输媒体上传输比特0和1的问题 物理层的接口主要有以下4个特性：  机械特性：指明接口所用接线器的形状和尺寸，引脚数目和排列，固定和锁定装置  电气特性：指明在接口电缆的各条线上出现的电压的范围  功能特性：指明某条线上出现的某一电平表示何种意义  过程特性：指明对于不同功能的各种可能事件的出现顺序   物理层的协议比较多，都包含了以上4种特性，需要掌握特性">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/candle1220/CDN/hacker1.jpg">
 <meta property="article:published_time" content="2021-12-28T15:51:19.914Z">
-<meta property="article:modified_time" content="2022-03-04T16:36:31.519Z">
+<meta property="article:modified_time" content="2022-06-20T04:37:39.788Z">
 <meta property="article:author" content="Candle">
 <meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary">
@@ -58,7 +58,7 @@
   isHome: false,
   isHighlightShrink: false,
   isToc: true,
-  postUpdate: '2022-03-05 00:36:31'
+  postUpdate: '2022-06-20 12:37:39'
 }</script><noscript><style type="text/css">
   #nav {
     opacity: 1
@@ -147,91 +147,117 @@
       }
     }
     detectApple()
-    })(window)</script><link rel="stylesheet" href="/css/background.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://cdn.jsdelivr.net/gh/candle1220/CDN/head.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">144</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-crow"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-book"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/record/"><i class="fa-fw fas fa-atom"></i><span> 日志</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/candle1220/CDN/background.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Night's Watch</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-crow"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-book"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/record/"><i class="fa-fw fas fa-atom"></i><span> 日志</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">2.物理层</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-12-28T15:51:19.914Z" title="发表于 2021-12-28 23:51:19">2021-12-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-03-04T16:36:31.519Z" title="更新于 2022-03-05 00:36:31">2022-03-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="2.物理层"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="物理层"><a href="#物理层" class="headerlink" title="物理层"></a>物理层</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p><img src="https://s2.loli.net/2021/12/28/Qni2LAWXguIrHfS.png" alt="image-20210427211044376"></p>
+    })(window)</script><link rel="stylesheet" href="/css/background.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://cdn.jsdelivr.net/gh/candle1220/CDN/head.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">144</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-crow"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-book"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/record/"><i class="fa-fw fas fa-atom"></i><span> 日志</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/candle1220/CDN/background.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Night's Watch</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-crow"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-book"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/record/"><i class="fa-fw fas fa-atom"></i><span> 日志</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">2.物理层</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-12-28T15:51:19.914Z" title="发表于 2021-12-28 23:51:19">2021-12-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-06-20T04:37:39.788Z" title="更新于 2022-06-20 12:37:39">2022-06-20</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="2.物理层"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="物理层"><a href="#物理层" class="headerlink" title="物理层"></a>物理层</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/Qni2LAWXguIrHfS.png" alt="image-20210427211044376"></p>
 <p>物理层的作用是解决在各种传输媒体上传输比特0和1的问题</p>
 <p>物理层的接口主要有以下4个特性：</p>
-<p>机械特性：指明接口所用接线器的形状和尺寸，引脚数目和排列，固定和锁定装置</p>
-<p>电气特性：指明在接口电缆的各条线上出现的电压的范围</p>
-<p>功能特性：指明某条线上出现的某一电平表示何种意义</p>
-<p>过程特性：指明对于不同功能的各种可能事件的出现顺序</p>
+<ol>
+<li><p>机械特性：指明接口所用接线器的形状和尺寸，引脚数目和排列，固定和锁定装置</p>
+</li>
+<li><p>电气特性：指明在接口电缆的各条线上出现的电压的范围</p>
+</li>
+<li><p>功能特性：指明某条线上出现的某一电平表示何种意义</p>
+</li>
+<li><p>过程特性：指明对于不同功能的各种可能事件的出现顺序</p>
+</li>
+</ol>
 <p>物理层的协议比较多，都包含了以上4种特性，需要掌握特性，而不是具体协议</p>
 <hr>
 <h2 id="传输媒体"><a href="#传输媒体" class="headerlink" title="传输媒体"></a>传输媒体</h2><p>传输媒体并不属于互联网的体系结构，处于物理层之下</p>
 <p>导引型传输媒体</p>
-<p><img src="https://s2.loli.net/2021/12/28/Y32oDNV4FSAsUWT.png" alt="image-20210427211851913"></p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/Y32oDNV4FSAsUWT.png" alt="image-20210427211851913" style="zoom:67%;" /></p>
+<ul>
+<li>同轴电缆(Coaxial Cable)：由导体铜质芯线，绝缘层，网状编织屏蔽层和塑料外层构成，根据特性阻抗不同分类，主要用于有线电视系统</li>
+<li>双绞线(Twisted Pair)：由两根采用一定规则并排绞合的，相互绝缘的铜导线组成，绞合可以较少相邻导线之间的电磁干扰，因为价格便宜，所以非常常用，主要用于局域网和传统电话网</li>
+<li>光纤(Optical Fiber)：利用光导纤维传递光脉冲来进行通信，光纤通信的带宽远远大于目前其他通信系统的带宽</li>
+</ul>
 <p>非导引型传输媒体</p>
-<p><img src="https://s2.loli.net/2021/12/28/e9oZ1RIKHjLOxf5.png" alt="image-20210427211908326"></p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/e9oZ1RIKHjLOxf5.png" alt="image-20210427211908326" style="zoom:67%;" /></p>
 <hr>
 <h2 id="传输方式"><a href="#传输方式" class="headerlink" title="传输方式"></a>传输方式</h2><h3 id="串行传输与并行传输"><a href="#串行传输与并行传输" class="headerlink" title="串行传输与并行传输"></a>串行传输与并行传输</h3><p>串行传输是指数据是一个比特一个比特依次发送，在发送和接收端直接，只需要1条传输线路</p>
-<p><img src="https://s2.loli.net/2021/12/28/8MlFadYIwzUsRD7.png" alt="image-20210427212050037"></p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/8MlFadYIwzUsRD7.png" alt="image-20210427212050037"></p>
 <p>并行传输是指数据是一次发送n个比特，在发送和接收端之间需要n条传输线路</p>
-<p><img src="https://s2.loli.net/2021/12/28/6Fjy7Rvpw8Efoeq.png" alt="image-20210427212142899"></p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/6Fjy7Rvpw8Efoeq.png" alt="image-20210427212142899"></p>
 <p>一般电脑之间的远距离传输是串行传输，而电脑内部之间，CPU和内存之间通过总线进行并行传输</p>
 <hr>
 <h3 id="同步传输与异步传输"><a href="#同步传输与异步传输" class="headerlink" title="同步传输与异步传输"></a>同步传输与异步传输</h3><p>同步传输是指数据块以稳定的比特流的形式进行传输，字节之间没有间隔</p>
-<p><img src="https://s2.loli.net/2021/12/28/CUrw4J7Xzg2aZ5Q.png" alt="image-20210427212341718"></p>
-<p>接收端在比特信号的中间时刻进行检测，来判断是比特0还是比特1</p>
-<p>由于不同设备的时钟不同，累计误差会导致判别错位</p>
-<p><img src="https://s2.loli.net/2021/12/28/YdyXljM7wkmPzZ8.png" alt="image-20210427212513348"></p>
-<p>所以需要采用方法使收发双方同步</p>
-<p>外同步：在收发双方之间添加一条单独的时钟信号线</p>
-<p>内同步：发送端将时钟同步信号编码到发送数据中一起传输(例如曼彻斯特编码)</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/CUrw4J7Xzg2aZ5Q.png" alt="image-20210427212341718"></p>
+<p>接收端在比特信号的中间时刻进行检测，来判断是比特0还是比特1，由于不同设备的时钟不同，累计误差会导致判别错位</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/YdyXljM7wkmPzZ8.png" alt="image-20210427212513348"></p>
+<p>所以需要采用方法使收发双方<strong>同步</strong></p>
+<ul>
+<li><p>外同步：在收发双方之间添加一条单独的时钟信号线</p>
+</li>
+<li><p>内同步：发送端将时钟同步信号编码到发送数据中一起传输(例如<strong>曼彻斯特编码</strong>)</p>
+</li>
+</ul>
+<hr>
 <p>异步传输：让字节作为独立的传输单位，字节之间的时间间隔不是固定的</p>
-<p><img src="https://s2.loli.net/2021/12/28/AsqM68vzcLKPeUV.png" alt="image-20210427212802907"></p>
-<p>接收端仅在每个字节的起始处对字节内的比特实现同步，为此通常在每个字节前后加上起始位和结束位</p>
-<p><img src="https://s2.loli.net/2021/12/28/JA2xmi5MrTBFP1s.png" alt="image-20210427212900846"></p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/AsqM68vzcLKPeUV.png" alt="image-20210427212802907"></p>
+<p>接收端仅在每个字节的起始处对字节内的比特实现同步，为此通常在每个字节前后加上<strong>起始位和结束位</strong></p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/JA2xmi5MrTBFP1s.png" alt="image-20210427212900846"></p>
 <p>异步是指字节之间异步(间隔不是固定的)</p>
 <hr>
 <h3 id="单工，半双工，全双工通信"><a href="#单工，半双工，全双工通信" class="headerlink" title="单工，半双工，全双工通信"></a>单工，半双工，全双工通信</h3><p>单工通信：又称为单向通信</p>
-<p><img src="https://s2.loli.net/2021/12/28/D4d6cPrvSICfUEb.png" alt="image-20210427213158360"></p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/D4d6cPrvSICfUEb.png" alt="image-20210427213158360"></p>
 <p>半双工通信：又称为双向交替通信，双方设备可以交换信息，但不能同时进行</p>
-<p><img src="https://s2.loli.net/2021/12/28/I69ofsPFG1axByU.png" alt="image-20210427213134387"></p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/I69ofsPFG1axByU.png" alt="image-20210427213134387"></p>
 <p>全双工：又称为双向同时通信，双方设备可以同时通信</p>
-<p><img src="https://s2.loli.net/2021/12/28/1hMaTFxNdverYC5.png" alt="image-20210427213247983"></p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/1hMaTFxNdverYC5.png" alt="image-20210427213247983"></p>
 <hr>
 <h2 id="编码和调制"><a href="#编码和调制" class="headerlink" title="编码和调制"></a>编码和调制</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>消息（message)：计算机要处理的文字，图片等</p>
 <p>数据（data）：是运送消息的实体</p>
 <p>信号（signal）：是数据的电磁表现</p>
 <p>基带信号：是信源发出的原始电信号</p>
-<p><img src="https://s2.loli.net/2021/12/28/whJLsHBgID4zbjk.png" alt="image-20210427224355044"></p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/whJLsHBgID4zbjk.png" alt="image-20210427224355044"></p>
 <p>基带信号又分数字基带信号和模拟基带信号，都能够进行编码和调制</p>
 <p>将基带信号变成数据信号的过程叫做编码</p>
 <p>将基带信号变成模拟信号的过程叫做调制</p>
-<p><img src="https://s2.loli.net/2021/12/28/Qfn3MOX9YrKkhNe.png" alt="image-20210427225310553"></p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/Qfn3MOX9YrKkhNe.png" alt="image-20210427225310553" style="zoom:67%;" /></p>
 <p><strong>码元</strong>：在使用时间域的波形表示数字信号时，代表不同离散数值的基本波形</p>
-<p><img src="https://s2.loli.net/2021/12/28/G9VAxtjfTZrLzQe.png" alt="image-20210427225542783"></p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/G9VAxtjfTZrLzQe.png" alt="image-20210427225542783"></p>
 <hr>
 <h3 id="常用编码"><a href="#常用编码" class="headerlink" title="常用编码"></a>常用编码</h3><p>1.不归零编码NRZ：用正电平和负电平来表示</p>
-<p><img src="https://s2.loli.net/2021/12/28/B3ITsUpHZw8b2Xk.png" alt="image-20210427225904493"></p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/B3ITsUpHZw8b2Xk.png" alt="image-20210427225904493"></p>
 <p>当接受到连续信号的时候，系统需要判断码元的个数，这需要额外的一根传输线来传输时钟信号，使发送方和接受方同步</p>
-<p>然而对于计算机网络，这根线用来传输数字信号也不会来传输时钟信号，所以不用</p>
+<hr>
+<p>2.反向不归零编码NRZI：用电平信号的翻转表示</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/pf5TxiVEjXQqecG.png" alt="image-20220618141944802"></p>
+<p>如果电平和前一个码元一致，代表该码元表示的是1，如果电平和前一个码元相反，则表示的是0</p>
+<p>USB数据线的传输采用次方法</p>
 <hr>
 <p>2.归零编码RZ：用正电平，负电平，零电平表示</p>
-<p><img src="https://s2.loli.net/2021/12/28/SwZAUavTNfkuhjm.png" alt="image-20210427230347670"></p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/SwZAUavTNfkuhjm.png" alt="image-20210427230347670"></p>
 <p>每个码元传输结束后信号都要归零，所以接收放只要在信号归零后进行采样即可，不需要时钟信号，实际上，这相当于将时钟信号用归零方式编码在了数据之内，这称为<strong>自同步</strong>信号</p>
 <p>但是，归零编码中的大部分数据带宽都用来归零了，编码效率低</p>
 <hr>
 <p>3.<strong>曼彻斯特编码</strong>：在每个码元的中间时刻信号都会发生跳变，根据跳变的方向来判断比特</p>
-<p><img src="https://s2.loli.net/2021/12/28/1ijDMuf8WovU2Ge.png" alt="image-20210427231357417"></p>
-<p>码元中间时刻的跳变既可以表示时钟，又可以表示数据</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/1ijDMuf8WovU2Ge.png" alt="image-20210427231357417"></p>
+<p>码元中间时刻的跳变既可以表示时钟，又可以表示数据，编码效率只有50%</p>
 <p>是传统以太网的编码方式</p>
 <hr>
-<p>4.差分曼彻斯特编码：每个码元的中间时刻信号会跳变，但是只表示时钟信号，根据码元开始处电平是否变化表示数据</p>
-<p><img src="https://s2.loli.net/2021/12/28/BojK4kYe9b6VqAh.png" alt="image-20210427231909998"></p>
+<p>4.<strong>差分曼彻斯特编码</strong>：每个码元的中间时刻信号会跳变，但是只表示时钟信号，根据每个周期码元开始处电平是否和上个周期一致表示数据，跳变则说明该比特是0，不跳变则说明该比特是1。</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/BojK4kYe9b6VqAh.png" alt="image-20210427231909998"></p>
 <p>比曼彻斯特编码变化少，更适合较高的传输速率</p>
 <hr>
+<p>5.4B/5B编码</p>
+<p>在通信网络中，接收端需要从接收数据中恢复时钟信息来保证同步，这就需要线路中所传输的二进制码流<strong>有足够多的跳变</strong>，即不能有过多连续的高电平或低电平，否则<strong>无法提取时钟信息</strong></p>
+<p>4B/5B编码其实就是用5bit的二进制码来代表4bit二进制码。此编码的效率是80%，比Manchester码高。4B/5B编码的目的在前面已经说过了，就是让码流产生足够多的跳变。4位二进制共有16种组合，5位二进制共有32种组合，如何从32种组合种选取16种来使用呢？这里需要满足两个规则：</p>
+<p>1). 每个5比特码组中不含多于3个“0”；</p>
+<p>2). 或者5比特码组中包含不少于2个“1”；</p>
+<div class="note primary flat"><p>百兆以太网用的4B/5B编码与MLT-3编码组合方式，发送码流先进行4B/5B编码，再进行MLT-3编码，最后再上线路传输</p>
+</div>
+<hr>
 <h3 id="基本调制方法"><a href="#基本调制方法" class="headerlink" title="基本调制方法"></a>基本调制方法</h3><p>可以调幅，调频，调相</p>
-<p><img src="https://s2.loli.net/2021/12/28/Pp8SDcoOLe7gnhH.png" alt="image-20210428000528585"></p>
-<p>使用基本调制方法，1个码元只能包含1个比特信息</p>
-<p>如果要让一个码元包括更多的比特，可以使用混合调制</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/Pp8SDcoOLe7gnhH.png" alt="image-20210428000528585"></p>
+<p>使用基本调制方法，1个码元只能包含1个比特信息，如果要让一个码元包括更多的比特，可以使用<strong>混合调制</strong></p>
 <p>因为频率和相位是相关的，即频率是相位随时间的变化率，所以不能一起混合调制</p>
 <p>混合调制可以让相位和振幅一起调制，称为<strong>正交振幅调制QAM</strong> </p>
 <hr>
 <p>举例 QAM16</p>
 <p>可以有12种相位，每种相位有1或2种振幅可选</p>
-<p><img src="https://s2.loli.net/2021/12/28/KghFbVqRElCiwdT.png" alt="image-20210428001140955"></p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/KghFbVqRElCiwdT.png" alt="image-20210428001140955" style="zoom:67%;" /></p>
 <p>QAM可以调制出16种码元，每种码元可以表示$log_216=4$种比特</p>
-<p><img src="https://s2.loli.net/2021/12/28/OBPNrndpRlyuEI3.png" alt="image-20210428001350815"></p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/OBPNrndpRlyuEI3.png" alt="image-20210428001350815" style="zoom:67%;" /></p>
 <p>码元与4个比特的对应关系采用格雷码，任意两个相邻码元只有1个比特不同</p>
 <hr>
 <h2 id="信道的极限容量"><a href="#信道的极限容量" class="headerlink" title="信道的极限容量"></a>信道的极限容量</h2><p>信号在信道中传输的一般都会失真，当失真严重的时候就无法判断信号</p>
@@ -244,13 +270,11 @@
 </ul>
 <hr>
 <p><strong>奈氏准则：在假定的理想条件下，为了避免码间串扰，码元传输速率是有上限的</strong></p>
-<p>理想低通信道的最高码元传输速率=2W Baud=2W码元 /秒</p>
-<p>理想带通信道的最高码元传输速率=W Baud=W码元/秒</p>
-<p>W：信号带宽 </p>
-<p>Baud：波特，即码元/秒</p>
+<p>带宽：指信道能通过的最高频率和最低频率之差</p>
+<p>理想<strong>低通信道</strong>的最高码元传输速率=<strong>2W Baud=2W码元 /秒</strong></p>
+<p>理想<strong>带通信道</strong>的最高码元传输速率=<strong>W Baud=W码元/秒</strong>    （W：信号带宽   Baud：波特，即码元/秒）</p>
 <p>低通信道和带通信道的区别是：低通信道只有上限，而带通信道有上下限</p>
-<p>码元的传输速率又称波特率，与比特率之间有一定关系</p>
-<p>当1个码元携带n比特的信息量时，则波特率换成比特率时，数值要乘以n</p>
+<p><strong>波特率</strong>：码元的传输速率又称波特率，与比特率之间有一定关系，当1个码元携带n比特的信息量时，则波特率换成比特率时，数值要乘以n</p>
 <p>要提高信息传输速率，就必须设法让每一个码元携带更多个比特的信息，这需要多元调制</p>
 <hr>
 <p>信道的极限信息传输速率还要受限于实际的信号在信道中传输时的信噪比</p>
@@ -262,7 +286,38 @@
 <p>N：信道内的高斯噪声功率</p>
 <p>S/N：信噪比，使用分贝(dB)作为度量单位 =$10×log_{10}(S/N)$</p>
 <p>信道带宽或信道中信噪比越大，信号的极限传输速率越高</p>
-</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/candle1220/CDN/hacker1.jpg" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/post/21933.html"><img class="prev-cover" src="https://cdn.jsdelivr.net/gh/candle1220/CDN/hacker1.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">1.计算机网络—概述</div></div></a></div><div class="next-post pull-right"><a href="/post/17624.html"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/candle1220/CDN/hacker1.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">3.数据链路层</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://cdn.jsdelivr.net/gh/candle1220/CDN/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Candle</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">144</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%89%A9%E7%90%86%E5%B1%82"><span class="toc-number">1.</span> <span class="toc-text">物理层</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%A0%E8%BE%93%E5%AA%92%E4%BD%93"><span class="toc-number">1.2.</span> <span class="toc-text">传输媒体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%A0%E8%BE%93%E6%96%B9%E5%BC%8F"><span class="toc-number">1.3.</span> <span class="toc-text">传输方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%B2%E8%A1%8C%E4%BC%A0%E8%BE%93%E4%B8%8E%E5%B9%B6%E8%A1%8C%E4%BC%A0%E8%BE%93"><span class="toc-number">1.3.1.</span> <span class="toc-text">串行传输与并行传输</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E4%BC%A0%E8%BE%93%E4%B8%8E%E5%BC%82%E6%AD%A5%E4%BC%A0%E8%BE%93"><span class="toc-number">1.3.2.</span> <span class="toc-text">同步传输与异步传输</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E5%B7%A5%EF%BC%8C%E5%8D%8A%E5%8F%8C%E5%B7%A5%EF%BC%8C%E5%85%A8%E5%8F%8C%E5%B7%A5%E9%80%9A%E4%BF%A1"><span class="toc-number">1.3.3.</span> <span class="toc-text">单工，半双工，全双工通信</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E7%A0%81%E5%92%8C%E8%B0%83%E5%88%B6"><span class="toc-number">1.4.</span> <span class="toc-text">编码和调制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-number">1.4.1.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E7%BC%96%E7%A0%81"><span class="toc-number">1.4.2.</span> <span class="toc-text">常用编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E8%B0%83%E5%88%B6%E6%96%B9%E6%B3%95"><span class="toc-number">1.4.3.</span> <span class="toc-text">基本调制方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E9%81%93%E7%9A%84%E6%9E%81%E9%99%90%E5%AE%B9%E9%87%8F"><span class="toc-number">1.5.</span> <span class="toc-text">信道的极限容量</span></a></li></ol></li></ol></div></div><div class="card-widget card-recommend-post"><div class="item-headline"><i class="fas fa-dharmachakra"></i><span>相关推荐</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/post/21933.html" title="1.计算机网络—概述"><img src="https://cdn.jsdelivr.net/gh/candle1220/CDN/hacker1.jpg" alt="1.计算机网络—概述"></a><div class="content"><a class="title" href="/post/21933.html" title="1.计算机网络—概述">1.计算机网络—概述</a><time datetime="2021-12-28" title="������ 2021-12-28">2021-12-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/9495.html" title="4.网络层"><img src="https://cdn.jsdelivr.net/gh/candle1220/CDN/hacker1.jpg" alt="4.网络层"></a><div class="content"><a class="title" href="/post/9495.html" title="4.网络层">4.网络层</a><time datetime="2021-12-28" title="������ 2021-12-28">2021-12-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/60874.html" title="6.应用层"><img src="https://cdn.jsdelivr.net/gh/candle1220/CDN/hacker1.jpg" alt="6.应用层"></a><div class="content"><a class="title" href="/post/60874.html" title="6.应用层">6.应用层</a><time datetime="2021-12-28" title="������ 2021-12-28">2021-12-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/9992.html" title="5.运输层"><img src="https://cdn.jsdelivr.net/gh/candle1220/CDN/hacker1.jpg" alt="5.运输层"></a><div class="content"><a class="title" href="/post/9992.html" title="5.运输层">5.运输层</a><time datetime="2021-12-28" title="������ 2021-12-28">2021-12-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/17624.html" title="3.数据链路层"><img src="https://cdn.jsdelivr.net/gh/candle1220/CDN/hacker1.jpg" alt="3.数据链路层"></a><div class="content"><a class="title" href="/post/17624.html" title="3.数据链路层">3.数据链路层</a><time datetime="2021-12-28" title="������ 2021-12-28">2021-12-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/13956.html" title="计算机网络重点题"><img src="https://cdn.jsdelivr.net/gh/candle1220/CDN/hacker1.jpg" alt="计算机网络重点题"></a><div class="content"><a class="title" href="/post/13956.html" title="计算机网络重点题">计算机网络重点题</a><time datetime="2021-12-28" title="������ 2021-12-28">2021-12-28</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By Candle</div><div class="framework-info"><span>Powered by </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a></div><div class="footer_custom_text">So Long, and Thanks for All the Fish</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+<hr>
+<h2 id="信息交换方式"><a href="#信息交换方式" class="headerlink" title="信息交换方式"></a>信息交换方式</h2><h3 id="电路交换"><a href="#电路交换" class="headerlink" title="电路交换"></a>电路交换</h3><p>电话交换机接通电话线的方式称为电路交换</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/qsZg7Ul9v6ezMK2.png" alt="image-20210426194030792"></p>
+<p>原理：在数据传输期间，源结点和目的结点之间有一条由中间结点构成的专用物理连接线路，在数据传输结束之前，这条线路一直保持</p>
+<p>当使用电路交换来传送计算机数据的时候，线路的传输效率很低</p>
+<p>特点：独占资源，用户始终会占据固定的传输带宽，适合远程处理信息传输或实时性要求高的大量数据传输情况</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/CmKzcyW9j5A21QJ.png" alt="image-20210426194551234"></p>
+<hr>
+<h3 id="报文交换"><a href="#报文交换" class="headerlink" title="报文交换"></a>报文交换</h3><p>报文是网络中交换与传输的数据单元，即站点一次性要发送的数据块，包含了将要发送的完整的数据信息</p>
+<p>无需在两个站点之间建立一条专用通路，其数据传输的单位是报文，过程采用存储转发方式</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/cHpI9xwVaz8ouMK.png" alt="image-20210426194608172.png"></p>
+<hr>
+<h3 id="分组交换"><a href="#分组交换" class="headerlink" title="分组交换"></a>分组交换</h3><p>大多数计算机不能连续的发送数据，所以实际上网络系统把数据分割成小块，然后逐块发送，这种小块叫分组</p>
+<p>分组交换和报文交换的工作方式基本相同，都是存储转发的方式，主要差别是分组交换要限制说传输的数据单位的长度</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/7tPchzVH3Ose5RB.png" alt="image-20210426194357711" style="zoom:67%;" /></p>
+<p>由发送方 中转方 接收方组成</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/chOA1R9Pvf7JGmI.png" alt="image-20210426194430256"></p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/qijTFte94YaphCR.png" alt="image-20210426194625967"></p>
+<ol>
+<li><p>数据报方式<br>源主机要将报文分为多个分组，发送到结点上，结点收到分组后，需要对分组进行差错检测和路由选择</p>
+<p>数据报方式为网络层提供无连接方式，可能会发生分组乱序，丢失，重复的问题，同时会带来转发时延，因为有冗余线路，对故障的适应性很好</p>
+</li>
+<li><p>虚电路方式</p>
+<p>虚电路方式将数据报方式和电路交换方式结合，一条源主机到目的主机的路线在逻辑上类似于电路的路径，路径上所有的结点都要维持这条虚电路的建立，要经过建立连接，数据传输，释放连接的过程</p>
+<p>虚电路方式为网络层提供了连接服务，源节点与目的节点之间建立了一条逻辑连接，而非实际连接，在路过结点时，只进行差错检测，不进行路由选择，对故障的适应性很差</p>
+</li>
+</ol>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/wETtBUGKReVPSsk.png" alt="image-20220615203804437" style="zoom:67%;" /></p>
+<hr>
+<p>三种数据交换方式</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/SgDTPOBYh8XEtZw.png" alt="image-20220615202917918" style="zoom:67%;" /></p>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/candle1220/CDN/hacker1.jpg" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/post/21933.html"><img class="prev-cover" src="https://cdn.jsdelivr.net/gh/candle1220/CDN/hacker1.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">1.计算机网络—概述</div></div></a></div><div class="next-post pull-right"><a href="/post/17624.html"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/candle1220/CDN/hacker1.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">3.数据链路层</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://cdn.jsdelivr.net/gh/candle1220/CDN/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Candle</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">144</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%89%A9%E7%90%86%E5%B1%82"><span class="toc-number">1.</span> <span class="toc-text">物理层</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%A0%E8%BE%93%E5%AA%92%E4%BD%93"><span class="toc-number">1.2.</span> <span class="toc-text">传输媒体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%A0%E8%BE%93%E6%96%B9%E5%BC%8F"><span class="toc-number">1.3.</span> <span class="toc-text">传输方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%B2%E8%A1%8C%E4%BC%A0%E8%BE%93%E4%B8%8E%E5%B9%B6%E8%A1%8C%E4%BC%A0%E8%BE%93"><span class="toc-number">1.3.1.</span> <span class="toc-text">串行传输与并行传输</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E4%BC%A0%E8%BE%93%E4%B8%8E%E5%BC%82%E6%AD%A5%E4%BC%A0%E8%BE%93"><span class="toc-number">1.3.2.</span> <span class="toc-text">同步传输与异步传输</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E5%B7%A5%EF%BC%8C%E5%8D%8A%E5%8F%8C%E5%B7%A5%EF%BC%8C%E5%85%A8%E5%8F%8C%E5%B7%A5%E9%80%9A%E4%BF%A1"><span class="toc-number">1.3.3.</span> <span class="toc-text">单工，半双工，全双工通信</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E7%A0%81%E5%92%8C%E8%B0%83%E5%88%B6"><span class="toc-number">1.4.</span> <span class="toc-text">编码和调制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-number">1.4.1.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E7%BC%96%E7%A0%81"><span class="toc-number">1.4.2.</span> <span class="toc-text">常用编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E8%B0%83%E5%88%B6%E6%96%B9%E6%B3%95"><span class="toc-number">1.4.3.</span> <span class="toc-text">基本调制方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E9%81%93%E7%9A%84%E6%9E%81%E9%99%90%E5%AE%B9%E9%87%8F"><span class="toc-number">1.5.</span> <span class="toc-text">信道的极限容量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%BC%8F"><span class="toc-number">1.6.</span> <span class="toc-text">信息交换方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%B5%E8%B7%AF%E4%BA%A4%E6%8D%A2"><span class="toc-number">1.6.1.</span> <span class="toc-text">电路交换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%A5%E6%96%87%E4%BA%A4%E6%8D%A2"><span class="toc-number">1.6.2.</span> <span class="toc-text">报文交换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E7%BB%84%E4%BA%A4%E6%8D%A2"><span class="toc-number">1.6.3.</span> <span class="toc-text">分组交换</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recommend-post"><div class="item-headline"><i class="fas fa-dharmachakra"></i><span>相关推荐</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/post/21933.html" title="1.计算机网络—概述"><img src="https://cdn.jsdelivr.net/gh/candle1220/CDN/hacker1.jpg" alt="1.计算机网络—概述"></a><div class="content"><a class="title" href="/post/21933.html" title="1.计算机网络—概述">1.计算机网络—概述</a><time datetime="2021-12-28" title="������ 2021-12-28">2021-12-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/9992.html" title="5.运输层"><img src="https://cdn.jsdelivr.net/gh/candle1220/CDN/hacker1.jpg" alt="5.运输层"></a><div class="content"><a class="title" href="/post/9992.html" title="5.运输层">5.运输层</a><time datetime="2021-12-28" title="������ 2021-12-28">2021-12-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/60874.html" title="6.应用层"><img src="https://cdn.jsdelivr.net/gh/candle1220/CDN/hacker1.jpg" alt="6.应用层"></a><div class="content"><a class="title" href="/post/60874.html" title="6.应用层">6.应用层</a><time datetime="2021-12-28" title="������ 2021-12-28">2021-12-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/9495.html" title="4.网络层"><img src="https://cdn.jsdelivr.net/gh/candle1220/CDN/hacker1.jpg" alt="4.网络层"></a><div class="content"><a class="title" href="/post/9495.html" title="4.网络层">4.网络层</a><time datetime="2021-12-28" title="������ 2021-12-28">2021-12-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/13956.html" title="计算机网络重点题"><img src="https://cdn.jsdelivr.net/gh/candle1220/CDN/hacker1.jpg" alt="计算机网络重点题"></a><div class="content"><a class="title" href="/post/13956.html" title="计算机网络重点题">计算机网络重点题</a><time datetime="2021-12-28" title="������ 2021-12-28">2021-12-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/17624.html" title="3.数据链路层"><img src="https://cdn.jsdelivr.net/gh/candle1220/CDN/hacker1.jpg" alt="3.数据链路层"></a><div class="content"><a class="title" href="/post/17624.html" title="3.数据链路层">3.数据链路层</a><time datetime="2021-12-28" title="������ 2021-12-28">2021-12-28</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By Candle</div><div class="framework-info"><span>Powered by </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a></div><div class="footer_custom_text">So Long, and Thanks for All the Fish</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
   endLoading: () => {
     document.body.style.overflow = 'auto';
     document.getElementById('loading-box').classList.add("loaded")

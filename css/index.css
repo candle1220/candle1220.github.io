@@ -3474,19 +3474,22 @@ li.categoryBar-list-item:nth-child(3) {
   background: url('https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/8aad8c72d6a53ff1a879f8dd779599d2_r.jpg');
 }
 li.categoryBar-list-item:nth-child(4) {
-  background: url('https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/data.png');
+  background: url('https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/shuxue.jpg');
 }
 li.categoryBar-list-item:nth-child(5) {
-  background: url('https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/chip1.jpg');
+  background: url('https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/data.png');
 }
 li.categoryBar-list-item:nth-child(6) {
+  background: url('https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/chip1.jpg');
+}
+li.categoryBar-list-item:nth-child(7) {
   background: url('https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/hacker1.jpg');
 }
 li.categoryBar-list-item:nth-child(1)>span::after {
   content: !important;
 }
 li.categoryBar-list-item {
-  width: 32.3% !important;
+  width: 24% !important;
 }
 @media screen and (max-width: 650px) {
   li.categoryBar-list-item {

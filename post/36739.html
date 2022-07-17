@@ -1,0 +1,563 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>1.行列式 | Night's Watch</title><meta name="keywords" content="线代"><meta name="author" content="Candle"><meta name="copyright" content="Candle"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="行列式由来历史上，定义行列式的目的就是为了解线性方程组。对于一元二次方程组  \begin{cases}a_{11}x_1+a_{12}x_2&#x3D;b_1\\a_{21}x_1+a_{22}x_2&#x3D;b_2\end{cases}如果有唯一解，那么可以通过高斯消元法得到  \begin{cases}     x_1&#x3D;\displaystyle \frac{b_1a_{22}-a_{12}b_2}{a_{1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="1.行列式">
+<meta property="og:url" content="http://candle1220.github.io/post/36739.html">
+<meta property="og:site_name" content="Night&#39;s Watch">
+<meta property="og:description" content="行列式由来历史上，定义行列式的目的就是为了解线性方程组。对于一元二次方程组  \begin{cases}a_{11}x_1+a_{12}x_2&#x3D;b_1\\a_{21}x_1+a_{22}x_2&#x3D;b_2\end{cases}如果有唯一解，那么可以通过高斯消元法得到  \begin{cases}     x_1&#x3D;\displaystyle \frac{b_1a_{22}-a_{12}b_2}{a_{1">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/linear.jpg">
+<meta property="article:published_time" content="2022-07-13T14:49:51.000Z">
+<meta property="article:modified_time" content="2022-07-17T13:31:40.592Z">
+<meta property="article:author" content="Candle">
+<meta property="article:tag" content="线代">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/linear.jpg"><link rel="shortcut icon" href="/img/candle.png"><link rel="canonical" href="http://candle1220.github.io/post/36739"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#55d5fc","bgDark":"#121212","position":"top-center"},
+  source: {
+    jQuery: 'https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/3.6.0/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.js',
+      css: 'https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '1.行列式',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-07-17 21:31:40'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    document.addEventListener('pjax:complete', detectApple)})(window)</script><link rel="stylesheet" href="/css/background.css"><link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/Swiper/8.0.6/swiper-bundle.min.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/head.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">151</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">16</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-crow"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-book"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/record/"><i class="fa-fw fas fa-atom"></i><span> 日志</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/background.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Night's Watch</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-crow"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-book"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/record/"><i class="fa-fw fas fa-atom"></i><span> 日志</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">1.行列式</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-07-13T14:49:51.000Z" title="发表于 2022-07-13 22:49:51">2022-07-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-07-17T13:31:40.592Z" title="更新于 2022-07-17 21:31:40">2022-07-17</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E5%AD%A6/%E7%BA%BF%E4%BB%A3/">线代</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="1.行列式"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="行列式"><a href="#行列式" class="headerlink" title="行列式"></a>行列式</h1><h2 id="由来"><a href="#由来" class="headerlink" title="由来"></a>由来</h2><p>历史上，定义行列式的目的就是为了解<strong>线性方程组</strong>。对于一元二次方程组</p>
+<script type="math/tex; mode=display">
+\begin{cases}a_{11}x_1+a_{12}x_2=b_1\\a_{21}x_1+a_{22}x_2=b_2\end{cases}</script><p>如果有唯一解，那么可以通过高斯消元法得到</p>
+<script type="math/tex; mode=display">
+\begin{cases}     x_1=\displaystyle \frac{b_1a_{22}-a_{12}b_2}{a_{11}a_{22}-a_{12}a_{21}}\\     \quad \\     x_2=\displaystyle \frac{b_2a_{11}-a_{21}b_1}{a_{11}a_{22}-a_{12}a_{21}} \end{cases}</script><p>同样的，该结论可以推广到$n$元一次线性方程组，简化$n$元一次线性方程组的解，找出其中的规律，这个过程中产生了<strong>行列式</strong></p>
+<hr>
+<h2 id="低阶行列式"><a href="#低阶行列式" class="headerlink" title="低阶行列式"></a>低阶行列式</h2><h3 id="二阶行列式"><a href="#二阶行列式" class="headerlink" title="二阶行列式"></a>二阶行列式</h3><p>二阶行列式是这么定义的，交叉相乘，之后相减：</p>
+<script type="math/tex; mode=display">
+\begin{vmatrix}a_{11}&a_{12}\\a_{21}&a_{22}\end{vmatrix}=a_{11}a_{22}-a_{12}a_{21}</script><p>再看刚才二元一次方程组的解：</p>
+<script type="math/tex; mode=display">
+\begin{cases}     x_1=\displaystyle \frac{b_1a_{22}-a_{12}b_2}{a_{11}a_{22}-a_{12}a_{21}}\\     \quad \\     x_2=\displaystyle \frac{b_2a_{11}-a_{21}b_1}{a_{11}a_{22}-a_{12}a_{21}} \end{cases}</script><p>解的分母都是：</p>
+<script type="math/tex; mode=display">
+a_{11}a_{22}-a_{12}a_{21}</script><p>带入行列式的规则，可以表示为</p>
+<script type="math/tex; mode=display">
+\begin{vmatrix}a_{11}&a_{12}\\a_{21}&a_{22}\end{vmatrix}</script><p>而分子也可以表示为</p>
+<script type="math/tex; mode=display">
+b_1a_{22}-a_{12}b_2=\begin{vmatrix}b_1&a_{12}\\b_2&a_{22}\end{vmatrix}</script><script type="math/tex; mode=display">
+b_2a_{11}-a_{21}b_1=\begin{vmatrix}a_{11}&b_1\\a_{21}&b_2\end{vmatrix}</script><p>而线性方程组的解可以用行列式来表示</p>
+<script type="math/tex; mode=display">
+\begin{cases}     x_1=\displaystyle \frac{b_1a_{22}-a_{12}b_2}{a_{11}a_{22}-a_{12}a_{21}}\\     \quad \\     x_2=\displaystyle \frac{b_2a_{11}-a_{21}b_1}{a_{11}a_{22}-a_{12}a_{21}} \end{cases}\Longleftrightarrow \begin{cases}     x_1=\displaystyle \frac{\begin{vmatrix}b_1&a_{12}\\b_2&a_{22}\end{vmatrix}}{\begin{vmatrix}a_{11}&a_{12}\\a_{21}&a_{22}\end{vmatrix}}\\     \quad\\     x_2=\displaystyle \frac{\begin{vmatrix}a_{11}&b_1\\a_{21}&b_2\end{vmatrix}}{\begin{vmatrix}a_{11}&a_{12}\\a_{21}&a_{22}\end{vmatrix}}     \end{cases}</script><hr>
+<h3 id="三阶行列式"><a href="#三阶行列式" class="headerlink" title="三阶行列式"></a>三阶行列式</h3><p>三阶行列式的定义比较复杂，可以用对角线法则定义</p>
+<script type="math/tex; mode=display">
+\underbrace{\begin{vmatrix}a_{11}&a_{12}&a_{13}\\a_{21}&a_{22}&a_{23}\\a_{31}&a_{32}&a_{33}\end{vmatrix}}_{三阶行列式} =\underbrace{a_{11}a_{22}a_{33}+a_{12}a_{23}a_{31}+a_{13}a_{21}a_{32}-a_{11}a_{23}a_{32}-a_{12}a_{21}a_{33}-a_{13}a_{22}a_{31}}_{运算规则}</script><p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/%E4%B8%8B%E8%BD%BD.png" style="zoom:80%;" /></p>
+<p>三元方程组的解同样也可以通过行列式来表示</p>
+<script type="math/tex; mode=display">
+x_1=\frac{\begin{vmatrix}b_1&a_{12}&a_{13}\\ b_2&a_{22}&a_{23}\\b_3&a_{32}&a_{33}\end{vmatrix}} {\begin{vmatrix}a_{11}&a_{12}&a_{13}\\a_{21}&a_{22}&a_{23}\\a_{31}&a_{32}&a_{33}\end{vmatrix}}\quad x_2=\frac{\begin{vmatrix}a_{11}&b_1&a_{13}\\ a_{21}&b_2&a_{32}\\a_{31}&b_3&a_{33}\end{vmatrix}} {\begin{vmatrix}a_{11}&a_{12}&a_{13}\\a_{21}&a_{22}&a_{23}\\a_{31}&a_{32}&a_{33}\end{vmatrix}}\quad x_3=\frac{\begin{vmatrix}a_{11}&a_{12}&b_1\\ a_{21}&a_{22}&b_2\\a_{31}&a_{32}&b_3\end{vmatrix}} {\begin{vmatrix}a_{11}&a_{12}&a_{13}\\a_{21}&a_{22}&a_{23}\\a_{31}&a_{32}&a_{33}\end{vmatrix}}</script><hr>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><h3 id="全排列"><a href="#全排列" class="headerlink" title="全排列"></a>全排列</h3><p>把$n$个不同的元素排成一列，叫做这$n$元素的全排列（简称排列)。</p>
+<p>数列$1,2,3$的全排列就有以下6种</p>
+<script type="math/tex; mode=display">
+1,2,3\quad 1,3,2\quad 2,1,3 \quad 2,3,1\quad 3,1,2\quad 3,2,1</script><hr>
+<h3 id="逆序数"><a href="#逆序数" class="headerlink" title="逆序数"></a>逆序数</h3><p>规定数列从小到大为正序，否则为逆序，在一个排列中，如果一对数的前后位置与大小顺序相反，即前面的数大于后面的数，那么它们就称为一个逆序。一个排列中逆序的总数就称为这个排列的<strong>逆序数</strong>。</p>
+<p>比如数列$3,2,5,4,1$的逆序数为1+1+4=6</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/img.png" alt="img" style="zoom:80%;" /></p>
+<hr>
+<h3 id="奇排列和偶排列"><a href="#奇排列和偶排列" class="headerlink" title="奇排列和偶排列"></a>奇排列和偶排列</h3><p>逆序数为奇数的排列称为<strong>奇排列</strong>，逆序数为偶数的排列称为<strong>偶排列</strong>。</p>
+<blockquote>
+<p>一个排列中任意的两个元素对换，排列改变奇偶性。</p>
+</blockquote>
+<p>以三阶行列式为例：</p>
+<script type="math/tex; mode=display">
+\begin{vmatrix}a_{11}&a_{12}&a_{13}\\a_{21}&a_{22}&a_{23}\\a_{31}&a_{32}&a_{33}\end{vmatrix} =a_{11}a_{22}a_{33}+a_{12}a_{23}a_{31}+a_{13}a_{21}a_{32}-a_{11}a_{23}a_{32}-a_{12}a_{21}a_{33}-a_{13}a_{22}a_{31}</script><p>观察每一项的下标，下标第一项都是以$1,2,3$排列，而第二项是$1,2,3$的全排列</p>
+<script type="math/tex; mode=display">
+\begin{aligned} a_{1{\color{red}1}}a_{2{\color{red}2}}a_{3{\color{red}3}}&&1,2,3\implies t=0&&(-1)^t=+1\\ -a_{1{\color{red}1}}a_{2{\color{red}3}}a_{3{\color{red}2}}&&1,3,2\implies t=1&&(-1)^t=-1\\ -a_{1{\color{red}2}}a_{2{\color{red}1}}a_{3{\color{red}3}}&&2,1,3\implies t=1&&(-1)^t=-1\\ a_{1{\color{red}2}}a_{2{\color{red}3}}a_{3{\color{red}1}}&&2,3,1\implies t=2&&(-1)^t=+1\\ a_{1{\color{red}3}}a_{2{\color{red}1}}a_{3{\color{red}2}}&&3,1,2\implies t=2&&(-1)^t=+1\\ -a_{1{\color{red}3}}a_{2{\color{red}2}}a_{3{\color{red}1}}&&3,2,1\implies t=3&&(-1)^t=-1 \end{aligned}</script><p>如果是奇排列，那么带负号，如果是偶排列，则不带</p>
+<p>三阶行列式有如下表示</p>
+<script type="math/tex; mode=display">
+\begin{vmatrix}a_{11}&a_{12}&a_{13}\\a_{21}&a_{22}&a_{23}\\a_{31}&a_{32}&a_{33}\end{vmatrix}=\sum (-1)^t a_{1p_1}a_{2p_2}a_{3p_3}</script><p>其中 $t$ 表示排列 $p_1,p_2,p_3$ 的逆序数，$\sum$表示对所有排列求和</p>
+<hr>
+<p>将结论推广到所有的行列式中，n阶行列式的定义为：</p>
+<script type="math/tex; mode=display">
+D=\begin{vmatrix} a_{11}&a_{12}&\cdots&a_{1n}\\ a_{21}&a_{22}&\cdots&a_{2n}\\ \vdots&\vdots&\quad&\vdots\\ a_{n1}&a_{n2}&\cdots&a_{nn} \end{vmatrix}</script><p>其值为</p>
+<script type="math/tex; mode=display">
+D=\sum(-1)^ta_{1p_1}a_{2p_2}\cdots a_{np_n}</script><hr>
+<h2 id="克拉默法则"><a href="#克拉默法则" class="headerlink" title="克拉默法则"></a>克拉默法则</h2><p>观察三元方程组的解</p>
+<script type="math/tex; mode=display">
+x_1=\frac{\begin{vmatrix}b_1&a_{12}&a_{13}\\ b_2&a_{22}&a_{23}\\b_3&a_{32}&a_{33}\end{vmatrix}} {\begin{vmatrix}a_{11}&a_{12}&a_{13}\\a_{21}&a_{22}&a_{23}\\a_{31}&a_{32}&a_{33}\end{vmatrix}}\quad x_2=\frac{\begin{vmatrix}a_{11}&b_1&a_{13}\\ a_{21}&b_2&a_{32}\\a_{31}&b_3&a_{33}\end{vmatrix}} {\begin{vmatrix}a_{11}&a_{12}&a_{13}\\a_{21}&a_{22}&a_{23}\\a_{31}&a_{32}&a_{33}\end{vmatrix}}\quad x_3=\frac{\begin{vmatrix}a_{11}&a_{12}&b_1\\ a_{21}&a_{22}&b_2\\a_{31}&a_{32}&b_3\end{vmatrix}} {\begin{vmatrix}a_{11}&a_{12}&a_{13}\\a_{21}&a_{22}&a_{23}\\a_{31}&a_{32}&a_{33}\end{vmatrix}}</script><p>可以看到如下规律：</p>
+<ul>
+<li>分母都是系数组成的行列式</li>
+<li>分子也是系数组成的行列式，只是对应于不同的$x_i$，第$i$列被替换为了常数项</li>
+</ul>
+<p>上面的规律推广到$n$元线性方程组的话，就是克拉默法则：</p>
+<p>如果有$n$个未知数，$n$个方程组组成的线性方程式，他的系数矩阵$A$的行列式不等于0，即</p>
+<script type="math/tex; mode=display">
+|A|=\begin{vmatrix}a_{11}&\cdots&a_{1n}\\\vdots&&\vdots\\ a_{n1}&\cdots&a_{nn}\end{vmatrix}\neq 0</script><p>则方程组有唯一解：</p>
+<script type="math/tex; mode=display">
+\displaystyle x_1=\frac{|A_1|}{|A|}\quad x_2=\frac{|A_2|}{|A|}\quad...\quad x_n=\frac{|A_n|}{|A|}</script><p>其中$A_j$是把系数矩阵$A$中的第$j$元素用方程组右端的常数项代替后所得到的$n$阶矩阵</p>
+<script type="math/tex; mode=display">
+A_j=\begin{pmatrix} a_{11}&\cdots&a_{1,j-1}&{\color{red}{b_1}}&a_{1,j+1}&\cdots&a_{1n}\\ \vdots&&\vdots&{\color{red}{\vdots}}&\vdots&&\vdots\\ a_{n1}&\cdots&a_{n,j-1}&{\color{red}{b_n}}&a_{n,j+1}&\cdots&a_{nn} \end{pmatrix}</script><hr>
+<h2 id="几何意义"><a href="#几何意义" class="headerlink" title="几何意义"></a>几何意义</h2><p>行列式除了是一种运算法则外，更重要的意义是：对于某方阵$A$，它的行列式$|A|$,是列向量矩阵函数$Ax=y$的<strong>伸缩比例</strong></p>
+<p>伸缩比例的意思是变换后和变换前的<strong>有向面积</strong>之比，假设有二阶方阵$A_2$，和行列式$|A_2|$​</p>
+<script type="math/tex; mode=display">
+\boldsymbol{A}_2= \begin{pmatrix} a_{11}&a_{12}\\ a_{21}&a_{22} \end{pmatrix},\quad |\boldsymbol{A}_2|= \begin{vmatrix} a_{11}&a_{12}\\ a_{21}&a_{22} \end{vmatrix}</script><p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/image-20220711103236179.png" alt="image-20220711103236179"></p>
+<p>映射前和映射后面积之比，就是伸缩比例</p>
+<p>行列式的值有三种情况：</p>
+<ul>
+<li>$|A_2|&gt;0$</li>
+<li>$|A_2|=0$</li>
+<li>$|A_2|&lt;0$</li>
+</ul>
+<p>当$|A_2|&gt;0$时，会导致映射图形正向伸缩</p>
+<p>当$|A_2|=0$，会导致维度降低，实际上只有$A$不满秩，$|A|=0$</p>
+<blockquote>
+<p>显然，如果行列式为0，则$A$不满秩=$A$不可逆=$A$中的向量线性相关</p>
+</blockquote>
+<p>当$|A_2|&lt;0$时，会导致映射图形反向伸缩</p>
+<hr>
+<p>对于二阶行列式，其在变换前的基是自然基$e_1,e_2$，而变换后，$e_1,e_2$被映射成了$c_1,c_2$，即：</p>
+<script type="math/tex; mode=display">
+\boldsymbol{A}_2\boldsymbol{e_1}=\boldsymbol{c_1},\quad \boldsymbol{A}_2\boldsymbol{e_2}=\boldsymbol{c_2}</script><p>也就是说$e_1,e_2$围成的正方形被映射成了$c_1,c_2$围成的平行四边形：</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/image-20220711105203990.png" alt="image-20220711105203990"></p>
+<p>可以算出$c_1,c_2$围成的平行四边形的有向面积就是二阶行列式：</p>
+<script type="math/tex; mode=display">
+\boldsymbol{c_1}、\boldsymbol{c_2}围成的平行四边形的有向面积\ =\ |\boldsymbol{A}_2|</script><p>而到了三阶行列式，面积之比会变为有向体积之比</p>
+<hr>
+<h2 id="子式和余子式"><a href="#子式和余子式" class="headerlink" title="子式和余子式"></a>子式和余子式</h2><h3 id="子式"><a href="#子式" class="headerlink" title="子式"></a>子式</h3><p>在$m×n$矩阵$A$中，任取$k$行与$k$列，位于这些行，列交叉处的$k^2$个元素，不改变它们在$A$中所处的位置次序而得的$k$阶行列式，称为矩阵$A$的$k$阶子式</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/image-20220711120857415.png" alt="image-20220711120857415"></p>
+<p>取一，三行和一，四列构成的行列式就是矩阵的一个子式</p>
+<hr>
+<h3 id="主子式"><a href="#主子式" class="headerlink" title="主子式"></a>主子式</h3><p>如果选取的行号和列号相同，取出来的子式就是<strong>主子式</strong>，如果取$n$阶矩阵的前$n$行$n$列，取出来的子式就是<strong>顺序主子式</strong></p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/image-20220711121230852.png" alt="image-20220711121230852"></p>
+<p>而教科书中，是如此定义矩阵的秩的：</p>
+<p>设在矩阵$A$中有一个不等于0的$r$阶子式$|B_r|$，且所有$r+1$阶子式全等于0，那么$|B_r|$称为矩阵$A$的最高阶非零子式，数$r$称为矩阵$A$的秩</p>
+<blockquote>
+<p>如果一个行列式对应的矩阵（方阵）不是满秩矩阵，则这个行列式的值为0</p>
+</blockquote>
+<hr>
+<h3 id="余子式"><a href="#余子式" class="headerlink" title="余子式"></a>余子式</h3><p>在$n$阶行列式中，把$a_{ij}$所在的第$i$行和第$j$列划去后，留下来的$n-1$阶行列式叫做$a_{ij}$的余子式，记作$M_{ij}$</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/image-20220711122000405.png" alt="image-20220711122000405"></p>
+<p>实际上在之前提到三阶行列式的计算方法中，就有余子式</p>
+<script type="math/tex; mode=display">
+\begin{aligned} \begin{vmatrix}a_{11}&a_{12}&a_{13}\\a_{21}&a_{22}&a_{23}\\a_{31}&a_{32}&a_{33}\end{vmatrix} &=a_{11}\overbrace{\begin{vmatrix}a_{22}&a_{23}\\a_{32}&a_{33}\end{vmatrix}}^{a_{11}\text{的余子式}}-a_{21}\overbrace{\begin{vmatrix}a_{12}&a_{13}\\a_{32}&a_{33}\end{vmatrix}}^{a_{21}\text{的余子式}}+a_{31}\overbrace{\begin{vmatrix}a_{12}&a_{13}\\a_{22}&a_{23}\end{vmatrix}}^{a_{31}\text{的余子式}}\\ \\ &=a_{11}\boldsymbol{M}_{11}-a_{21}\boldsymbol{M}_{21}+a_{31}\boldsymbol{M}_{31} \end{aligned}</script><hr>
+<p>在余子式的基础上，还可以定义$A_{ij}$，称为$a_{ij}$的代数余子式</p>
+<script type="math/tex; mode=display">
+A_{ij}=(-1)^{i+j}M_{ij}</script><p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/image-20220711122434314.png" alt="image-20220711122434314"></p>
+<p>总结：</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/image-20220711122527190.png" alt="image-20220711122527190"></p>
+<hr>
+<h2 id="性质"><a href="#性质" class="headerlink" title="性质"></a>性质</h2><ol>
+<li><p>转置后行列式的值不变</p>
+<p>记</p>
+<script type="math/tex; mode=display">
+D= \begin{vmatrix} a_{11}&a_{12}&\cdots&a_{1n}\\ a_{21}&a_{22}&\cdots&a_{2n}\\ \vdots&\vdots&\quad&\vdots\\ a_{n1}&a_{n2}&\cdots&a_{nn} \end{vmatrix}, D^\mathrm{T}= \begin{vmatrix} a_{11}&a_{21}&\cdots&a_{n1}\\ a_{12}&a_{22}&\cdots&a_{n2}\\ \vdots&\vdots&\quad&\vdots\\ a_{1n}&a_{2n}&\cdots&a_{nn} \end{vmatrix}</script><p>其中行列式$D^T$称为行列式$D$的转置行列式</p>
+<p>有如下结论 </p>
+<script type="math/tex; mode=display">
+|D|=|D^T|</script><p>因为行列式$|A|$和$|A^T|$代表的是同一个映射，所以不变</p>
+</li>
+<li><p>某行（列）有公因数$k$，可以直接把$k$提出来</p>
+<script type="math/tex; mode=display">
+D=\begin{vmatrix} ka_{11}&ka_{12}&\cdots&ka_{1n} \end{vmatrix}=k\begin{vmatrix} a_{11}&a_{12}&\cdots&a_{1n} \end{vmatrix}</script></li>
+<li><p>两行（列）互换，行列式的值变号</p>
+<script type="math/tex; mode=display">
+D=\begin{vmatrix}a_{11}&a_{12}&\cdots&a_{1n}\\a_{21}&a_{22}&\cdots&a_{2n}\end{vmatrix}=-\begin{vmatrix}a_{21}&a_{22}&\cdots&a_{2n}\\a_{11}&a_{12}&\cdots&a_{1n}\end{vmatrix}</script><p>可以从逆序数的角度理解，如果两行互换了，那么其每一项的逆序数都会反号，即减数变成被减数，被减数变成减数，则最后行列式的值会变号</p>
+<blockquote>
+<p>根据此性质，可以得出，如果行列式中有两行（列）相同，那么行列式的值为0，即交换(相等的)两行，|A| = -|A|，则|A| = 0</p>
+</blockquote>
+</li>
+<li><p>对于$n$阶方阵$\boldsymbol{A}$，反复运用“行列式的数乘”可得：</p>
+<script type="math/tex; mode=display">
+|k\boldsymbol{A}|=\begin{vmatrix}
+    {\color {blue}k}a_{11}&{\color {blue}k}a_{12}&\dots&{\color {blue}k}a_{1n}\\
+    \vdots &\vdots &\ddots &\vdots\\
+    {\color {blue}k}a_{i1}&{\color{blue}k}a_{i2}&\dots&{\color{blue}k}a_{in}\\
+    \vdots &\vdots &\ddots &\vdots \\
+    {\color {blue}k}a_{n1}&{\color {blue}k}a_{n2}&\dots &{\color {blue}k}a_{nn}
+\end{vmatrix}=k^n|\boldsymbol{A}|</script></li>
+<li><p>如果行列式某行（列）每一项都是两个数的和，则可以把行列式拆成两个行列式之和</p>
+<script type="math/tex; mode=display">
+\begin{vmatrix}a_{1}+b_{1}&a_{2}+b_{2}&a_{3}+b_{3}\\c_1&c_{2}&c_{3}\\d_{1}&d_{2}&d_{3}\end{vmatrix}=\begin{vmatrix}a_{1}&a_{2}&a_{3}\\c_1&c_{2}&c_{3}\\d_{1}&d_{2}&d_{3}\end{vmatrix}+\begin{vmatrix}b_{1}&b_{2}&b_{3}\\c_1&c_{2}&c_{3}\\d_{1}&d_{2}&d_{3}\end{vmatrix}</script><p>从展开式理解，每一项都会有$a_i+b_i$，所以可以拆开再合并同类项</p>
+</li>
+<li><p>把某行（列）的$k$倍加到另外一行，行列式的值不变</p>
+<script type="math/tex; mode=display">
+D=\begin{vmatrix}a_{1}&a_{2}&a_{3}\\b_{1}&b_{2}&b_{3}\end{vmatrix}=\begin{vmatrix}a_{1}&a_{2}&a_{3}\\b_{1}+ka_1&b_{2}+ka_2&b_{3}+ka_3\end{vmatrix}</script><p>可以通过性质2,3,4来证明</p>
+<script type="math/tex; mode=display">
+\begin{vmatrix}a_{1}&a_{2}&a_{3}\\b_{1}+ka_1&b_{2}+ka_2&b_{3}+ka_3\end{vmatrix}=\begin{vmatrix}a_{1}&a_{2}&a_{3}\\b_{1}&b_{2}&b_{3}\end{vmatrix}+k\begin{vmatrix}a_{1}&a_{2}&a_{3}\\a_1&a_2&a_3\end{vmatrix}</script><p>而</p>
+<script type="math/tex; mode=display">
+k\begin{vmatrix}a_{1}&a_{2}&a_{3}\\a_1&a_2&a_3\end{vmatrix}=0</script><p>所以性质成立</p>
+</li>
+<li><p>对于同阶方阵$A$,$B$，有：</p>
+<script type="math/tex; mode=display">
+|\boldsymbol{A}\boldsymbol{B}|=|\boldsymbol{A}||\boldsymbol{B}|</script></li>
+</ol>
+<hr>
+<h3 id="三角行列式"><a href="#三角行列式" class="headerlink" title="三角行列式"></a>三角行列式</h3><script type="math/tex; mode=display">
+|\boldsymbol{A}|= \begin{vmatrix} a_{11}&&&\\ a_{21}&a_{22}&&0\\ \vdots &\vdots &\ddots &\\ a_{n1}&a_{n2}&\dots &a_{nn} \end{vmatrix} = a_{11}a_{22}\cdots a_{nn}</script><p>而对于反三角行列式：</p>
+<script type="math/tex; mode=display">
+|\boldsymbol{A}|=\begin{vmatrix}&&&\lambda_1\\&&\lambda_2&\\&\mathstrut^{.^{.^{.}}}&&\\ \lambda_n&&&\end{vmatrix}</script><p>将行列式$|A|$的第$n$列和$n-1$列对换，再将$n-1$列和$n-2$列对换，以此类推，经过$n-1$次列变换，可以将第$n$列换到了第一列，得到如下行列式：</p>
+<script type="math/tex; mode=display">
+|\boldsymbol{A}_1|=\begin{vmatrix}\lambda_1&\cdots&0&0&\\ 0&\cdots&0&\lambda_2&\\ 0&\cdots&\lambda_3&0&\\ \vdots&&\vdots&\vdots&\\ 0&\lambda_n&0&\cdots&\end{vmatrix}</script><p>根据上文提到的行列式对换性质，每换一次，正负号都会发生改变，这里对换了$n-1$次，所以：</p>
+<script type="math/tex; mode=display">
+|\boldsymbol{A}_1|=(-1)^{n-1}|\boldsymbol{A}|</script><p>按上面的方法，将$|A_1|$j进行$n-2$次对换，将第$n$列换到第二列，以此类推，最终可以将反三角行列式换成三角行列式</p>
+<p>一共发生了：$(n-1)+(n-2)+\cdots+1=\frac{1}{2}n(n-1)$对换</p>
+<p>所以：</p>
+<script type="math/tex; mode=display">
+|\boldsymbol{A}|=(-1)^{\frac{1}{2}n(n-1)}|\boldsymbol{A}_{n-1}|=(-1)^{\frac{1}{2}n(n-1)}\lambda_1\lambda_2\cdots\lambda_n</script><hr>
+<p>应用到分块矩阵上：</p>
+<script type="math/tex; mode=display">
+\boldsymbol{A}=\begin{pmatrix}\boldsymbol{B}&\boldsymbol{O}\\\boldsymbol{C}&\boldsymbol{D}\end{pmatrix}</script><p>则有：</p>
+<script type="math/tex; mode=display">
+|\boldsymbol{A}|=|\boldsymbol{B}||\boldsymbol{D}|</script><hr>
+<h3 id="拉普拉斯展开"><a href="#拉普拉斯展开" class="headerlink" title="拉普拉斯展开"></a>拉普拉斯展开</h3><p>$n$阶方阵$A=(a{ij})$的行列式可以表示为该方阵$A$的某一行的各元素和其对应的代数余子式乘积之和</p>
+<script type="math/tex; mode=display">
+|\boldsymbol{A}|=a_{i1}A_{i1}+a_{i2}A_{i2}+...+a_{in}A_{in}\quad (i=1,2,...,n)</script><p>或者说是某一列和其代数余子式的乘积之和：</p>
+<script type="math/tex; mode=display">
+|\boldsymbol{A}|=a_{1j}A_{1j}+a_{2j}A_{2j}+...+a_{nj}A_{nj}\quad (j=1,2,...,n)</script><p>这种计算行列式的方法是<strong>拉普拉斯展开</strong></p>
+<p>根据拉普拉斯展开，可以得到以下推论：</p>
+<script type="math/tex; mode=display">
+a_{j1}A_{i1}+a_{j2}A_{i2}+...+a_{jn}A_{in}=0\quad (i\neq j)</script><p>就是说如果在某行的代数余子式前的系数刚好是另一行或列的系数，那么最后的结果为0</p>
+<hr>
+<h2 id="范德蒙行列式"><a href="#范德蒙行列式" class="headerlink" title="范德蒙行列式"></a>范德蒙行列式</h2><script type="math/tex; mode=display">
+|\boldsymbol{A}|=\begin{vmatrix} 1&1&1&\cdots&1\\ x_1&x_2&x_3&\cdots&x_n\\ x_1^2&x_2^2&x_3^2&\cdots&x_n^2\\ \vdots &\vdots&\vdots&\ddots&\vdots\\ x_1^{n-1}&x_2^{n-1}&x_3^{n-1}&\cdots&x_n^{n-1} \end{vmatrix} = \displaystyle \prod_{1\leq j < i \leq n}(x_i-x_j)</script><p>其中$\displaystyle \prod_{1\leq j &lt; i \leq n}(x_i-x_j)$代表连乘</p>
+<p>范德蒙行列式主要是为了解决<strong>插值问题</strong>，即通过离散的数据求未知数据</p>
+<p>通过假设曲线的方程组，类似于$y=a_0+a_1x+a_2x^2+a_3x^3$的形式，然后通过列出方程组的系数矩阵，矩阵的形式就是范德蒙行列式，最后利用克拉默法则求解</p>
+<hr>
+<h2 id="伴随矩阵"><a href="#伴随矩阵" class="headerlink" title="伴随矩阵"></a>伴随矩阵</h2><p>除了初等行变换以及高斯若尔当法之后，还可以通过行列式来求矩阵：</p>
+<p>由$|A|$的代数余子式$A_{ij}$所构成的矩阵，称为$A$的代数余子式矩阵：</p>
+<script type="math/tex; mode=display">
+\boldsymbol{C}= \begin{pmatrix} A_{11}&A_{12}&\cdots&A_{1n}\\ A_{21}&A_{22}&\cdots&A_{2n}\\ \vdots&\vdots&\ddots&\vdots\\ A_{n1}&A_{n2}&\cdots&A_{nn} \end{pmatrix}</script><p>其转置称为$A$的伴随矩阵，记作$A^*$</p>
+<script type="math/tex; mode=display">
+\boldsymbol{A}^{*}=\boldsymbol{C}^\mathrm{T}= \begin{pmatrix} A_{11}&A_{21}&\cdots&A_{n1}\\ A_{12}&A_{22}&\cdots&A_{n2}\\ \vdots&\vdots&\ddots&\vdots\\ A_{1n}&A_{2n}&\cdots&A_{nn} \end{pmatrix}</script><p>根据可逆和行列式的关系，若$|A|≠0$，则矩阵可逆，可证明：</p>
+<script type="math/tex; mode=display">
+\boldsymbol{A}^{-1}=\frac{1}{|\boldsymbol{A}|}\boldsymbol{A}^{*}</script><p>证明过程如下：</p>
+<p>设$A=(a_{ij})$，记$AA^*=(b_{ij})$，</p>
+<p>其中$A$的行向量可表示为：$(a_{i1},a_{i2},\cdots,a_{in})$，$A^*$的$j$列为列向量$\begin{pmatrix}A_{j1}\\A_{j2}\\\vdots\\A_{jn}\end{pmatrix}$所以：</p>
+<script type="math/tex; mode=display">
+b_{ij}=a_{i1}A_{j1}+a_{i2}A_{j2}+...+a_{in}A_{jn}</script><p>根据拉普拉斯展开</p>
+<script type="math/tex; mode=display">
+b_{ij}=a_{i1}A_{j1}+a_{i2}A_{j2}+...+a_{in}A_{jn}= \begin{cases}|\boldsymbol{A}|,\quad i=j\\ 0, \quad i\neq j\end{cases}</script><p>所以最后的结果是</p>
+<script type="math/tex; mode=display">
+\boldsymbol{A}\boldsymbol{A}^{*}=\begin{pmatrix}|\boldsymbol{A}|&0&\cdots&0\\ 0&|\boldsymbol{A}|&\cdots&0\\ \vdots&\vdots&\ddots&\vdots\\ 0&0&\cdots&|\boldsymbol{A}| \end{pmatrix}=|\boldsymbol{A}|\boldsymbol{I}</script><p>故：</p>
+<script type="math/tex; mode=display">
+\frac{1}{|\boldsymbol{A}|}\boldsymbol{A}^{*}\boldsymbol{A}=\boldsymbol{I}</script><p>所以</p>
+<script type="math/tex; mode=display">
+\boldsymbol{A}^{-1}=\frac{1}{|\boldsymbol{A}|}\boldsymbol{A}^{*}</script><hr>
+<h3 id="性质-1"><a href="#性质-1" class="headerlink" title="性质"></a>性质</h3><p>伴随矩阵行列式和原矩阵行列式关系：</p>
+<script type="math/tex; mode=display">
+AA^*=|A|E</script><p>如果$A$可逆，那么$A^*=|A|A^{-1}$，则：</p>
+<script type="math/tex; mode=display">
+|A^*|=||A|A^{-1}|=|A|^{n}|A^{-1}|=|A|^{n-1}</script><hr>
+<p>设$\boldsymbol{A}$为n阶方阵，则：</p>
+<ul>
+<li><p>$rank(\boldsymbol{A})=n\iff rank(\boldsymbol{A}^*)=n$</p>
+</li>
+<li><p>$rank(\boldsymbol{A})=n-1\iff rank(\boldsymbol{A}^*)=1<br>$</p>
+</li>
+<li><p>$rank(\boldsymbol{A}) &lt; n-1\iff rank(\boldsymbol{A}^*) = 0$</p>
+</li>
+</ul>
+<blockquote>
+<p>零空间是齐次方程的解集，即满足$Ax=0$的所有$x$的集合。 $AA^*=0$ 矩阵，代表伴随矩阵的每一列都是齐次方程$Ax=0$的一个解，属于零空间。根据秩零定理，$rank(A)+rank(null(A))=n$，此时零空间维度为1。</p>
+</blockquote>
+<hr>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%BA%BF%E4%BB%A3/">线代</a></div><div class="post_share"><div class="social-share" data-image="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/linear.jpg" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/social-share.js/1.0.16/css/share.min.css" media="print" onload="this.media='all'"><script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/social-share.js/1.0.16/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/post/44667.html"><img class="prev-cover" src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/data.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">数据结构重点题</div></div></a></div><div class="next-post pull-right"><a href="/post/7061.html"><img class="next-cover" src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/linear.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">2.矩阵</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Candle</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">151</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">16</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A1%8C%E5%88%97%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text">行列式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%B1%E6%9D%A5"><span class="toc-number">1.1.</span> <span class="toc-text">由来</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%8E%E9%98%B6%E8%A1%8C%E5%88%97%E5%BC%8F"><span class="toc-number">1.2.</span> <span class="toc-text">低阶行列式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E9%98%B6%E8%A1%8C%E5%88%97%E5%BC%8F"><span class="toc-number">1.2.1.</span> <span class="toc-text">二阶行列式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E9%98%B6%E8%A1%8C%E5%88%97%E5%BC%8F"><span class="toc-number">1.2.2.</span> <span class="toc-text">三阶行列式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89"><span class="toc-number">1.3.</span> <span class="toc-text">定义</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%A8%E6%8E%92%E5%88%97"><span class="toc-number">1.3.1.</span> <span class="toc-text">全排列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%86%E5%BA%8F%E6%95%B0"><span class="toc-number">1.3.2.</span> <span class="toc-text">逆序数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A5%87%E6%8E%92%E5%88%97%E5%92%8C%E5%81%B6%E6%8E%92%E5%88%97"><span class="toc-number">1.3.3.</span> <span class="toc-text">奇排列和偶排列</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%8B%E6%8B%89%E9%BB%98%E6%B3%95%E5%88%99"><span class="toc-number">1.4.</span> <span class="toc-text">克拉默法则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%A0%E4%BD%95%E6%84%8F%E4%B9%89"><span class="toc-number">1.5.</span> <span class="toc-text">几何意义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%90%E5%BC%8F%E5%92%8C%E4%BD%99%E5%AD%90%E5%BC%8F"><span class="toc-number">1.6.</span> <span class="toc-text">子式和余子式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%90%E5%BC%8F"><span class="toc-number">1.6.1.</span> <span class="toc-text">子式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E5%AD%90%E5%BC%8F"><span class="toc-number">1.6.2.</span> <span class="toc-text">主子式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%99%E5%AD%90%E5%BC%8F"><span class="toc-number">1.6.3.</span> <span class="toc-text">余子式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%A7%E8%B4%A8"><span class="toc-number">1.7.</span> <span class="toc-text">性质</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E8%A7%92%E8%A1%8C%E5%88%97%E5%BC%8F"><span class="toc-number">1.7.1.</span> <span class="toc-text">三角行列式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%89%E6%99%AE%E6%8B%89%E6%96%AF%E5%B1%95%E5%BC%80"><span class="toc-number">1.7.2.</span> <span class="toc-text">拉普拉斯展开</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8C%83%E5%BE%B7%E8%92%99%E8%A1%8C%E5%88%97%E5%BC%8F"><span class="toc-number">1.8.</span> <span class="toc-text">范德蒙行列式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%B4%E9%9A%8F%E7%9F%A9%E9%98%B5"><span class="toc-number">1.9.</span> <span class="toc-text">伴随矩阵</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%A7%E8%B4%A8-1"><span class="toc-number">1.9.1.</span> <span class="toc-text">性质</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recommend-post"><div class="item-headline"><i class="fas fa-dharmachakra"></i><span>相关推荐</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/post/64845.html" title="2.5.矩阵函数"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/linear.jpg" alt="2.5.矩阵函数"></a><div class="content"><a class="title" href="/post/64845.html" title="2.5.矩阵函数">2.5.矩阵函数</a><time datetime="2022-07-14" title="������ 2022-07-14">2022-07-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/7061.html" title="2.矩阵"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/linear.jpg" alt="2.矩阵"></a><div class="content"><a class="title" href="/post/7061.html" title="2.矩阵">2.矩阵</a><time datetime="2022-07-13" title="������ 2022-07-13">2022-07-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/5216.html" title="4.线性方程的解"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/linear.jpg" alt="4.线性方程的解"></a><div class="content"><a class="title" href="/post/5216.html" title="4.线性方程的解">4.线性方程的解</a><time datetime="2022-07-14" title="������ 2022-07-14">2022-07-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/30596.html" title="3.向量"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/linear.jpg" alt="3.向量"></a><div class="content"><a class="title" href="/post/30596.html" title="3.向量">3.向量</a><time datetime="2022-07-14" title="������ 2022-07-14">2022-07-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/20957.html" title="5.相似矩阵及二次型"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/linear.jpg" alt="5.相似矩阵及二次型"></a><div class="content"><a class="title" href="/post/20957.html" title="5.相似矩阵及二次型">5.相似矩阵及二次型</a><time datetime="2022-07-14" title="������ 2022-07-14">2022-07-14</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By Candle</div><div class="framework-info"><span>Powered by </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a></div><div class="footer_custom_text">So Long, and Thanks for All the Fish</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.2
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container:not\([display]\)').forEach(node => {
+            const target = node.parentNode
+            if (target.nodeName.toLowerCase() === 'li') {
+              target.parentNode.classList.add('has-jax')
+            } else {
+              target.classList.add('has-jax')
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/mathjax/3.2.0/es5/tex-mml-chtml.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script><script>(()=>{
+  const $countDom = document.getElementById('twikoo-count')
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twikoo-candle1220.vercel.app',
+      region: ''
+    }, null))
+  }
+
+  const getCount = () => {
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo-candle1220.vercel.app',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(function (res) {
+      $countDom.innerText = res[0].count
+    }).catch(function (err) {
+      console.error(err);
+    });
+  }
+
+  const loadTwikoo = (bool = false) => {
+    if (typeof twikoo === 'object') {
+      init()
+      bool && $countDom && setTimeout(getCount,0)
+    } else {
+      getScript('https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/twikoo/1.4.18/twikoo.all.min.js').then(()=> {
+        init()
+        bool && $countDom && setTimeout(getCount,0)
+      })
+    }
+  }
+
+  if ('Twikoo' === 'Twikoo' || !false) {
+    if (false) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo(true)
+  } else {
+    window.loadOtherComment = () => {
+      loadTwikoo()
+    }
+  }
+})()</script></div><script src="https://npm.elemecdn.com/pjax/pjax.min.js"></script><script>let pjaxSelectors = [
+  'title',
+  '#config-diff',
+  '#body-wrap',
+  '#rightside-config-hide',
+  '#rightside-config-show',
+  '.js-pjax'
+]
+
+if (false) {
+  pjaxSelectors.unshift('meta[property="og:image"]', 'meta[property="og:title"]', 'meta[property="og:url"]')
+}
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.removeEventListener('scroll', window.tocScrollFn)
+  window.removeEventListener('scroll', scrollCollect)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // Analytics
+  if (false) {
+    MtaH5.pgv()
+  }
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

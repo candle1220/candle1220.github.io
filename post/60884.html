@@ -1,0 +1,392 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>6.660线代 | Night's Watch</title><meta name="keywords" content="线性代数"><meta name="author" content="Candle"><meta name="copyright" content="Candle"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="行列式的计算： 279：注意范德蒙特行列式 286：注意秩为1的行列式的高次幂求法 287：很经典的题，分块矩阵，然后不同的块用到了不同的性质 299：等价就是秩相同的意思 301：线性相关，即不满秩 306：有多个解，那么就是rank(系数矩阵)&#x3D;rank(增广矩阵)&lt;n 307：不能线性表示，说明加上了$B$向量后，维度升高了 309：$\gamma$向量代表的是任意一个三维空间向量，而">
+<meta property="og:type" content="article">
+<meta property="og:title" content="6.660线代">
+<meta property="og:url" content="http://candle1220.github.io/post/60884.html">
+<meta property="og:site_name" content="Night&#39;s Watch">
+<meta property="og:description" content="行列式的计算： 279：注意范德蒙特行列式 286：注意秩为1的行列式的高次幂求法 287：很经典的题，分块矩阵，然后不同的块用到了不同的性质 299：等价就是秩相同的意思 301：线性相关，即不满秩 306：有多个解，那么就是rank(系数矩阵)&#x3D;rank(增广矩阵)&lt;n 307：不能线性表示，说明加上了$B$向量后，维度升高了 309：$\gamma$向量代表的是任意一个三维空间向量，而">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/linear.jpg">
+<meta property="article:published_time" content="2022-07-14T14:51:00.000Z">
+<meta property="article:modified_time" content="2022-09-08T06:42:06.310Z">
+<meta property="article:author" content="Candle">
+<meta property="article:tag" content="线性代数">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/linear.jpg"><link rel="shortcut icon" href="/img/candle.png"><link rel="canonical" href="http://candle1220.github.io/post/60884"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#55d5fc","bgDark":"#121212","position":"top-center"},
+  source: {
+    jQuery: 'https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/3.6.0/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.js',
+      css: 'https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '6.660线代',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2022-09-08 14:42:06'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    document.addEventListener('pjax:complete', detectApple)})(window)</script><link rel="stylesheet" href="/css/background.css"><link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/Swiper/8.0.6/swiper-bundle.min.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/head.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">159</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">19</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-crow"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-book"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/record/"><i class="fa-fw fas fa-atom"></i><span> 日志</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/background.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Night's Watch</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-crow"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-book"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/record/"><i class="fa-fw fas fa-atom"></i><span> 日志</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">6.660线代</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-07-14T14:51:00.000Z" title="发表于 2022-07-14 22:51:00">2022-07-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-09-08T06:42:06.310Z" title="更新于 2022-09-08 14:42:06">2022-09-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E5%AD%A6/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/">线性代数</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="6.660线代"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>行列式的计算：</p>
+<p>279：注意范德蒙特行列式</p>
+<p>286：注意秩为1的行列式的高次幂求法</p>
+<p>287：很经典的题，分块矩阵，然后不同的块用到了不同的性质</p>
+<p>299：等价就是秩相同的意思</p>
+<p>301：线性相关，即不满秩</p>
+<p>306：有多个解，那么就是rank(系数矩阵)=rank(增广矩阵)&lt;n</p>
+<p>307：不能线性表示，说明加上了$B$向量后，维度升高了</p>
+<p>309：$\gamma$向量代表的是任意一个三维空间向量，而向量组不能表示出来说明其秩&lt;3，行列式为0，用算出的结果带入$\beta$，看是否符合要求</p>
+<p>312：$\alpha_1$和$\alpha_2$就是最大线性无关组了，说明$\alpha_1$，$\alpha_2$，$\alpha_3$没有满秩</p>
+<p>314：运用了秩运算的性质，不满秩矩阵×满秩矩阵=不满秩</p>
+<p>316：根据秩零定理，基础解系的秩=列空间的秩-矩阵的秩</p>
+<p>323：特征值同样可以参与多项式运算，如果$A$的特征值是4,3,2，那么$A-E$的特征值就是3,2,1</p>
+<p>324：从定义入手，解$\lambda$和$a$的方程，从而解出了方程</p>
+<p>325：算出特征值，再有$(A-\lambda E)x=0$方程求其基础解系</p>
+<p>326：写出方程组，再将方程组化成$AX=\lambda X$的形式，就可求出特征值</p>
+<p>327：因为是实对称阵，故特征向量两两正交，故可假设出未知的特征向量与已知的特征向量相乘，建立方程组，方程组的基础解系就是未知的特征向量</p>
+<p>328：将特征值带入了方程</p>
+<p>329：相似，说明行列式的值一致，并且特征值也一样</p>
+<p>330：矩阵相似，那么秩也一样，所以可转换为矩阵$B$</p>
+<p>332：矩阵方程可以化成相似对角化的标准形式，故可求出特征值</p>
+<p>333：注意判定矩阵相似的概念</p>
+<p>334：$A(\alpha_1,\alpha_2,\alpha_3)$可以化为$(\alpha_1,\alpha_2,\alpha_3)B$，将$(\alpha_1,\alpha_2,\alpha_3)$看做$P$，则方程化为化为$P^{-1}AP=B$</p>
+<p>则$B$就是$A$的相似矩阵</p>
+<p>335：是经典题，先利用327题正交矩阵的性质，将$\lambda=6$的特征向量求出来，然后对$\alpha_1，\alpha_2$进行施密特正交化，再单位化</p>
+<p>338：注意正定的条件</p>
+<p>340：如果知道了特征向量，可以列方程组来求解未知参数</p>
+<hr>
+<p>349：注意到矩阵运算也可以用三次方公式$x^3-1=(x-1)(x^2+x+1)$</p>
+<p>352：如果要符合交换律，1.两个对角矩阵 2.两个互逆 3.有一个零矩阵 4.伴随矩阵和原矩阵</p>
+<p>357：代数余子式的转置矩阵才是伴随矩阵</p>
+<p>370：注意秩零定理</p>
+<p>373：了解伴随矩阵$A^*$和$A$的秩的关系</p>
+<p>382：升阶时候，信息会保留</p>
+<p>384：两种思路：1. 观察法：ABC选项中的4个向量组，通过加减运算最终都可以化为0，而D不行，2.计算法：写出4阶矩阵的行列式，如果行列式的值≠0，即线性无关，具体做法为：$\alpha_1+\alpha_2$可以写成$(1,1,0,0)^T$，以此类推</p>
+<p>385：用384思路</p>
+<p>387：意思就是$\alpha_1,\alpha_1,\beta_1,\beta_2$的秩只有2</p>
+<p>395：自由元的意思就是去掉自由元所在列后，行列式不能为0的主元</p>
+<p>396：相减之后是$Ax=0$的解，而不是方程的解</p>
+<p>400：如果向量能有基础解系表示出来，自然是解向量了</p>
+<p>403：有非零解的前提是要有解，而有解的前提是先行满秩，而行满秩的前提是$m≤n$</p>
+<p>404：等价，但是向量组的个数不一定是3，需要的是向量组个数相同，且彼此线性无关的向量组</p>
+<p>405：首先可以得知秩为4-2=2，然后根据$A\eta_2=0$，推出$\alpha_2$和$\alpha_4$，线性相关</p>
+<p>409：常规方法是算出A的特征值，再根据特征值算出其特征向量，而在此题并不需要这样做，只需要挨个将特征向量带入，观察$Ax=\lambda x$是否成立即可</p>
+<p>412：无论$\alpha_2$倍乘多少，其$A\alpha_2=\lambda \alpha_2$的等式仍然成立，所以$\lambda$ 仍是其特征值</p>
+<p>413：因为$\alpha_2$和$\alpha_3$是不同特征值的特征向量，那么$\alpha_2+\alpha_3$就不是$A$的特征向量</p>
+<p>414：注意判断矩阵相似化的条件</p>
+<p>417：都带入$A=PBP^{-1}$的形式中尝试，观察是否能符合这个形式</p>
+<p>418：二次型可以不是标准差形式</p>
+<p>419：注意正惯性系数的概念，是指为正数的特征值的个数</p>
+<p>425：注意矩阵合同的概念</p>
+<p>614：两个高次幂矩阵都是初等变换矩阵</p>
+<p>616：有一个＞0的二阶子式，所以不需要对$a$做进一步判定了</p>
+<p>624：基础解系的数量=$n-k$</p>
+<p>628：可以交换，那么假设出该矩阵，然后$AX=XA$，可以得出$X$的形式</p>
+<p>641：主要是关于伴随矩阵的性质</p>
+<p>651：注意自由元的概念</p>
+<p>652：列不满秩才会有非零解</p>
+<p>656：特征值时3,3,0，说明$\alpha_1,\alpha_2$的组合仍然是线性无关的</p>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/">线性代数</a></div><div class="post_share"><div class="social-share" data-image="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/linear.jpg" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/social-share.js/1.0.16/css/share.min.css" media="print" onload="this.media='all'"><script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/social-share.js/1.0.16/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/post/20957.html"><img class="prev-cover" src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/linear.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">5.相似矩阵及二次型</div></div></a></div><div class="next-post pull-right"><a href="/post/3946.html"><img class="next-cover" src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/shuxue.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">1.函数，极限，连续</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Candle</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">159</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">19</div></a></div></div></div><div class="sticky_layout"><div class="card-widget card-recommend-post"><div class="item-headline"><i class="fas fa-dharmachakra"></i><span>相关推荐</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/post/7061.html" title="2.矩阵"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/linear.jpg" alt="2.矩阵"></a><div class="content"><a class="title" href="/post/7061.html" title="2.矩阵">2.矩阵</a><time datetime="2022-07-13" title="������ 2022-07-13">2022-07-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/64845.html" title="2.5.矩阵函数"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/linear.jpg" alt="2.5.矩阵函数"></a><div class="content"><a class="title" href="/post/64845.html" title="2.5.矩阵函数">2.5.矩阵函数</a><time datetime="2022-07-14" title="������ 2022-07-14">2022-07-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/5216.html" title="4.线性方程的解"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/linear.jpg" alt="4.线性方程的解"></a><div class="content"><a class="title" href="/post/5216.html" title="4.线性方程的解">4.线性方程的解</a><time datetime="2022-07-14" title="������ 2022-07-14">2022-07-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/36739.html" title="1.行列式"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/linear.jpg" alt="1.行列式"></a><div class="content"><a class="title" href="/post/36739.html" title="1.行列式">1.行列式</a><time datetime="2022-07-13" title="������ 2022-07-13">2022-07-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/30596.html" title="3.向量"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/linear.jpg" alt="3.向量"></a><div class="content"><a class="title" href="/post/30596.html" title="3.向量">3.向量</a><time datetime="2022-07-14" title="������ 2022-07-14">2022-07-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/20957.html" title="5.相似矩阵及二次型"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/linear.jpg" alt="5.相似矩阵及二次型"></a><div class="content"><a class="title" href="/post/20957.html" title="5.相似矩阵及二次型">5.相似矩阵及二次型</a><time datetime="2022-07-14" title="������ 2022-07-14">2022-07-14</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By Candle</div><div class="framework-info"><span>Powered by </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a></div><div class="footer_custom_text">So Long, and Thanks for All the Fish</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.2
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container:not\([display]\)').forEach(node => {
+            const target = node.parentNode
+            if (target.nodeName.toLowerCase() === 'li') {
+              target.parentNode.classList.add('has-jax')
+            } else {
+              target.classList.add('has-jax')
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/mathjax/3.2.0/es5/tex-mml-chtml.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script><script>(()=>{
+  const $countDom = document.getElementById('twikoo-count')
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twikoo-candle1220.vercel.app',
+      region: ''
+    }, null))
+  }
+
+  const getCount = () => {
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo-candle1220.vercel.app',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(function (res) {
+      $countDom.innerText = res[0].count
+    }).catch(function (err) {
+      console.error(err);
+    });
+  }
+
+  const loadTwikoo = (bool = false) => {
+    if (typeof twikoo === 'object') {
+      init()
+      bool && $countDom && setTimeout(getCount,0)
+    } else {
+      getScript('https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/twikoo/1.4.18/twikoo.all.min.js').then(()=> {
+        init()
+        bool && $countDom && setTimeout(getCount,0)
+      })
+    }
+  }
+
+  if ('Twikoo' === 'Twikoo' || !false) {
+    if (false) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo(true)
+  } else {
+    window.loadOtherComment = () => {
+      loadTwikoo()
+    }
+  }
+})()</script></div><script src="https://npm.elemecdn.com/pjax/pjax.min.js"></script><script>let pjaxSelectors = [
+  'title',
+  '#config-diff',
+  '#body-wrap',
+  '#rightside-config-hide',
+  '#rightside-config-show',
+  '.js-pjax'
+]
+
+if (false) {
+  pjaxSelectors.unshift('meta[property="og:image"]', 'meta[property="og:title"]', 'meta[property="og:url"]')
+}
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.removeEventListener('scroll', window.tocScrollFn)
+  window.removeEventListener('scroll', scrollCollect)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // Analytics
+  if (false) {
+    MtaH5.pgv()
+  }
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

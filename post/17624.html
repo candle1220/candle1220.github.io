@@ -7,7 +7,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/hacker1.jpg">
 <meta property="article:published_time" content="2021-12-28T15:51:19.923Z">
-<meta property="article:modified_time" content="2022-06-29T11:01:03.850Z">
+<meta property="article:modified_time" content="2022-11-24T14:59:19.171Z">
 <meta property="article:author" content="Candle">
 <meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary">
@@ -58,7 +58,7 @@
   isHome: false,
   isHighlightShrink: false,
   isToc: true,
-  postUpdate: '2022-06-29 19:01:03'
+  postUpdate: '2022-11-24 22:59:19'
 }</script><noscript><style type="text/css">
   #nav {
     opacity: 1
@@ -147,7 +147,7 @@
       }
     }
     detectApple()
-    document.addEventListener('pjax:complete', detectApple)})(window)</script><link rel="stylesheet" href="/css/background.css"><link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/Swiper/8.0.6/swiper-bundle.min.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/head.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">159</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">19</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-crow"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-book"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/record/"><i class="fa-fw fas fa-atom"></i><span> 日志</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/background.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Night's Watch</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-crow"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-book"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/record/"><i class="fa-fw fas fa-atom"></i><span> 日志</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">3.数据链路层</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-12-28T15:51:19.923Z" title="发表于 2021-12-28 23:51:19">2021-12-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-06-29T11:01:03.850Z" title="更新于 2022-06-29 19:01:03">2022-06-29</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="3.数据链路层"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="数据链路层"><a href="#数据链路层" class="headerlink" title="数据链路层"></a>数据链路层</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>链路：就是从一个结点到相邻结点的一段物理线路，而中间没有任何其他的交换线路</p>
+    document.addEventListener('pjax:complete', detectApple)})(window)</script><link rel="stylesheet" href="/css/background.css"><link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/Swiper/8.0.6/swiper-bundle.min.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/head.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">159</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">19</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-crow"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-book"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/record/"><i class="fa-fw fas fa-atom"></i><span> 日志</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/background.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Night's Watch</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-crow"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-book"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/record/"><i class="fa-fw fas fa-atom"></i><span> 日志</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">3.数据链路层</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-12-28T15:51:19.923Z" title="发表于 2021-12-28 23:51:19">2021-12-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-11-24T14:59:19.171Z" title="更新于 2022-11-24 22:59:19">2022-11-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="3.数据链路层"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="数据链路层"><a href="#数据链路层" class="headerlink" title="数据链路层"></a>数据链路层</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>链路：就是从一个结点到相邻结点的一段物理线路，而中间没有任何其他的交换线路</p>
 <p>数据链路：是指把实现通信协议的硬件和软件加到链路上，就构成了数据链路</p>
 <p>数据链路层以<strong>帧</strong>为单位传输和处理数据</p>
 <p>数据链路层在传输数据的时候主要考虑三个问题</p>
@@ -421,7 +421,7 @@
 <p>接收方每收到一个PPP帧，就进行CRC校验，若CRC检验正确，就收下这个帧，反之，就丢弃这个帧，</p>
 <hr>
 <p>总结：使用PPP协议实现了封装成帧和差错检测的功能，但<strong>不提供可靠传输</strong></p>
-<div class="note primacy flat"><p>广域网中采用PPP协议是一种建立连接，不可靠的服务</p>
+<div class="note primary flat"><p>广域网中采用PPP协议是一种建立连接，不可靠的服务</p>
 </div>
 <hr>
 <h1 id="局域网"><a href="#局域网" class="headerlink" title="局域网"></a>局域网</h1><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>局域网自然就是局部地区形成的一个区域网络，其特点就是分布地区范围有限，可大可小，大到一栋建筑楼 与相邻建筑之间的连接，小到可以是办公室之间的联系。局域网自身相对其他网络传输速度更快，性能更稳定，框架简易，并且是封闭性，这也是很多机构选择的原因所在。局域网自身的组成大体由计算机设备、网络连接设备、网络传输介质3大部分构成，其中，计算机设备又包括服务器与工作站，网络连接设备则包含了<strong>网卡、集线器、交换机</strong>，网络传输介质简单来说就是网线，由同轴电缆、双绞线及光缆3大原件构成。 </p>
@@ -471,9 +471,14 @@
 </li>
 <li><p>以太网交换机具有并行性，能同时连通多对接口，使多对主机能同时通信，无碰撞 </p>
 </li>
-<li>以太网交换机工作在<strong>数据链路层</strong>(也包括物理层)，它收到帧后，在帧交换表中查找帧的目的MAC地址所对应的接口号，然后通过该接口转发帧</li>
-<li>以太网交换机是一种即插即用设备，其内部的帧交换表是通过自学习算法自动逐渐建立起来的</li>
-<li>帧有两种转发方式：<strong>存储转发</strong>，直通交换</li>
+<li><p>以太网交换机工作在<strong>数据链路层</strong>(也包括物理层)，它收到帧后，在帧交换表中查找帧的目的MAC地址所对应的接口号，然后通过该接口转发帧</p>
+</li>
+<li><p>以太网交换机是一种即插即用设备，其内部的帧交换表是通过自学习算法自动逐渐建立起来的</p>
+</li>
+<li><p>帧有两种转发方式：<strong>存储转发</strong>，直通交换</p>
+<div class="note primary flat"><p>存储转发是读取完以太网帧所有数据后再转发，至少需要传输512bit数据，直通转发就是在读取以太网帧的目的MAC后直接转发数据，目的MAC地址为6B=48bit，所以只需要传输48bit</p>
+</div>
+</li>
 </ul>
 <p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/chaJdX7ToYDmNPl.png" alt="image-20210506173122785" style="zoom:67%;" /></p>
 <p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/d43DzCnmvlXNpih.png" alt="image-20210506173203078" style="zoom: 80%;" /></p>
@@ -677,7 +682,7 @@
 <p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/mTZoYN6DQq8weWB.png" alt="img"></p>
 <p>规格化内积：将内积结果除以向量的维数，即是规格化，$a·b=1/n\sum_{i=1}^na_ib_i=0$</p>
 </div>
-<p>用收到的码片序列分别与各站的码片序列进行求内积运算，<strong>若计算结果为1，则被判断的站发送了比特1</strong>，<strong>若计算结果为-1，则被判断的站发送了比特0</strong>，<strong>若计算结果为0，则被判断的站没有发送数据</strong></p>
+<p>用收到的码片序列分别与各站的码片序列进行求内积运算（收到了A站的数据，就用数据和A站的码片做内积），<strong>若计算结果为1，则被判断的站发送了比特1</strong>，<strong>若计算结果为-1，则被判断的站发送了比特0</strong>，<strong>若计算结果为0，则被判断的站没有发送数据</strong></p>
 <hr>
 <h3 id="ALOHA协议"><a href="#ALOHA协议" class="headerlink" title="ALOHA协议"></a>ALOHA协议</h3><p>不监听信道，不按时间发送，随机重发，想发就发</p>
 <p>如果发生冲突，接受方就会检测出错，不予确认，发送方在一定时间内收不到就判断发生冲突</p>
@@ -748,7 +753,7 @@
 </ul>
 <p>802.11无线局域网使用CSMA/CA协议，在CSMA的基础上增加了一个CA功能</p>
 <p>由于不可能避免所有的碰撞，并且无线信道误码率较高，所以还使用了<strong>数据链路层确认机制(停止等待协议)</strong>来保证数据被正确接收</p>
-<div class="note primacy flat"><p>无线局域网中采用CSMA/CD协议是一种有连接，可靠的服务</p>
+<div class="note danger flat"><p>无线局域网中采用CSMA/CD协议是一种有连接，可靠的服务</p>
 </div>
 <p>802.11的MAC层标准定义了两种不同的媒体接入控制方式:</p>
 <ul>
@@ -785,7 +790,7 @@
 <li>当退避计时器的时间减小到0，就可以开始发送数据</li>
 <li>当退避计时器的时间还未减小到0，信道又转到忙状态时，就冻结退避计时器，重新等待信道变为空闲，再经过DIFS，继续启动退避计时器</li>
 </ul>
-<p>进行第i次退避时，退避时间在时隙编号{0,1…$2^{2+i}-1$}中随机选择一个，然后乘以基本退避时间，就可以得到随机的退避时间，当时隙编号达到255，也就是第6次退避时就不再增加</p>
+<p>进行第i次退避时，退避时间在时隙编号${0,1…2^{2+i}-1}$中随机选择一个，然后乘以基本退避时间，就可以得到随机的退避时间，当时隙编号达到255，也就是第6次退避时就不再增加</p>
 <p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/sI6Jt8frpBVbqSo.png" alt="image-20210506145615797"></p>
 <hr>
 <p>信道预约和虚拟载波监听</p>

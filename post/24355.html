@@ -1,13 +1,13 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>408操作系统大题解析 | Night's Watch</title><meta name="keywords" content="操作系统"><meta name="author" content="Candle"><meta name="copyright" content="Candle"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="408操作系统大题解析进程同步问题首先需要知道的是，进程同步问题大多都是从信号量机制出发，考查对一段程序进行PV操作 在阅读题目时，一定要想信号量机制的应用,找出并标记出来  互斥问题 同步问题 前驱关系   此题很明显的看可以初看，很像是生产者–消费者的变形，区别只是在于生产者生成的东西，只能给部分消费者使用 所以根据生成的数字，通知相应的进程即可 12345678910111213141516">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>操作系统大题解析 | Night's Watch</title><meta name="keywords" content="操作系统"><meta name="author" content="Candle"><meta name="copyright" content="Candle"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="操作系统大题解析进程同步问题基础知识首先需要知道的是，进程同步问题大多都是从信号量机制出发，考查对一段程序进行PV操作 在阅读题目时，一定要想信号量机制的应用,找出并标记出来  互斥问题 同步问题 前驱关系  如同典型例题一样，PV问题分为3种： 生产者–消费者问题 步骤如下：  确定有几类进程，每个进程对应一个函数 在函数内部，用中文描述动作（注意是只做一次or不断重复） 在做动作之前，是否需要">
 <meta property="og:type" content="article">
-<meta property="og:title" content="408操作系统大题解析">
+<meta property="og:title" content="操作系统大题解析">
 <meta property="og:url" content="http://candle1220.github.io/post/24355.html">
 <meta property="og:site_name" content="Night&#39;s Watch">
-<meta property="og:description" content="408操作系统大题解析进程同步问题首先需要知道的是，进程同步问题大多都是从信号量机制出发，考查对一段程序进行PV操作 在阅读题目时，一定要想信号量机制的应用,找出并标记出来  互斥问题 同步问题 前驱关系   此题很明显的看可以初看，很像是生产者–消费者的变形，区别只是在于生产者生成的东西，只能给部分消费者使用 所以根据生成的数字，通知相应的进程即可 12345678910111213141516">
+<meta property="og:description" content="操作系统大题解析进程同步问题基础知识首先需要知道的是，进程同步问题大多都是从信号量机制出发，考查对一段程序进行PV操作 在阅读题目时，一定要想信号量机制的应用,找出并标记出来  互斥问题 同步问题 前驱关系  如同典型例题一样，PV问题分为3种： 生产者–消费者问题 步骤如下：  确定有几类进程，每个进程对应一个函数 在函数内部，用中文描述动作（注意是只做一次or不断重复） 在做动作之前，是否需要">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/8aad8c72d6a53ff1a879f8dd779599d2_r.jpg">
 <meta property="article:published_time" content="2021-12-28T16:00:07.000Z">
-<meta property="article:modified_time" content="2022-07-23T16:12:49.156Z">
+<meta property="article:modified_time" content="2022-12-09T13:35:28.160Z">
 <meta property="article:author" content="Candle">
 <meta property="article:tag" content="操作系统">
 <meta name="twitter:card" content="summary">
@@ -53,12 +53,12 @@
   islazyload: false,
   isanchor: false
 }</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
-  title: '408操作系统大题解析',
+  title: '操作系统大题解析',
   isPost: true,
   isHome: false,
   isHighlightShrink: false,
   isToc: true,
-  postUpdate: '2022-07-24 00:12:49'
+  postUpdate: '2022-12-09 21:35:28'
 }</script><noscript><style type="text/css">
   #nav {
     opacity: 1
@@ -147,45 +147,161 @@
       }
     }
     detectApple()
-    document.addEventListener('pjax:complete', detectApple)})(window)</script><link rel="stylesheet" href="/css/background.css"><link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/Swiper/8.0.6/swiper-bundle.min.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/head.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">158</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">19</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-crow"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-book"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/record/"><i class="fa-fw fas fa-atom"></i><span> 日志</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/background.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Night's Watch</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-crow"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-book"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/record/"><i class="fa-fw fas fa-atom"></i><span> 日志</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">408操作系统大题解析</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-12-28T16:00:07.000Z" title="发表于 2021-12-29 00:00:07">2021-12-29</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-07-23T16:12:49.156Z" title="更新于 2022-07-24 00:12:49">2022-07-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="408操作系统大题解析"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="408操作系统大题解析"><a href="#408操作系统大题解析" class="headerlink" title="408操作系统大题解析"></a>408操作系统大题解析</h1><h2 id="进程同步问题"><a href="#进程同步问题" class="headerlink" title="进程同步问题"></a>进程同步问题</h2><p>首先需要知道的是，进程同步问题大多都是从信号量机制出发，考查对一段程序进行PV操作</p>
+    document.addEventListener('pjax:complete', detectApple)})(window)</script><link rel="stylesheet" href="/css/background.css"><link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/Swiper/8.0.6/swiper-bundle.min.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/head.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">159</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">19</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-crow"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-book"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/record/"><i class="fa-fw fas fa-atom"></i><span> 日志</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/background.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Night's Watch</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-crow"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-book"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/record/"><i class="fa-fw fas fa-atom"></i><span> 日志</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">操作系统大题解析</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-12-28T16:00:07.000Z" title="发表于 2021-12-29 00:00:07">2021-12-29</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-12-09T13:35:28.160Z" title="更新于 2022-12-09 21:35:28">2022-12-09</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="操作系统大题解析"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="操作系统大题解析"><a href="#操作系统大题解析" class="headerlink" title="操作系统大题解析"></a>操作系统大题解析</h1><h2 id="进程同步问题"><a href="#进程同步问题" class="headerlink" title="进程同步问题"></a>进程同步问题</h2><h3 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h3><p>首先需要知道的是，进程同步问题大多都是从信号量机制出发，考查对一段程序进行PV操作</p>
 <p>在阅读题目时，一定要想信号量机制的应用,找出并标记出来</p>
 <ul>
 <li>互斥问题</li>
 <li>同步问题</li>
 <li>前驱关系</li>
 </ul>
-<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/T594luQEyhnJgfc.png" alt=""></p>
-<p>此题很明显的看可以初看，很像是生产者–消费者的变形，区别只是在于生产者生成的东西，只能给部分消费者使用</p>
+<p>如同典型例题一样，PV问题分为3种：</p>
+<p>生产者–消费者问题</p>
+<p>步骤如下：</p>
+<ol>
+<li>确定有几类进程，每个进程对应一个函数</li>
+<li>在函数内部，用中文描述动作（注意是只做一次or不断重复）</li>
+<li>在做动作之前，是否需要进行P操作，如果要进行P操作，则同时把V操作也添加上去</li>
+<li>所有的PV操作写完后，再去定义信号量</li>
+<li>检查多个P操作是否会导致死锁</li>
+</ol>
+<div class="note primary flat"><p>一般来说，就是注意缓冲区的容量的信号量empty，和相关产品的信号量</p>
+</div>
+<hr>
+<p>哲学家进餐问题</p>
+<p>哲学家进餐问题有多种思路，最简单的思路就是：直接一次性拿走所有资源，然后判断是否满足条件，如果满足，则解锁，跳出while循环，如果不满足，则解锁，再进行while循环</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Semophore Lock=<span class="number">1</span>;<span class="comment">//1. 定义互斥信号量</span></span><br><span class="line"><span class="keyword">int</span> a,b,c=XX;  <span class="comment">//2. 定义资源数int</span></span><br><span class="line"> Process()&#123;    <span class="comment">//3. 一口气拿所有资源</span></span><br><span class="line">     <span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">         P(lock);</span><br><span class="line">         <span class="keyword">if</span>(所有资源都够)&#123;</span><br><span class="line">             所有资源<span class="keyword">int</span>值减少</span><br><span class="line">             取XXX资源</span><br><span class="line">             V(lock);</span><br><span class="line">             <span class="keyword">break</span>;</span><br><span class="line">         &#125;</span><br><span class="line">         V(lock)</span><br><span class="line">     &#125;</span><br><span class="line">    做进程该做的事（哲学家进餐）  <span class="comment">//4. 完成任务</span></span><br><span class="line">    P(lock);</span><br><span class="line">    归还所用资源，所有资源<span class="keyword">int</span>值增加    <span class="comment">//5.归还资源</span></span><br><span class="line">    V(lock);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>读者–写者问题</p>
+<p>特点是实现同类进程不互斥，异类进程互斥</p>
+<p>实现方法是：第一个用之前负责上锁，最后一个用完之后负责解锁</p>
+<hr>
+<h3 id="408"><a href="#408" class="headerlink" title="408"></a>408</h3><p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/T594luQEyhnJgfc.png" alt=""></p>
+<div class="hide-block"><button type="button" class="hide-button button--animated" style="background-color: #5be7ff;">查看答案
+    </button><div class="hide-content"><p>此题很明显的看可以初看，很像是生产者–消费者的变形，区别只是在于生产者生成的东西，只能给部分消费者使用</p>
 <p>所以根据生成的数字，通知相应的进程即可</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 互斥关系 ：对缓冲区的使用 mutex=1</span></span><br><span class="line"><span class="comment">// 前驱关系：缓冲内有数字，才能取出  odd,even=0</span></span><br><span class="line"><span class="comment">//          缓冲区未满才能往里面放置   empty=N</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">semaphore mutex=<span class="number">1</span>;</span><br><span class="line">semaphore odd=<span class="number">0</span>,even=<span class="number">0</span>;</span><br><span class="line">sempahore empty=N</span><br><span class="line">    cobegin&#123;</span><br><span class="line">    <span class="keyword">while</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">        x=produce();</span><br><span class="line">        P(empty);</span><br><span class="line">        P(mutex);</span><br><span class="line">        Put();</span><br><span class="line">        V(mutex);</span><br><span class="line">        <span class="keyword">if</span>(x%<span class="number">2</span>==<span class="number">0</span>)</span><br><span class="line">            V(even);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            V(odd);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">Process <span class="title">P2</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    <span class="title">while</span><span class="params">(True)</span></span>&#123;</span><br><span class="line">        P(odd);</span><br><span class="line">        P(mutex);</span><br><span class="line">        getodd();</span><br><span class="line">        V(mutex);</span><br><span class="line">        V(empty);</span><br><span class="line">        countodd();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">Process <span class="title">P3</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    <span class="title">while</span><span class="params">(True)</span></span>&#123;</span><br><span class="line">        P(even);</span><br><span class="line">        P(mutex);</span><br><span class="line">        geteven();</span><br><span class="line">        V(mutex);</span><br><span class="line">        V(empty);</span><br><span class="line">        countodd();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 互斥关系 ：对缓冲区的使用 mutex=1</span></span><br><span class="line"><span class="comment">// 前驱关系：缓冲内有数字，才能取出  odd,even=0</span></span><br><span class="line"><span class="comment">//          缓冲区未满才能往里面放置   empty=N</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">semaphore mutex=<span class="number">1</span>;</span><br><span class="line">semaphore odd=<span class="number">0</span>,even=<span class="number">0</span>;  </span><br><span class="line">sempahore empty=N <span class="comment">// 空位为N</span></span><br><span class="line">    cobegin&#123;</span><br><span class="line">    <span class="keyword">while</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">        x=produce();</span><br><span class="line">        P(empty);</span><br><span class="line">        P(mutex);</span><br><span class="line">        Put();</span><br><span class="line">        V(mutex);</span><br><span class="line">        <span class="keyword">if</span>(x%<span class="number">2</span>==<span class="number">0</span>)</span><br><span class="line">            V(even);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            V(odd);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">Process <span class="title">P2</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    <span class="title">while</span><span class="params">(True)</span></span>&#123;</span><br><span class="line">        P(odd);</span><br><span class="line">        P(mutex);</span><br><span class="line">        getodd();</span><br><span class="line">        V(mutex);</span><br><span class="line">        V(empty);</span><br><span class="line">        countodd();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">Process <span class="title">P3</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    <span class="title">while</span><span class="params">(True)</span></span>&#123;</span><br><span class="line">        P(even);</span><br><span class="line">        P(mutex);</span><br><span class="line">        geteven();</span><br><span class="line">        V(mutex);</span><br><span class="line">        V(empty);</span><br><span class="line">        countodd();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</div></div>
 <hr>
 <p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/hJyaWC9K5FVXj8s.png" alt="image-20210813162810061"></p>
-<p>仅有一个进程，自然就没有进程之间的同步问题</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 互斥关系：对门的使用 mutex=1</span></span><br><span class="line"><span class="comment">// 前驱关系：只有博物馆人数未满才能进门  x=500</span></span><br><span class="line"></span><br><span class="line">cobegin</span><br><span class="line">    参观者进程i&#123;</span><br><span class="line">    P(x); </span><br><span class="line">    P(mutex);</span><br><span class="line">    进门</span><br><span class="line">    V(mutex);</span><br><span class="line">    参观</span><br><span class="line">    P(mutex);</span><br><span class="line">    出门</span><br><span class="line">    V(mutex);</span><br><span class="line">    V(x);</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<div class="hide-block"><button type="button" class="hide-button button--animated" style="background-color: #5be7ff;">查看答案
+    </button><div class="hide-content"><p>仅有一个进程，自然就没有进程之间的同步问题</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 互斥关系：对门的使用 mutex=1</span></span><br><span class="line"><span class="comment">// 前驱关系：只有博物馆人数未满才能进门  num=500</span></span><br><span class="line"></span><br><span class="line">cobegin</span><br><span class="line">    参观者进程i&#123;</span><br><span class="line">    P(num);  <span class="comment">//1. 进门前首先得有人，最多进500个人</span></span><br><span class="line">    P(mutex);  </span><br><span class="line">    进门</span><br><span class="line">    V(mutex);  </span><br><span class="line">    参观</span><br><span class="line">    P(mutex);</span><br><span class="line">    出门</span><br><span class="line">    V(mutex); </span><br><span class="line">    V(num);  <span class="comment">// 1.出门后人数才加</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</div></div>
 <hr>
 <p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/AgXWN1jFMSObaUf.png" alt="image-20210813163352677"></p>
 <hr>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//互斥关系：对取号机的使用   mutex=1</span></span><br><span class="line"><span class="comment">//前驱关系：必须有位置，顾客才能坐下  x=10</span></span><br><span class="line"><span class="comment">//         必须有顾客，营业员才能服务  y=0</span></span><br><span class="line"><span class="comment">//同步关系：顾客被叫到服务和营业员叫顾客服务之间的同步 service=0</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">cobegin()&#123;</span><br><span class="line">    Process 顾客</span><br><span class="line">    &#123;</span><br><span class="line">        P(x);</span><br><span class="line">        P(mutex);</span><br><span class="line">        取号</span><br><span class="line">        V(mutex);</span><br><span class="line">        V(y);</span><br><span class="line">        P(servive);</span><br><span class="line">        接受服务</span><br><span class="line">    &#125;</span><br><span class="line">    Process 营业员</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">while</span>(True)&#123;</span><br><span class="line">            P(y);</span><br><span class="line">            V(service);</span><br><span class="line">            V(x);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;coend</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<div class="hide-block"><button type="button" class="hide-button button--animated" style="background-color: #5be7ff;">查看答案
+    </button><div class="hide-content"><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//互斥关系：对取号机的使用   mutex=1</span></span><br><span class="line"><span class="comment">//前驱关系：必须有位置，顾客才能坐下  seat=10</span></span><br><span class="line"><span class="comment">//         必须有顾客，营业员才能服务  cos=0</span></span><br><span class="line"><span class="comment">//同步关系：顾客被叫到服务和营业员叫顾客服务之间的同步 service=0</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">cobegin()&#123;</span><br><span class="line">    Process 顾客</span><br><span class="line">    &#123;</span><br><span class="line">        P(seat);  <span class="comment">// 1.得有位置才能坐下</span></span><br><span class="line">        P(mutex);</span><br><span class="line">        取号</span><br><span class="line">        V(mutex);</span><br><span class="line">        V(<span class="built_in">cos</span>);     <span class="comment">//2.取了号，顾客+1</span></span><br><span class="line">        P(servive);   <span class="comment">//3.要开始服务了</span></span><br><span class="line">        接受服务</span><br><span class="line">    &#125;</span><br><span class="line">    Process 营业员</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">while</span>(True)&#123;</span><br><span class="line">            P(<span class="built_in">cos</span>);      <span class="comment">//2. 等待顾客</span></span><br><span class="line">            V(seat);   <span class="comment">//1. 顾客去接受服务，就多了一个座位</span></span><br><span class="line">            叫号</span><br><span class="line">            V(service);  <span class="comment">//3.结束服务</span></span><br><span class="line">           </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;coend</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</div></div>
 <hr>
 <p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/Ek6pm3DJOGatjWZ.png" alt="image-20210813164949915"></p>
-<p>在原来的消费者生产者问题上，新加了一个限制条件</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//互斥问题：对缓冲区的使用 mutex1=1</span></span><br><span class="line"><span class="comment">//         消费者之间的互斥 mutex2=1</span></span><br><span class="line"><span class="comment">//前驱关系：缓冲区必须有空，才能往里面放东西 x=1000</span></span><br><span class="line"><span class="comment">//         缓冲区必须有产品，才能从里面拿东西 y=0</span></span><br><span class="line">producer()[</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">        produce();</span><br><span class="line">        P(x);</span><br><span class="line">        P(mutex2);</span><br><span class="line">        input;</span><br><span class="line">        V(mutex2);</span><br><span class="line">        V(y);</span><br><span class="line">    &#125;</span><br><span class="line">    comsumer()&#123;</span><br><span class="line">        <span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">    P(mutex1)</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)&#123;</span><br><span class="line">            P(y);</span><br><span class="line">            P(mutex2);</span><br><span class="line">            output;</span><br><span class="line">            V(mutex2);</span><br><span class="line">            V(x);</span><br><span class="line">            consumer;</span><br><span class="line">        &#125;</span><br><span class="line">        V(mutex1);        </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<div class="hide-block"><button type="button" class="hide-button button--animated" style="background-color: #5be7ff;">查看答案
+    </button><div class="hide-content"><p>在原来的消费者生产者问题上，新加了一个限制条件</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//互斥问题：对缓冲区的使用 mutex1=1</span></span><br><span class="line"><span class="comment">//         消费者之间的互斥 mutex2=1</span></span><br><span class="line"><span class="comment">//前驱关系：缓冲区必须有空，才能往里面放东西 empty=1000</span></span><br><span class="line"><span class="comment">//         缓冲区必须有产品，才能从里面拿东西 product=0</span></span><br><span class="line">producer()[</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">        produce();</span><br><span class="line">        P(empty);</span><br><span class="line">        P(mutex2);</span><br><span class="line">        input;</span><br><span class="line">        V(mutex2);</span><br><span class="line">        V(product);</span><br><span class="line">    &#125;</span><br><span class="line">    comsumer()&#123;</span><br><span class="line">        <span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">    P(mutex1)</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)&#123;</span><br><span class="line">            P(product);</span><br><span class="line">            P(mutex2);</span><br><span class="line">            output;</span><br><span class="line">            V(mutex2);</span><br><span class="line">            V(empty);</span><br><span class="line">            consumer;</span><br><span class="line">        &#125;</span><br><span class="line">        V(mutex1);        </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br></pre></td></tr></table></figure>
+</div></div>
 <hr>
 <p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/mNBflvC7X5ysZWb.png" alt="image-20210813165921622"></p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//相当于是两个生产者和消费者进程</span></span><br><span class="line"><span class="comment">/*互斥关系：对邮箱A和邮箱B的使用 mutex1=1,mutex2=1</span></span><br><span class="line"><span class="comment">  前驱关系:只有邮箱A有邮件才能从里面取出来 fullA=x</span></span><br><span class="line"><span class="comment">          只有邮件A未满才能往里面放邮件   emptyA=M-x</span></span><br><span class="line"><span class="comment">          只有邮箱B有邮件才能从里面取出来 fullB=y</span></span><br><span class="line"><span class="comment">          只有邮件B未满才能往里面放邮件   emptyB=N-y</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">A&#123;</span><br><span class="line">    <span class="keyword">while</span>(True)&#123;</span><br><span class="line">        P(fullA);</span><br><span class="line">        p(mutex1);</span><br><span class="line">        从A的信箱中取出一个邮件</span><br><span class="line">        V(mutex1);</span><br><span class="line">        V(emptyA);</span><br><span class="line">        回答问题并提出一个新问题</span><br><span class="line">        P(emptyB);</span><br><span class="line">        p(mutex2);</span><br><span class="line">        将新邮件放入B的信箱</span><br><span class="line">        V(mutex2);</span><br><span class="line">        V(fullB);</span><br><span class="line">           </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">B&#123;</span><br><span class="line">    <span class="keyword">while</span>(True)&#123;</span><br><span class="line">        P(fullB);</span><br><span class="line">        p(mutex2);</span><br><span class="line">        从B的信箱中取出一个邮件</span><br><span class="line">        V(mutex2);</span><br><span class="line">        V(emptyB);</span><br><span class="line">        回答问题并提出一个新问题</span><br><span class="line">        P(emptyA);</span><br><span class="line">        p(mutex1);</span><br><span class="line">        将新邮件放入B的信箱</span><br><span class="line">        V(mutex1);</span><br><span class="line">        V(fullA);</span><br><span class="line">           </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<div class="hide-block"><button type="button" class="hide-button button--animated" style="background-color: #5be7ff;">查看答案
+    </button><div class="hide-content"><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//相当于是两个生产者和消费者进程</span></span><br><span class="line"><span class="comment">/*互斥关系：对邮箱A和邮箱B的使用 mutex1=1,mutex2=1</span></span><br><span class="line"><span class="comment">  前驱关系:只有邮箱A有邮件才能从里面取出来 fullA=x</span></span><br><span class="line"><span class="comment">          只有邮件A未满才能往里面放邮件   emptyA=M-x</span></span><br><span class="line"><span class="comment">          只有邮箱B有邮件才能从里面取出来 fullB=y</span></span><br><span class="line"><span class="comment">          只有邮件B未满才能往里面放邮件   emptyB=N-y</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">A&#123;</span><br><span class="line">    <span class="keyword">while</span>(True)&#123;</span><br><span class="line">        P(fullA);</span><br><span class="line">        p(mutex1);</span><br><span class="line">        从A的信箱中取出一个邮件</span><br><span class="line">        V(mutex1);</span><br><span class="line">        V(emptyA);</span><br><span class="line">        回答问题并提出一个新问题</span><br><span class="line">        P(emptyB);</span><br><span class="line">        p(mutex2);</span><br><span class="line">        将新邮件放入B的信箱</span><br><span class="line">        V(mutex2);</span><br><span class="line">        V(fullB);</span><br><span class="line">           </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">B&#123;</span><br><span class="line">    <span class="keyword">while</span>(True)&#123;</span><br><span class="line">        P(fullB);</span><br><span class="line">        p(mutex2);</span><br><span class="line">        从B的信箱中取出一个邮件</span><br><span class="line">        V(mutex2);</span><br><span class="line">        V(emptyB);</span><br><span class="line">        回答问题并提出一个新问题</span><br><span class="line">        P(emptyA);</span><br><span class="line">        p(mutex1);</span><br><span class="line">        将新邮件放入B的信箱</span><br><span class="line">        V(mutex1);</span><br><span class="line">        V(fullA);</span><br><span class="line">           </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</div></div>
 <hr>
 <p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/3ZaRLC7ibtxnKXz.png" alt="image-20210813180656033"></p>
-<p>这种程序题首先要搞清楚的就是，修改变量的互斥关系</p>
+<div class="hide-block"><button type="button" class="hide-button button--animated" style="background-color: #5be7ff;">查看答案
+    </button><div class="hide-content"><p>这种程序题首先要搞清楚的就是，修改变量的互斥关系</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//只有线程3在修改变量，所以要关注线程12与3的</span></span><br><span class="line"><span class="comment">// 线程1和线程3关于y互斥 mutex1=1</span></span><br><span class="line"><span class="comment">// 线程2和线程3关于y，z互斥 mutex2=1 mutex3=1</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">thread1&#123;</span><br><span class="line">    cnum w;</span><br><span class="line">    P(mutex1);</span><br><span class="line">    w=add(x,y);</span><br><span class="line">    V(mutex1);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">thread2&#123;</span><br><span class="line">    cnum w;</span><br><span class="line">    P(mutex2);</span><br><span class="line">    P(mutex3);</span><br><span class="line">    w=add(y,z);</span><br><span class="line">    V(mutex3);</span><br><span class="line">    V(mutex2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">thread3&#123;</span><br><span class="line">    cnum w;</span><br><span class="line">    w.a=<span class="number">1</span>;</span><br><span class="line">    w.b=<span class="number">1</span>;</span><br><span class="line">    P(mutex3);</span><br><span class="line">    z=add(z,w);</span><br><span class="line">    V(mutex3);</span><br><span class="line">    P(mutex1);</span><br><span class="line">    P(mutex2);</span><br><span class="line">    y=add(y,w);</span><br><span class="line">    V(mutex1);</span><br><span class="line">    V(mutex2);</span><br><span class="line">        </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</div></div>
 <hr>
 <p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/9HQFDgvl6Zu5SPI.png" alt="image-20210813184313765"></p>
-<p>哲学家问题的变种，解决问题的思路之一就是限制进餐的哲学家人数，从n人变为n-1人</p>
+<div class="hide-block"><button type="button" class="hide-button button--animated" style="background-color: #5be7ff;">查看答案
+    </button><div class="hide-content"><p>哲学家问题的变种，解决问题的思路之一就是限制进餐的哲学家人数，从n人变为n-1人</p>
+<ul>
+<li>如果m&lt;n，那么碗(n)的数量就限制了可同时吃饭人的数量</li>
+<li>如果m&gt;n，那么碗(n)至少要是人数-1，即n=m-1才能发挥作用</li>
+</ul>
+<p>所以将碗的数量定义为min(n-1,m)</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//以碗为核心，让碗的数量不超过n-1</span></span><br><span class="line"><span class="comment">//前驱关系，必须有碗才能吃饭，bowl=min(n-1,m)</span></span><br><span class="line"><span class="comment">//同步关系，必有同时有两只筷子 chopsticks[n]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">    chopsticks[i]=<span class="number">1</span>;</span><br><span class="line">bowl=min(n<span class="number">-1</span>,m);</span><br><span class="line"></span><br><span class="line"><span class="function">CoBegin</span></span><br><span class="line"><span class="function"><span class="title">while</span><span class="params">(<span class="literal">true</span>)</span></span>&#123;</span><br><span class="line">    think;</span><br><span class="line">    P(bowl);</span><br><span class="line">    P(chopsticks[i]);</span><br><span class="line">    P(chopsticks[(i+<span class="number">1</span>)%n]);</span><br><span class="line">    就餐;</span><br><span class="line">    V(chopsticks[i]);</span><br><span class="line">    V(chopsticks[(i+<span class="number">1</span>)%n]);</span><br><span class="line">    V(bowl);</span><br><span class="line">&#125;</span><br><span class="line">CoEnd</span><br></pre></td></tr></table></figure>
-<h2 id="进程调度问题"><a href="#进程调度问题" class="headerlink" title="进程调度问题"></a>进程调度问题</h2><p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/nhI7KeOji5CAFZQ.png" alt="`"></p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">解析：</span><br><span class="line">    <span class="number">1.</span>由于采用了静态优先数，当就绪队列中总有优先数较小的进程时，优先数较大的进程一</span><br><span class="line">直没有机会运行，因而会出现饥饿现象</span><br><span class="line">    <span class="number">2.</span>优先数priority的计算公式为：</span><br><span class="line"> priority=nice+k1×cpuTime-k2×waitTime，其中k1&gt;<span class="number">0</span>，k2&gt;<span class="number">0</span>，用来分别调整cpuTime和waitTime在priority中所占的比例。waitTime可使长时间等待的进程优先数减小，从而避免出现饥饿现象。</span><br></pre></td></tr></table></figure>
+</div></div>
 <hr>
-<h2 id="页面转换问题"><a href="#页面转换问题" class="headerlink" title="页面转换问题"></a>页面转换问题</h2><p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/q92AmunVWJxSYXb.png" alt="image-20210815105101897"></p>
-<p><strong>页框：将内存划分成一块块的格式，每个物理叫做页框</strong></p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/image-20221208191607063.png" alt="image-20221208191607063"></p>
+<div class="hide-block"><button type="button" class="hide-button button--animated" style="background-color: #5be7ff;">查看答案
+    </button><div class="hide-content"><p>PV操作可以控制操作的前后顺序：如果想要A操作在C之前，那么就在C之前加一个P操作，而在A操作之后加一个V操作，这样，C就必要在A之后了</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/image-20221208192224565.png" alt="image-20221208192224565"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">Semaphore AC=<span class="number">0</span>;</span><br><span class="line">Semaphore BC=<span class="number">0</span>;</span><br><span class="line">Semaphore CE=<span class="number">0</span>;</span><br><span class="line">Semaphore DE=<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">A()&#123;</span><br><span class="line">    进行A操作</span><br><span class="line">    V(AC);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line">B()&#123;</span><br><span class="line">    进行B操作</span><br><span class="line">    V(BC);</span><br><span class="line">&#125;</span><br><span class="line">C()&#123;</span><br><span class="line">    P(AC);</span><br><span class="line">    P(BC);</span><br><span class="line">    进行c操作</span><br><span class="line">    V(CE);</span><br><span class="line">&#125;</span><br><span class="line">D()&#123;</span><br><span class="line">    进行D操作</span><br><span class="line">    V(DE);</span><br><span class="line">&#125;</span><br><span class="line">E()&#123;</span><br><span class="line">    P(CE);</span><br><span class="line">    P(DE);</span><br><span class="line">    进行E操作</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+</div></div>
+<hr>
+<h3 id="874"><a href="#874" class="headerlink" title="874"></a>874</h3><p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/image-20221208193431400.png" alt="image-20221208193431400"></p>
+<div class="hide-block"><button type="button" class="hide-button button--animated" style="background-color: #5be7ff;">查看答案
+    </button><div class="hide-content"><p>显示是生产者和消费者问题的变形，框中是缓冲区，而球是产品</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">Semaphore wb=<span class="number">0</span>;</span><br><span class="line">Semaphore bb=<span class="number">0</span>;</span><br><span class="line">Semaphore empty=<span class="number">2</span>;</span><br><span class="line">Semaphore mutex=<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">男教师&#123;</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">    P(empty);</span><br><span class="line">    P(mutex);</span><br><span class="line">    放白球</span><br><span class="line">    V(mutex);    </span><br><span class="line">    V(wb);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">女教师&#123;</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">    P(empty);</span><br><span class="line">    P(mutex);</span><br><span class="line">    放黑球</span><br><span class="line">    V(mutex);</span><br><span class="line">    V(bb);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">男学生&#123;</span><br><span class="line">   <span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">   P(wb);</span><br><span class="line">   P(mutex);</span><br><span class="line">   拿白球</span><br><span class="line">   V(mutex);</span><br><span class="line">   V(empty);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line">女学生&#123;</span><br><span class="line">   <span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">   P(bb);</span><br><span class="line">   P(mutex);</span><br><span class="line">   拿黑球</span><br><span class="line">   V(mutex);    </span><br><span class="line">   V(empty); </span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</div></div>
+<hr>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/image-20221208202042340.png" alt="image-20221208202042340"></p>
+<div class="hide-block"><button type="button" class="hide-button button--animated" style="background-color: #5be7ff;">查看答案
+    </button><div class="hide-content"><p>和上一道题几乎一样</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">Semaphore empty=<span class="number">1</span></span><br><span class="line">Semaphore mutex=<span class="number">1</span></span><br><span class="line">Semaphore chao=<span class="number">0</span></span><br><span class="line">Semaphore rice=<span class="number">0</span></span><br><span class="line">    </span><br><span class="line">炒饭师傅&#123;</span><br><span class="line"><span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line"> P(empty);</span><br><span class="line"> P(mutex);</span><br><span class="line"> 做炒饭</span><br><span class="line"> V(mutex);</span><br><span class="line"> V(chao);   </span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">炒面师傅&#123;</span><br><span class="line"><span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line"> P(empty);</span><br><span class="line"> P(mutex);</span><br><span class="line"> 做炒饭</span><br><span class="line"> V(mutex);</span><br><span class="line"> V(rice);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">炒饭学生&#123;</span><br><span class="line"><span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">  P(chao);  </span><br><span class="line">  P(mutex);</span><br><span class="line">  拿炒饭</span><br><span class="line">  V(mutex);</span><br><span class="line">  V(empty);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">炒面学生&#123;</span><br><span class="line"><span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line"> P(rice);</span><br><span class="line"> P(mutex);</span><br><span class="line"> 拿炒面</span><br><span class="line"> V(mutex);</span><br><span class="line"> V(empty);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</div></div>
+<hr>
+<h2 id="进程调度问题"><a href="#进程调度问题" class="headerlink" title="进程调度问题"></a>进程调度问题</h2><p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/nhI7KeOji5CAFZQ.png" alt="`"></p>
+<div class="hide-block"><button type="button" class="hide-button button--animated" style="background-color: #5be7ff;">查看答案
+    </button><div class="hide-content"><p>解析：</p>
+<ol>
+<li>由于采用了静态优先数，当就绪队列中总有优先数较小的进程时，优先数较大的进程一<br>直没有机会运行，因而会出现饥饿现象</li>
+<li>优先数<code>priority</code>的计算公式为：<code>priority=nice+k1×cpuTime-k2×waitTime</code>，其中<code>k1&gt;0</code>，<code>k2&gt;0</code>，用来分别调整<code>cpuTime</code>和<code>waitTime</code>在<code>priority</code>中所占的比例。<code>waitTime</code>可使长时间等待的进程优先数减小，从而避免出现饥饿现象。</li>
+</ol>
+</div></div>
+<hr>
+<h2 id="页面转换问题"><a href="#页面转换问题" class="headerlink" title="页面转换问题"></a>页面转换问题</h2><h3 id="基础知识-1"><a href="#基础知识-1" class="headerlink" title="基础知识"></a>基础知识</h3><p>页面转换问题是常考问题，重点有两个，分别是二级页表和地址转换的过程</p>
+<p>二级页表如下：</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/ew5xI9gTEbiMmjU.png" alt="image-20210802211551250"></p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/184SPyOb5H6ltZE.png" alt="image-20210802211746583"></p>
+<p>其中有如下概念需要说明：</p>
+<p>一般题目会给出，<strong>二级页表</strong>的结构以及<strong>页表项</strong>，<strong>页目录项</strong>的大小，注意计算机系统是否用<strong>字节编址</strong></p>
+<hr>
+<p>一级页号又称<strong>页目录号</strong>，二级页号又称<strong>页号</strong>/页表索引，页内偏移量又称页内地址</p>
+<p><strong>页表项</strong>：在页表中，一个页号与其对应的物理块号称之为一个页表项</p>
+<p><strong>页目录项</strong>：在页目录表中，一个页号与其对应的二级页号号称之为一个页目录项</p>
+<p>页目录表的起始物理地址：寄存在寄存器orPCB中</p>
+<hr>
+<p>系统的位数$\Leftrightarrow$虚拟地址空间大小$\Leftrightarrow$虚拟地址的总位数$\Leftrightarrow$一级页号+二级页号+页内偏移量的位数</p>
+<p>页内偏移量$\Leftrightarrow$页面大小$\Leftrightarrow$页框大小</p>
+<hr>
+<p>有关页目录号(一级页号)的总结：</p>
+<p>逻辑页号$\Longleftarrow$页目录号+页号</p>
+<p>页目录表的大小$\Longleftarrow$页目录号/页目录项的大小</p>
+<p>页目录项的物理地址$\Longleftarrow$页目录表的起始地址+页目录号×页目录项的大小</p>
+<p>页表的起始物理地址$\Longleftarrow$页目录项的具体内容（即下一级页表存放的页框号）</p>
+<hr>
+<p>有关页号(二级页号)的总结：</p>
+<p>二级页表的大小$\Longleftarrow$页号/页表项的大小</p>
+<p>页表项的物理地址$\Longleftarrow$页表的起始物理地址(页框号)+页表项长度×页号</p>
+<p>页表项的具体内容(物理地址存放的页框号)$\Longleftarrow$页表项的物理地址</p>
+<hr>
+<p>物理地址$\Longleftarrow$页框号+页内偏移量</p>
+<div class="note primary flat"><p>注意区别<strong>物理地址</strong>和<strong>逻辑地址</strong>和<strong>页表项的物理地址</strong></p>
+<p>物理地址的前x位表示页框号，后x位表示页内偏移量</p>
+<p>逻辑地址的前x位表示页号，后x位表示页内偏移量</p>
+<p>页表项的物理地址：页框号+页号×页表项大小</p>
+<p>页目录项的物理地址：页目录表的起始地址+页目录号×页目录项的大小</p>
+</div>
+<p>最为复杂的是求二级页面中页表项的物理地址</p>
+<p>需要的条件有：</p>
+<ol>
+<li>页目录项中对应此页表项的物理块中，所存放的页框号</li>
+<li>该页表项在页表中页号</li>
+<li>页表项的大小</li>
+</ol>
+<p>最终结果为页框号+页号×页表项大小</p>
+<hr>
+<p>带快表的一级页表的请求分页管理方式</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/yeXovTDz1fq3KiS.png" alt="image-20210803102256507"></p>
+<p>访存时会优先查找快表，然后再查慢表，当发生缺页时，需要页面置换，同时更新快表和慢表，然后再重复流程，所以发生缺页到查找成功的时间为：</p>
+<p>访问TLB(未命中)+访问慢表(未命中)+处理缺页+再次访问TLB(命中)+访问目标页面</p>
+<p>CLOCK算法中页表的标志有：内存块号   状态位   访问字段    外存地址</p>
+<p>改进型CLOCK算法中页表的标志有：内存块号  状态位   访问字段  <strong>修改位</strong>   外存地址</p>
+<hr>
+<h3 id="408-1"><a href="#408-1" class="headerlink" title="408"></a>408</h3><p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/q92AmunVWJxSYXb.png" alt="image-20210815105101897"></p>
+<div class="hide-block"><button type="button" class="hide-button button--animated" style="background-color: #5be7ff;">查看答案
+    </button><div class="hide-content"><p><strong>页框：将内存划分成一块块的格式，每个物理叫做页框</strong></p>
 <p><strong>页面：按照内存中划分形式，将进程划分成一个个块，每个块叫页面</strong></p>
 <ol>
 <li><p>页内偏移量为12位，则页的大小是$2^{12}B$,即4KB，页表占用的页表项的个数为$2^{32}/2^{12}=2^{20}$，即1MB，占用的字节为1×4=4MB</p>
@@ -199,18 +315,22 @@
 <p>0020 0000H+8×4=0020 0020H，物理地址2为0020 0024H</p>
 <p>页框号是物理块号，即是00900H和00901H</p>
 <p>物理地址3为00901000H</p>
-<hr>
-<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/kfnRToyjeMc9PGY.png" alt="image-20210815135349120"></p>
 </li>
 </ol>
-<ol>
+</div></div>
+<hr>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/kfnRToyjeMc9PGY.png" alt="image-20210815135349120"></p>
+<div class="hide-block"><button type="button" class="hide-button button--animated" style="background-color: #5be7ff;">查看答案
+    </button><div class="hide-content"><ol>
 <li>页的大小等于页框的大小，都为$2^{12}=4KB$，虚拟空间的大小为$2^{32}/2^{12}=2^{20}$页</li>
 <li>页目录占$(2^{10}×4)/2^{12}=1$页，页表项占$(2^{20}×4)/2^{12}=1024$页，共占1024+1=1025页</li>
 <li>访问的是同一个二级页表  页目录号010=0000 0001 00和 011=0000 0001 0001，前10位都相同</li>
 </ol>
+</div></div>
 <hr>
 <p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/WhX2HTUVPI4acf3.png" alt="image-20210815141055934"></p>
-<ol>
+<div class="hide-block"><button type="button" class="hide-button button--animated" style="background-color: #5be7ff;">查看答案
+    </button><div class="hide-content"><ol>
 <li><p>根据页式管理的工作原理，应先考虑页面大小，以便将页面和页内位移分解出来，页面大小为4KB，即是$2^{12}$，占据了虚地址的低12位，虚地址剩余的位置即是页号</p>
 <p> 2362的页号是2，快表中没有，两次访存，访问快表10ns+两次访问存时间为10+100+100=210ns</p>
 <p>1565的页号是1，会产生缺页中断，时间为访问快表，访问内存，产生缺页中断并处理，访问快表，访问内存  总时间为10+100+$10^{8}$+10+100=100 000 220ns</p>
@@ -220,27 +340,33 @@
 <ol>
 <li>根据LRU的置换算法，会把0号页面淘汰，那么分配给1号页面的页框号为101H，则虚地址的1565H的565表示页内偏移量，物理地址为101565H</li>
 </ol>
+</div></div>
 <hr>
 <p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/MEULmrShucQVwn2.png" alt="image-20210815143944662"></p>
-<ol>
+<div class="hide-block"><button type="button" class="hide-button button--animated" style="background-color: #5be7ff;">查看答案
+    </button><div class="hide-content"><ol>
 <li>页框号为21 起始驻留集为空，而0页对应的页表为空闲链表中的第三个空闲页框，对应的页框号是21</li>
 <li>页框号为32，在第三轮扫描中，第二轮被换下的32页框被重新放入，所以是32</li>
 <li>页框号为41，第2页从来没有被访问过，从空闲页框链表中取出链表头的页框41</li>
 <li>适合，如果程序的时间局部性越好，从空闲页框链中重新取回的机会越大，该策略优势也就越明显</li>
 </ol>
+</div></div>
 <hr>
 <p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/8zscKUfLq6RhrSC.png" alt="image-20210815150245641"></p>
-<ol>
+<div class="hide-block"><button type="button" class="hide-button button--animated" style="background-color: #5be7ff;">查看答案
+    </button><div class="hide-content"><ol>
 <li><p>逻辑地址空间占64KB，即是$2^{16}$，页的大小为1KB，则页偏移量占据后10位，17CAH=0001 0111 1100 1010 的前6位表示页号，页号为5</p>
 </li>
 <li><p>FIFO会将第0号页面淘汰，页框号为7，物理地址为0001 1111 1100 1010 即是1FCAH</p>
 <p>Clock会将第2号页面淘汰，页框号为2，物理地址为0000 1011 1100 1010即是 0BCAH</p>
 </li>
 </ol>
+</div></div>
 <hr>
 <p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/8bthO1AgQSc92k6.png" alt="image-20210815152510912" style="zoom:80%;" /></p>
 <p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/i5rUlQVxpLs4qzm.png" alt="image-20210815152526794"></p>
-<ol>
+<div class="hide-block"><button type="button" class="hide-button button--animated" style="background-color: #5be7ff;">查看答案
+    </button><div class="hide-content"><ol>
 <li><p>前10位是页目录的号数，中间10是页表号，最后12位是页内偏移量</p>
 <p>0000 0001 1000 0000 0110  0000 0000 1000        0180 6008H</p>
 </li>
@@ -249,9 +375,143 @@
 <li><p>访问，修改</p>
 </li>
 </ol>
+</div></div>
 <hr>
-<h2 id="文件存储问题"><a href="#文件存储问题" class="headerlink" title="文件存储问题"></a>文件存储问题</h2><p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/TJbgc85xSKn1BeG.png" alt="image-20210815161434970"></p>
-<p>1.dir目录文件</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/image-20221205184042718.png" alt="image-20221205184042718"></p>
+<div class="hide-block"><button type="button" class="hide-button button--animated" style="background-color: #5be7ff;">查看答案
+    </button><div class="hide-content"><ol>
+<li><p>页面大小=2^12B=4KB，每个页面正好可以放下1024个数组元素，即一行，$a[1][2]$会存放在第2个页面，地址偏移量为2×4B=8B，虚拟地址为：页号+页内偏移量=10801  008H</p>
+<p>10810 008H= 0001000010 0000000001 000000001000，前10位是042H，中间10位是001H，偏移量是008H    </p>
+<p>对应的页目录项的物理地址为 0020 1000H+4×42H=0020 1108H</p>
+<p>若页框号为00301H，则对应的页表项的物理地址为：00301 000H+1×4H=00301 004H</p>
+</li>
+<li><p>数组a在虚拟地址空间必须连续存放，由于数组a不止占用1页，相邻逻辑页在物理上不一定相邻，可以不连续</p>
+</li>
+<li><p>按行遍历的局部性更好，因为数组的一行被保存在同一个页面</p>
+</li>
+</ol>
+</div></div>
+<hr>
+<h3 id="874-1"><a href="#874-1" class="headerlink" title="874"></a>874</h3><p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/image-20221205190626437.png" alt="image-20221205190626437"></p>
+<div class="hide-block"><button type="button" class="hide-button button--animated" style="background-color: #5be7ff;">查看答案
+    </button><div class="hide-content"><ol>
+<li>8GB=$2^{33}$，即虚拟地址空间有33位，其中页内偏移=页框大小=页面大小为8KB即$2^{13}$B，要占据13位，剩下的地址空间为46-13=33位，一个页框能有$2^{13}/4=2^{11}$个页表，所以应该设计为$33/11=3$级页表</li>
+<li>在请求分页存储中，PTE应该包括内存块号，有效位，访问位，修改位，外存地址</li>
+</ol>
+</div></div>
+<hr>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/image-20221205192916070.png" alt=""></p>
+<div class="hide-block"><button type="button" class="hide-button button--animated" style="background-color: #5be7ff;">查看答案
+    </button><div class="hide-content"><p>此时的地址变换过程是：在 CPU给出有效地址后，由地址变换机构自动地将页号 P送入高速缓冲寄存器，并将此页号与高速缓存中的所有页号进行比较，若其中有与此相匹配的页号，便表示所要访问的页表项在快表中。于是，可直接从快表中读出该页所对应的物理块号，并送到物理地址寄存器中。如在快表中未找到对应的页表项，则还须再访问内存中的页表，找到后，把从页表项中读出的物理块号送往地址寄存器; 同时，再将此页表项存入快表的一个寄存器单元中，亦即，重新修改快表。</p>
+<p>在请求分页存储中，PTE应该包括内存块号，有效位，访问位，修改位，外存地址</p>
+<p>现对其中各字段说明如下;</p>
+<ol>
+<li>状态位（存在位）P∶由于在请求分页系统中，只将应用程序的一部分调入内存，还有一部分仍在外存磁盘上，故须在页表中增加一个存在位字段。由于该字段仅有一位，故又称位字。它用于指示该页是否已调入内存，供程序访问时参考。</li>
+<li>访问字段 A∶ 用于记录本页在一段时间内被访问的次数，或记录本页最近已有多长时间未被访问，提供给置换算法（程序）在选择换出页面时参考。</li>
+<li>修改位 M∶ 标识该页在调入内存后是否被修改过。由于内存中的每一页都在外存上保留一份副本，因此，在置换该页时，若未被修改，就不需再将该页写回到外存上，以减少系统的开销和启动磁盘的次数;若已被修改，则必须将该页重写到外存上，以保证外存中所保留的副本始终是最新的。简而言之，M 位供置换页面时参考。</li>
+<li>外存地址∶ 用于指出该页在外存上的地址，通常是物理块号，供调入该页时参考。</li>
+</ol>
+</div></div>
+<hr>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/image-20221205193625079.png" alt="image-20221205193625079"></p>
+<div class="hide-block"><button type="button" class="hide-button button--animated" style="background-color: #5be7ff;">查看答案
+    </button><div class="hide-content"><ol>
+<li><p>分页在储管理实现的基本思想：在分页存储管理中，将每个作业的逻辑地址空间分为大小相同的块，称为虚页面或页,通常页面大小为2的整数次幂（512K~4K）。同样地，将物理空间也划分为与页面大小相等的块，称之为存储块或页框，为作业分配存储空间时，总是以页框为单位。例如：一个作业的地址空间有M页，那么只要分配给它M个页框，每一页分别装入一个页框即可</p>
+</li>
+<li><p>为了确保每道程序都只在自己的内存区中运行，必须设置内存保护机制。一种比较简单的内存保护机制是设置两个界限寄存器，分别用于存放正在执行程序的上界和下界。在程序运行时，系统须对每条指令所要访问的地址进行检查，如果发生越界，便发出越界中断请求，以停止该程序的执行，即静态的界地址保护</p>
+<p>而分页和分段采用的越界保护，需要根据界址寄存器储存起始地址，根据地址变换机构来判断是否越界</p>
+</li>
+<li><p>在内存中划出了一块共享存储区域，诸进程可通过对该共享区的读或写交换信息，实现通信，数据的形式和位置甚至访问控制都是由进程负责，而不是 OS。这种通信方式属于高级通信。需要通信的进程在通信前，先向系统申请获得共享存储区中的一个分区，并将其附加到自己的地址空间中，便可对其中的数据进行正常读、写，读写完成或不再需要时，将其归还给共享存储区。</p>
+</li>
+</ol>
+</div></div>
+<hr>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/image-20221205193557733.png" alt="image-20221205193557733"></p>
+<div class="hide-block"><button type="button" class="hide-button button--animated" style="background-color: #5be7ff;">查看答案
+    </button><div class="hide-content"><p>64位虚拟地址空间，页面长4KB=$2^{12}$B，即占12位，剩下的64-12=52位，而一页能存储的页表项为4KB/4B=$2^{10}$，即占10位，所以至少需要6层分页策略才行</p>
+</div></div>
+<hr>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/image-20221206221250985.png" alt="image-20221206221250985"></p>
+<div class="hide-block"><button type="button" class="hide-button button--animated" style="background-color: #5be7ff;">查看答案
+    </button><div class="hide-content"><ol>
+<li>$2^{48}/2^{12}$=$2^{36}$，则36位作为页表位数，$4KB/8B=2^{9}$，1级页表占9位，36/9=4，需要4级页表</li>
+<li>0.98×(10+100)+0.02×(10+100+100)=112ns</li>
+<li>0.98×(10+100)+0.02×(10+100+100+100)=114ns</li>
+<li>p×(10+100)+(1-p)×(10+100+100+100)&lt;120ns   p=95%</li>
+<li>每段最大为$4GB=2^{32}$，则段内偏移量为32位，段号为16位，最多$2^{16}$段，多级页表的每级页表最多有9位，所以20/9=2.2&lt;3，段内采取3级页表</li>
+</ol>
+</div></div>
+<hr>
+<h2 id="文件存储问题"><a href="#文件存储问题" class="headerlink" title="文件存储问题"></a>文件存储问题</h2><h3 id="基础知识-2"><a href="#基础知识-2" class="headerlink" title="基础知识"></a>基础知识</h3><p>分配方式有3种</p>
+<ol>
+<li>连续分配</li>
+<li>链接分配<ul>
+<li>隐式链接</li>
+<li>显式链接</li>
+</ul>
+</li>
+<li>索引分配</li>
+</ol>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/image-20220721164855509.png" alt="image-20220721164855509"></p>
+<p>不同的分配方式会导致不同的结果，但精髓在于：如何存储器中块的数目？</p>
+<p>显式链接：FAT的位数</p>
+<p>隐式链接：链接指针的位数</p>
+<p>直接索引：索引结点的位数</p>
+<p>间接索引：每一个簇能存放索引结点的个数</p>
+<p>计算如下：</p>
+<ul>
+<li><p>连续分配</p>
+<p>起始块号和块数的平衡</p>
+</li>
+</ul>
+<ul>
+<li><p>链接分配</p>
+<ul>
+<li><p>显式链接</p>
+<p>常给出的概念：<strong>FAT表项大小   簇的大小</strong></p>
+<p>FAT表项位数$\Longleftarrow$FAT表项大小</p>
+<p>FAT表项数目$\Longleftarrow$FAT表项位数</p>
+<p>FAT的最大长度$\Longleftarrow$FAT表项大小×FAT表项数目</p>
+<p>最大文件长度$\Longleftarrow$FAT的表项的数量×簇的大小</p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>隐式链接：</p>
+<p>常给出的概念：<strong>簇的大小  链接指针的大小or链接数据区的大小</strong></p>
+<p>磁盘块的位数$\Longleftarrow$链接指针的大小</p>
+<p>磁盘块的数目$\Longleftarrow$磁盘块的位数</p>
+<p>最大文件长度$\Longleftarrow$(块的大小-指针大小)×磁盘块的数目</p>
+</li>
+</ul>
+<ul>
+<li><p>索引分配</p>
+<p>常给出的概念： <strong>磁盘块(簇)的大小</strong>    <strong>索引表区的大小</strong> </p>
+<p>文件的数目$\Longleftarrow$索引表区的大小/索引结点的大小</p>
+</li>
+</ul>
+<ul>
+<li><p>直接索引</p>
+<p><strong>文件系统空间的最大容量</strong> 常给出</p>
+<p>磁盘块的数量$\Longleftarrow$文件系统容量/磁盘簇的大小</p>
+<p>索引表项的位数$\Longleftarrow$磁盘块的数量</p>
+<p>索引表项的大小$\Longleftarrow$索引表项的位数</p>
+<p>索引表项的数量$\Longleftarrow$索引表区的大小/索引表项的大小</p>
+<p>文件最大长度$\Longleftarrow$索引表项的数量×磁盘块的大小</p>
+</li>
+</ul>
+<ul>
+<li><p>间接索引</p>
+<p><strong>索引结点的大小</strong>  常给出</p>
+<p>簇内索引结点的数量$\Longleftarrow$簇的大小/索引结点的大小</p>
+<p>文件最大长度$\Longleftarrow$（直接索引+一级索引×簇内索引结点的数量+二阶索引×簇内索引接地的数目²）×簇大小</p>
+</li>
+</ul>
+<hr>
+<h3 id="408-2"><a href="#408-2" class="headerlink" title="408"></a>408</h3><p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/TJbgc85xSKn1BeG.png" alt="image-20210815161434970"></p>
+<div class="hide-block"><button type="button" class="hide-button button--animated" style="background-color: #5be7ff;">查看答案
+    </button><div class="hide-content"><p>1.dir目录文件</p>
 <div class="table-container">
 <table>
 <thead>
@@ -292,24 +552,28 @@
 <p>2.2B也就是16位，FAT最多有$2^{16}$个表项，系统也最多有$2^{16}$个块，FAT的最大长度是$2^{16}×2B=128KB$，文件的最大长度是$2^{16}×4KB=256MB$</p>
 <p>3.根据FAT的存放标准，每一个块指示下一个块的位置，file1的簇号106存放在FAT的100号表项中，簇号108存放在FAT的106号表项中</p>
 <p>4.第5000个字节明显是在第106簇中，已经读入了dir了，所以需要读入dir1的目录文件48号簇和file1的106号簇</p>
+</div></div>
 <hr>
 <p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/Uw4vjp6cIE1Lmqr.png" alt="image-20210815162546899"></p>
-<ol>
+<div class="hide-block"><button type="button" class="hide-button button--animated" style="background-color: #5be7ff;">查看答案
+    </button><div class="hide-content"><ol>
 <li>采用直接索引结构，4TB/1KB=$2^{32}$，32位最少需要4B来表示，那么512B的索引表区最多存储128个表项，128×1KB=128KB，最大长度是128KB</li>
 <li>块数占了2B，即是16位，$2^{16}$，可以表示$2^{16}$×1KB=$2^{16}$KB，剩下的504B采取直接索引的方式，可储存504/6=84个磁盘，即是84KB，一共是$2^{16}$KB+84KB</li>
 </ol>
 <p>​      扩展单个文件的长度，就是让块数所占的字节尽可能贴近最大块数，调整为4B，即占据32位，和文件里面的物理块数一样，达到文件系统空间上限</p>
+</div></div>
 <hr>
 <p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/T3aGU4goO1rKSRv.png" alt="image-20210815165649844"></p>
-<ol>
-<li><p>系统采用顺序分配方式时，插入记录需要移动其他的记录块，整个文件共有 200 条记录，要插入新记录作为第 30 条，而存储区前后均有足够的磁盘空间，且要求最少的访问存储块数，则要把文件前 29 条记录前移，若算访盘次数移动一条记录读出和存回磁盘各是一次访盘，29 条记录共访盘 58 次，存回第 30 条记录访盘 1 次，共访盘 59 次。F 的文件控制区的起始块号和文件长度的内容会因此改变。</p>
-</li>
-<li><p>文件系统采用链接分配方式时，插入记录并不用移动其他记录，只需找到相应的记录，修改指针即可。插入的记录为其第 30 条记录，那么需要找到文件系统的第 29 块，一共需要访盘 29 次，然后把第 29 块的下块地址部分赋给新块，把新块存回内存会访盘 1 次，然后修改内存中第 29 块的下块地址字段，再存回磁盘，一共访盘 31 次。 4 个字节共 32 位，可以寻址 $2^{32}$=4G 块存储块，每块的大小为 1KB，即 1024B，其中下块地址部分占 4B，数据部分占 1020B，那么该系统的文件最大长度是 4G×1020B=4080GB。</p>
-</li>
+<div class="hide-block"><button type="button" class="hide-button button--animated" style="background-color: #5be7ff;">查看答案
+    </button><div class="hide-content"><ol>
+<li>系统采用顺序分配方式时，插入记录需要移动其他的记录块，整个文件共有 200 条记录，要插入新记录作为第 30 条，而存储区前后均有足够的磁盘空间，且要求最少的访问存储块数，则要把文件前 29 条记录前移，若算访盘次数移动一条记录读出和存回磁盘各是一次访盘，29 条记录共访盘 58 次，存回第 30 条记录访盘 1 次，共访盘 59 次。F 的文件控制区的起始块号和文件长度的内容会因此改变。</li>
+<li>文件系统采用链接分配方式时，插入记录并不用移动其他记录，只需找到相应的记录，修改指针即可。插入的记录为其第 30 条记录，那么需要找到文件系统的第 29 块，一共需要访盘 29 次，然后把第 29 块的下块地址部分赋给新块，把新块存回内存会访盘 1 次，然后修改内存中第 29 块的下块地址字段，再存回磁盘，一共访盘 31 次。 4 个字节共 32 位，可以寻址 $2^{32}$=4G 块存储块，每块的大小为 1KB，即 1024B，其中下块地址部分占 4B，数据部分占 1020B，那么该系统的文件最大长度是 4G×1020B=4080GB。</li>
 </ol>
+</div></div>
 <hr>
 <p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/71DM3VI9RSymduk.png" alt="image-20210815203424396"></p>
-<ol>
+<div class="hide-block"><button type="button" class="hide-button button--animated" style="background-color: #5be7ff;">查看答案
+    </button><div class="hide-content"><ol>
 <li><p>关键在于一个簇内能放多少个地址项，4KB/4B=$2^{10}$，最大文件长度为8×4KB+$2^{10}$×10KB+</p>
 <p>$2^{20}$×10KB+$2^{30}$×10KB</p>
 </li>
@@ -318,17 +582,50 @@
 <li><p>不相同，因为6KB<32KB,在直接索引结点内，而40KB>32KB，在一级索引结点内</p>
 </li>
 </ol>
+</div></div>
+<hr>
+<h3 id="874-2"><a href="#874-2" class="headerlink" title="874"></a>874</h3><p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/image-20221206190317941.png" alt="image-20221206190317941"></p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/image-20221206190602166.png" alt="image-20221206190602166" style="zoom:67%;" /></p>
+<div class="hide-block"><button type="button" class="hide-button button--animated" style="background-color: #5be7ff;">查看答案
+    </button><div class="hide-content"><ol>
+<li><p>每个数据块可以保存的索引项的数目为：4KB/4B=$2^{10}$，所以能表示的最大文件长度为：</p>
+<p>(10+$2^{10}$+$2^{20}$+$2^{30}$)×4KB≈4KB</p>
+</li>
+<li><p>该文件占用的2GB/4KB=512×1024个数据块</p>
+<p>首先直接索引指向了10个数据块，一级间接指引指向了1024个数据块，需要1个索引块，二级索引指向剩下的数据块，即(512×1024-10-1024)个数据块,那么总共需要1+[(512×1024-10-1024)/1024]=512个索引块</p>
+<p>索引块所占的空间为：（1+512）×4KB=2MB+4KB</p>
+<p>另外，每个文件使用的i_node数据结构占13×4B=52B，故该文件时间占用的磁盘空间大小为2GB+2MB+4KB+52B</p>
+</li>
+</ol>
+</div></div>
+<hr>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/image-20221206192804158.png" alt="image-20221206192804158"></p>
+<div class="hide-block"><button type="button" class="hide-button button--animated" style="background-color: #5be7ff;">查看答案
+    </button><div class="hide-content"><p>首先，簇大小为$2^8$B,每个簇内能放下256/4=64=$2^6$个索引项，所以</p>
+<p>最大长度=$(4+2×2^6+2×2^{12})×2^8=1KB+32KB+2MB$</p>
+</div></div>
+<hr>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/image-20221206211417022.png" alt="image-20221206211417022"></p>
+<div class="hide-block"><button type="button" class="hide-button button--animated" style="background-color: #5be7ff;">查看答案
+    </button><div class="hide-content"><ol>
+<li>每个物理块可放4个目录项和2个记录，要正确读取到usr和you目录，都必须先读取前一个数据块，所以读写dir1的数据块至少要经过2×2+1=5次读取，由于链式存储不具有随机存储的特性，文件A有598条记录，则需要598/2=299块存取，需要299+5=304次存取磁盘</li>
+<li>如果是连续文件，读写dir1的数据块的次数是一样的，即5次，但读取文件A的第487条记录时可以直接读取，只用1次，所以总的需要1+5=6次</li>
+</ol>
+</div></div>
 <hr>
 <h2 id="磁盘调度问题"><a href="#磁盘调度问题" class="headerlink" title="磁盘调度问题"></a>磁盘调度问题</h2><p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/EKQDBorR8FhjgGZ.png" alt="image-20210815205503146"></p>
-<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/Edrvh7YQjWmMZnp.png" alt="image-20210815205511199"></p>
+<div class="hide-block"><button type="button" class="hide-button button--animated" style="background-color: #5be7ff;">查看答案
+    </button><div class="hide-content"><p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/Edrvh7YQjWmMZnp.png" alt="image-20210815205511199"></p>
 <ol>
 <li>16384是$2^{14}$，而2KB的内存空间转为位，也是$2^{14}$位，所以正好可以用位示图法</li>
 <li>移动磁道的时间为20+90+20+40=170ms，转速为100r/s，旋转延迟为5ms，总的旋转延迟为20ms，读100个扇区的时间为1/(100*100)=0.1ms,总读取时间为0.4ms，总时间为170+20+0.4=190.4ms</li>
 <li>FCFS算法，因为Flash储存器不需要考虑寻道时间和旋转延迟，可以按I/O请求的先后顺序服务</li>
 </ol>
+</div></div>
 <hr>
 <p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/kQbG2t7v5LjdBrF.png" alt="image-20210815231148159"></p>
-<ol>
+<div class="hide-block"><button type="button" class="hide-button button--animated" style="background-color: #5be7ff;">查看答案
+    </button><div class="hide-content"><ol>
 <li><p>300×10×200×512=300000MB</p>
 </li>
 <li><p>在85号柱面上，通过计算，85号柱面对应的簇号是85000~85999所以先到100260再到101660，然后访问110560，最后访问60005</p>
@@ -340,7 +637,8 @@
 <p>由磁盘驱动程序完成</p>
 </li>
 </ol>
-</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></div><div class="post_share"><div class="social-share" data-image="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/8aad8c72d6a53ff1a879f8dd779599d2_r.jpg" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/social-share.js/1.0.16/css/share.min.css" media="print" onload="this.media='all'"><script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/social-share.js/1.0.16/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/post/64748.html"><img class="prev-cover" src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/8aad8c72d6a53ff1a879f8dd779599d2_r.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">408操作系统重点题</div></div></a></div><div class="next-post pull-right"><a href="/post/32892.html"><img class="next-cover" src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/Math.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">7.整数反转</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Candle</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">158</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">19</div></a></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#408%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%A7%E9%A2%98%E8%A7%A3%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">408操作系统大题解析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text">进程同步问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E9%97%AE%E9%A2%98"><span class="toc-number">1.2.</span> <span class="toc-text">进程调度问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B5%E9%9D%A2%E8%BD%AC%E6%8D%A2%E9%97%AE%E9%A2%98"><span class="toc-number">1.3.</span> <span class="toc-text">页面转换问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8%E9%97%AE%E9%A2%98"><span class="toc-number">1.4.</span> <span class="toc-text">文件存储问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A3%81%E7%9B%98%E8%B0%83%E5%BA%A6%E9%97%AE%E9%A2%98"><span class="toc-number">1.5.</span> <span class="toc-text">磁盘调度问题</span></a></li></ol></li></ol></div></div><div class="card-widget card-recommend-post"><div class="item-headline"><i class="fas fa-dharmachakra"></i><span>相关推荐</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/post/56273.html" title="1.计算机操作系统概述"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/8aad8c72d6a53ff1a879f8dd779599d2_r.jpg" alt="1.计算机操作系统概述"></a><div class="content"><a class="title" href="/post/56273.html" title="1.计算机操作系统概述">1.计算机操作系统概述</a><time datetime="2021-12-28" title="������ 2021-12-28">2021-12-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/20999.html" title="5.输入输出系统"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/8aad8c72d6a53ff1a879f8dd779599d2_r.jpg" alt="5.输入输出系统"></a><div class="content"><a class="title" href="/post/20999.html" title="5.输入输出系统">5.输入输出系统</a><time datetime="2021-12-29" title="������ 2021-12-29">2021-12-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/63590.html" title="4.文件管理"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/8aad8c72d6a53ff1a879f8dd779599d2_r.jpg" alt="4.文件管理"></a><div class="content"><a class="title" href="/post/63590.html" title="4.文件管理">4.文件管理</a><time datetime="2021-12-29" title="������ 2021-12-29">2021-12-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/14199.html" title="2.进程管理"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/8aad8c72d6a53ff1a879f8dd779599d2_r.jpg" alt="2.进程管理"></a><div class="content"><a class="title" href="/post/14199.html" title="2.进程管理">2.进程管理</a><time datetime="2021-12-28" title="������ 2021-12-28">2021-12-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/64748.html" title="408操作系统重点题"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/8aad8c72d6a53ff1a879f8dd779599d2_r.jpg" alt="408操作系统重点题"></a><div class="content"><a class="title" href="/post/64748.html" title="408操作系统重点题">408操作系统重点题</a><time datetime="2021-12-29" title="������ 2021-12-29">2021-12-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/37793.html" title="3.存储器管理"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/8aad8c72d6a53ff1a879f8dd779599d2_r.jpg" alt="3.存储器管理"></a><div class="content"><a class="title" href="/post/37793.html" title="3.存储器管理">3.存储器管理</a><time datetime="2021-12-28" title="������ 2021-12-28">2021-12-28</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By Candle</div><div class="framework-info"><span>Powered by </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a></div><div class="footer_custom_text">So Long, and Thanks for All the Fish</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+</div></div>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></div><div class="post_share"><div class="social-share" data-image="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/8aad8c72d6a53ff1a879f8dd779599d2_r.jpg" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/social-share.js/1.0.16/css/share.min.css" media="print" onload="this.media='all'"><script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/social-share.js/1.0.16/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/post/64748.html"><img class="prev-cover" src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/8aad8c72d6a53ff1a879f8dd779599d2_r.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">操作系统选择题</div></div></a></div><div class="next-post pull-right"><a href="/post/32892.html"><img class="next-cover" src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/Math.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">7.整数反转</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Candle</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">159</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">19</div></a></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%A7%E9%A2%98%E8%A7%A3%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">操作系统大题解析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text">进程同步问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">1.1.1.</span> <span class="toc-text">基础知识</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#408"><span class="toc-number">1.1.2.</span> <span class="toc-text">408</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#874"><span class="toc-number">1.1.3.</span> <span class="toc-text">874</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E9%97%AE%E9%A2%98"><span class="toc-number">1.2.</span> <span class="toc-text">进程调度问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B5%E9%9D%A2%E8%BD%AC%E6%8D%A2%E9%97%AE%E9%A2%98"><span class="toc-number">1.3.</span> <span class="toc-text">页面转换问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86-1"><span class="toc-number">1.3.1.</span> <span class="toc-text">基础知识</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#408-1"><span class="toc-number">1.3.2.</span> <span class="toc-text">408</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#874-1"><span class="toc-number">1.3.3.</span> <span class="toc-text">874</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8%E9%97%AE%E9%A2%98"><span class="toc-number">1.4.</span> <span class="toc-text">文件存储问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86-2"><span class="toc-number">1.4.1.</span> <span class="toc-text">基础知识</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#408-2"><span class="toc-number">1.4.2.</span> <span class="toc-text">408</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#874-2"><span class="toc-number">1.4.3.</span> <span class="toc-text">874</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A3%81%E7%9B%98%E8%B0%83%E5%BA%A6%E9%97%AE%E9%A2%98"><span class="toc-number">1.5.</span> <span class="toc-text">磁盘调度问题</span></a></li></ol></li></ol></div></div><div class="card-widget card-recommend-post"><div class="item-headline"><i class="fas fa-dharmachakra"></i><span>相关推荐</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/post/56273.html" title="1.计算机操作系统概述"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/8aad8c72d6a53ff1a879f8dd779599d2_r.jpg" alt="1.计算机操作系统概述"></a><div class="content"><a class="title" href="/post/56273.html" title="1.计算机操作系统概述">1.计算机操作系统概述</a><time datetime="2021-12-28" title="������ 2021-12-28">2021-12-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/63590.html" title="4.文件管理"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/8aad8c72d6a53ff1a879f8dd779599d2_r.jpg" alt="4.文件管理"></a><div class="content"><a class="title" href="/post/63590.html" title="4.文件管理">4.文件管理</a><time datetime="2021-12-29" title="������ 2021-12-29">2021-12-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/20999.html" title="5.输入输出系统"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/8aad8c72d6a53ff1a879f8dd779599d2_r.jpg" alt="5.输入输出系统"></a><div class="content"><a class="title" href="/post/20999.html" title="5.输入输出系统">5.输入输出系统</a><time datetime="2021-12-29" title="������ 2021-12-29">2021-12-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/14199.html" title="2.进程管理"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/8aad8c72d6a53ff1a879f8dd779599d2_r.jpg" alt="2.进程管理"></a><div class="content"><a class="title" href="/post/14199.html" title="2.进程管理">2.进程管理</a><time datetime="2021-12-28" title="������ 2021-12-28">2021-12-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/37793.html" title="3.存储器管理"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/8aad8c72d6a53ff1a879f8dd779599d2_r.jpg" alt="3.存储器管理"></a><div class="content"><a class="title" href="/post/37793.html" title="3.存储器管理">3.存储器管理</a><time datetime="2021-12-28" title="������ 2021-12-28">2021-12-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/64748.html" title="操作系统选择题"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/8aad8c72d6a53ff1a879f8dd779599d2_r.jpg" alt="操作系统选择题"></a><div class="content"><a class="title" href="/post/64748.html" title="操作系统选择题">操作系统选择题</a><time datetime="2021-12-29" title="������ 2021-12-29">2021-12-29</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By Candle</div><div class="framework-info"><span>Powered by </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a></div><div class="footer_custom_text">So Long, and Thanks for All the Fish</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
   endLoading: () => {
     document.body.style.overflow = 'auto';
     document.getElementById('loading-box').classList.add("loaded")

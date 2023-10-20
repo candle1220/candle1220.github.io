@@ -3480,12 +3480,15 @@ li.categoryBar-list-item:nth-child(5) {
   background: url('https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/shuxue.jpg');
 }
 li.categoryBar-list-item:nth-child(6) {
-  background: url('https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/8aad8c72d6a53ff1a879f8dd779599d2_r.jpg');
+  background: url('https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231020181029461.png');
 }
 li.categoryBar-list-item:nth-child(7) {
-  background: url('https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/data.png');
+  background: url('https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/8aad8c72d6a53ff1a879f8dd779599d2_r.jpg');
 }
 li.categoryBar-list-item:nth-child(8) {
+  background: url('https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/data.png');
+}
+li.categoryBar-list-item:nth-child(9) {
   background: url('https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/chip1.jpg');
 }
 li.categoryBar-list-item:nth-child(1)>span::after {

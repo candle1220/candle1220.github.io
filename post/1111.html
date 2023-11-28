@@ -1,0 +1,415 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>10.5 ex6：SVM | Night's Watch</title><meta name="keywords" content="机器学习"><meta name="author" content="Candle"><meta name="copyright" content="Candle"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="ex6：SVM前半概述在这个练习的前半部分，您将使用支持向量机（SVM）处理各种示例的2D数据集。通过对这些数据集进行实验，您将更好地理解支持向量机的工作原理以及如何在支持向量机中使用高斯核。在练习的后半部分，您将使用支持向量机构建一个垃圾邮件分类器。 前半部分文件：  ex6.py - 这是Octave&#x2F;MATLAB脚本，用于处理练习的前半部分。 ex6data1.mat - 示例数据集1。 e">
+<meta property="og:type" content="article">
+<meta property="og:title" content="10.5 ex6：SVM">
+<meta property="og:url" content="http://candle1220.github.io/post/1111.html">
+<meta property="og:site_name" content="Night&#39;s Watch">
+<meta property="og:description" content="ex6：SVM前半概述在这个练习的前半部分，您将使用支持向量机（SVM）处理各种示例的2D数据集。通过对这些数据集进行实验，您将更好地理解支持向量机的工作原理以及如何在支持向量机中使用高斯核。在练习的后半部分，您将使用支持向量机构建一个垃圾邮件分类器。 前半部分文件：  ex6.py - 这是Octave&#x2F;MATLAB脚本，用于处理练习的前半部分。 ex6data1.mat - 示例数据集1。 e">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231020181029461.png">
+<meta property="article:published_time" content="2023-11-24T11:17:37.457Z">
+<meta property="article:modified_time" content="2023-11-28T01:36:56.783Z">
+<meta property="article:author" content="Candle">
+<meta property="article:tag" content="机器学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231020181029461.png"><link rel="shortcut icon" href="/img/candle.png"><link rel="canonical" href="http://candle1220.github.io/post/1111"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#55d5fc","bgDark":"#121212","position":"top-center"},
+  source: {
+    jQuery: 'https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/3.6.0/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.js',
+      css: 'https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '10.5 ex6：SVM',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-11-28 09:36:56'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    document.addEventListener('pjax:complete', detectApple)})(window)</script><link rel="stylesheet" href="/css/background.css"><link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/Swiper/8.0.6/swiper-bundle.min.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/head.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">180</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">19</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-crow"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/background.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Night's Watch</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-crow"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">10.5 ex6：SVM</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-11-24T11:17:37.457Z" title="发表于 2023-11-24 19:17:37">2023-11-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-11-28T01:36:56.783Z" title="更新于 2023-11-28 09:36:56">2023-11-28</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="10.5 ex6：SVM"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="ex6：SVM"><a href="#ex6：SVM" class="headerlink" title="ex6：SVM"></a>ex6：SVM</h1><h2 id="前半"><a href="#前半" class="headerlink" title="前半"></a>前半</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>在这个练习的前半部分，您将使用支持向量机（SVM）处理各种示例的2D数据集。通过对这些数据集进行实验，您将更好地理解支持向量机的工作原理以及如何在支持向量机中使用高斯核。在练习的后半部分，您将使用支持向量机构建一个垃圾邮件分类器。</p>
+<p>前半部分文件：</p>
+<ul>
+<li><strong><code>ex6.py</code></strong> - 这是Octave/MATLAB脚本，用于处理练习的前半部分。</li>
+<li><strong><code>ex6data1.mat</code></strong> - 示例数据集1。</li>
+<li><strong><code>ex6data2.mat</code></strong> - 示例数据集2。</li>
+<li><strong><code>ex6data3.mat</code></strong> - 示例数据集3。</li>
+<li><strong><code>svmTrain.py</code></strong> - SVM训练函数。</li>
+<li><strong><code>svmPredict.py</code></strong> - SVM预测函数。</li>
+<li><strong><code>visualizeBoundaryLinear.py</code></strong> - 绘制线性边界的函数。</li>
+<li><strong><code>visualizeBoundary.py</code></strong> - 绘制非线性边界的函数。</li>
+<li><strong><code>linearKernel.py</code></strong> - SVM的线性核函数。</li>
+</ul>
+<p>需要自己补充的文件：</p>
+<ul>
+<li><strong><code>gaussianKernel.py</code></strong> - SVM的高斯核函数</li>
+<li><p><strong><code>dataset3Params.py</code></strong> - 用于数据集3的参数</p>
+</li>
+<li><p><strong><code>plotData.py</code></strong> - 绘制2D数据的函数。</p>
+</li>
+</ul>
+<hr>
+<h3 id="导入"><a href="#导入" class="headerlink" title="导入"></a>导入</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> scipy.io <span class="keyword">as</span> scio</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> svm</span><br><span class="line"><span class="keyword">import</span> plotData <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> visualizeBoundary <span class="keyword">as</span> vb</span><br><span class="line"><span class="keyword">import</span> gaussianKernel <span class="keyword">as</span> gk</span><br></pre></td></tr></table></figure>
+<p><code>from sklearn import svm</code> 表示从 scikit-learn 库中导入支持向量机（SVM）相关的模块或类</p>
+<hr>
+<h3 id="加载并绘图"><a href="#加载并绘图" class="headerlink" title="加载并绘图"></a>加载并绘图</h3><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ===================== Part 1: Loading and Visualizing Data =====================</span></span><br><span class="line"><span class="comment"># 通过首先加载和可视化数据集来开始练习。</span></span><br><span class="line"><span class="comment"># 下面的代码将把数据集加载到你的环境中并绘制数据。</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Loading and Visualizing data ... &#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 从ex6data1加载数据：</span></span><br><span class="line">data = scio.loadmat(<span class="string">&#x27;ex6data1.mat&#x27;</span>)</span><br><span class="line">X = data[<span class="string">&#x27;X&#x27;</span>]</span><br><span class="line">y = data[<span class="string">&#x27;y&#x27;</span>].flatten()</span><br><span class="line">m = y.size</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制训练数据</span></span><br><span class="line">pd.plot_data(X, y)</span><br><span class="line"></span><br><span class="line"><span class="built_in">input</span>(<span class="string">&#x27;Program paused. Press ENTER to continue&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>这里需要写绘图文件<code>plotData.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">plot_data</span>(<span class="params">X, y</span>):</span></span><br><span class="line">    plt.figure()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Plot the positive and negative examples</span></span><br><span class="line">    positive_indices = (y == <span class="number">1</span>)</span><br><span class="line">    negative_indices = (y == <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    plt.scatter(X[positive_indices][:, <span class="number">0</span>], X[positive_indices][:, <span class="number">1</span>], marker=<span class="string">&#x27;+&#x27;</span>, c=<span class="string">&#x27;b&#x27;</span>, label=<span class="string">&#x27;Positive&#x27;</span>)</span><br><span class="line">    plt.scatter(X[negative_indices][:, <span class="number">0</span>], X[negative_indices][:, <span class="number">1</span>], marker=<span class="string">&#x27;o&#x27;</span>, c=<span class="string">&#x27;r&#x27;</span>, label=<span class="string">&#x27;Negative&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Set labels and title</span></span><br><span class="line">    plt.xlabel(<span class="string">&#x27;Feature 1&#x27;</span>)</span><br><span class="line">    plt.ylabel(<span class="string">&#x27;Feature 2&#x27;</span>)</span><br><span class="line">    plt.title(<span class="string">&#x27;Scatter plot of training data&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Display legend</span></span><br><span class="line">    plt.legend()</span><br></pre></td></tr></table></figure>
+<p><code>positive_indices</code> 和 <code>negative_indices</code> 是通过布尔条件来筛选出正例和负例的索引。在这里，<code>y</code> 是包含标签的数组，通常是 0 或 1。</p>
+<ul>
+<li><code>positive_indices</code> 是一个布尔数组，其中对应于 <code>y</code> 中值为 1 的位置为 <code>True</code>，其余位置为 <code>False</code>。</li>
+<li><code>negative_indices</code> 是一个布尔数组，其中对应于 <code>y</code> 中值为 0 的位置为 <code>True</code>，其余位置为 <code>False</code>。</li>
+</ul>
+<p>这两个数组可以用来从特征数组 <code>X</code> 中提取正例和负例的数据点。例如，<code>X[positive_indices]</code> 将给出所有正例对应的特征数据，而 <code>X[negative_indices]</code> 将给出所有负例对应的特征数据。</p>
+<p>画出的图：</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231124194309275.png" alt="image-20231124194309275" style="zoom:67%;" /></p>
+<hr>
+<h3 id="训练SVM"><a href="#训练SVM" class="headerlink" title="训练SVM"></a>训练SVM</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ===================== Part 2: Training Linear SVM =====================</span></span><br><span class="line"><span class="comment"># 下面的代码将在数据集上训练一个线性SVM，并绘制学到的决策边界。</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Training Linear SVM&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 你应该尝试改变下面的C值，看看决策边界如何变化（例如，尝试C = 1000）</span></span><br><span class="line"></span><br><span class="line">c = <span class="number">1000</span></span><br><span class="line">clf = svm.SVC(C=c, kernel=<span class="string">&#x27;linear&#x27;</span>, tol=<span class="number">1e-3</span>)</span><br><span class="line">clf.fit(X, y)</span><br><span class="line"></span><br><span class="line">pd.plot_data(X, y)</span><br><span class="line">vb.visualize_boundary(clf, X, <span class="number">0</span>, <span class="number">4.5</span>, <span class="number">1.5</span>, <span class="number">5</span>)</span><br><span class="line"><span class="built_in">input</span>(<span class="string">&#x27;Program paused. Press ENTER to continue&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p><code>clf=svm.SVC(C=c, kernel=&#39;linear&#39;, tol=1e-3)</code>参数的意义是：</p>
+<ul>
+<li><p><strong>C：float，默认=1.0</strong>，惩罚项的倒数。较小的 <code>C</code> 会导致更宽松的决策边界，而较大的 <code>C</code> 会导致更严格的决策边界。在训练过程中，<code>C</code> 控制错误分类的惩罚，即对错误分类的惩罚越大，模型越倾向于尽量正确分类每个样本。这里设置为1000</p>
+</li>
+<li><p><strong>kernel：string，默认=’rbf’</strong>，这里设置为线性核</p>
+<p>核函数的类型。常用的核函数有：</p>
+<ul>
+<li><code>&#39;linear&#39;</code>：线性核</li>
+<li><code>&#39;poly&#39;</code>：多项式核</li>
+<li><code>&#39;rbf&#39;</code>（默认）：径向基函数（高斯核）</li>
+<li><code>&#39;sigmoid&#39;</code>：Sigmoid核</li>
+</ul>
+</li>
+<li><p><strong>tol：float，默认=1e-3</strong>，容忍停止标准。训练迭代过程中的收敛容忍度。</p>
+</li>
+<li><p><strong>clf</strong>：训练后的支持向量分类器。这个对象可以用于对新样本进行分类</p>
+</li>
+</ul>
+<p><code>clf.fit(X, y)</code> 是支持向量机（SVM）分类器中用于训练模型的方法。在这个方法调用之后，模型会根据提供的训练数据 <code>X</code> 和对应的标签 <code>y</code> 进行学习，以找到一个最佳的决策边界（或超平面），以区分不同类别的样本。</p>
+<p>例如，在线性核函数的情况下，<code>clf.fit(X, y)</code> 将学习一个线性决策边界，使得在特征空间中不同类别的样本被尽可能正确地划分。学习过程中，模型会根据训练数据调整参数，其中最重要的参数之一是 <code>C</code>，它控制了错误分类的惩罚。</p>
+<p>训练完成后，模型就可以用于对新的未见过的样本进行分类，通过调用 <code>clf.predict(new_data)</code> 方法，其中 <code>new_data</code> 是新样本的特征</p>
+<p><code>visualize_boundary</code>函数是已经给出的，只需要直接调用</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231124194427328.png" alt="image-20231124194427328" style="zoom: 80%;" /></p>
+<hr>
+<h3 id="高斯核函数"><a href="#高斯核函数" class="headerlink" title="高斯核函数"></a>高斯核函数</h3><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ===================== Part 3: Implementing Gaussian Kernel =====================</span></span><br><span class="line"><span class="comment"># 现在你将实现高斯核函数以用于SVM。你现在应该完成gaussianKernel.py中的代码。</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Evaluating the Gaussian Kernel&#x27;</span>)</span><br><span class="line"></span><br><span class="line">x1 = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">1</span>])</span><br><span class="line">x2 = np.array([<span class="number">0</span>, <span class="number">4</span>, -<span class="number">1</span>])</span><br><span class="line">sigma = <span class="number">2</span></span><br><span class="line">sim = gk.gaussian_kernel(x1, x2, sigma)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Gaussian kernel between x1 = [1, 2, 1], x2 = [0, 4, -1], sigma = &#123;&#125; : &#123;:0.6f&#125;\n&#x27;</span></span><br><span class="line">      <span class="string">&#x27;(for sigma = 2, this value should be about 0.324652&#x27;</span>.<span class="built_in">format</span>(sigma, sim))</span><br><span class="line"></span><br><span class="line"><span class="built_in">input</span>(<span class="string">&#x27;Program paused. Press ENTER to continue&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>编写高斯核函数，完成<code>gaussianKernel.py</code></p>
+<script type="math/tex; mode=display">
+K(x, y) = \exp\left(-\frac{\|x-y\|^2}{2\sigma^2}\right)</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gaussian_kernel</span>(<span class="params">x1, x2, sigma</span>):</span></span><br><span class="line">    x1 = x1.flatten()</span><br><span class="line">    x2 = x2.flatten()</span><br><span class="line"></span><br><span class="line">    sim = <span class="number">0</span></span><br><span class="line">    x=-np.<span class="built_in">sum</span>(np.power((x1-x2),<span class="number">2</span>))/(<span class="number">2</span>*np.power(sigma,<span class="number">2</span>))</span><br><span class="line"></span><br><span class="line">    sim=np.exp(x)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># ==========================================================</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> sim</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="加载新数据并绘图"><a href="#加载新数据并绘图" class="headerlink" title="加载新数据并绘图"></a>加载新数据并绘图</h3><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ===================== Part 4: Visualizing Dataset 2 =====================</span></span><br><span class="line"><span class="comment"># 下面的代码将加载下一个数据集到你的环境中，并绘制数据</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Loading and Visualizing Data ...&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 从ex6data1加载数据：</span></span><br><span class="line">data = scio.loadmat(<span class="string">&#x27;ex6data2.mat&#x27;</span>)</span><br><span class="line">X = data[<span class="string">&#x27;X&#x27;</span>]</span><br><span class="line">y = data[<span class="string">&#x27;y&#x27;</span>].flatten()</span><br><span class="line">m = y.size</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制训练数据</span></span><br><span class="line">pd.plot_data(X, y)</span><br><span class="line">plt.show()</span><br><span class="line"><span class="built_in">input</span>(<span class="string">&#x27;Program paused. Press ENTER to continue&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231124200116446.png" alt="image-20231124200116446" style="zoom:67%;" /></p>
+<hr>
+<h3 id="训练SVM-RBF"><a href="#训练SVM-RBF" class="headerlink" title="训练SVM(RBF)"></a>训练SVM(RBF)</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ===================== Part 5: Training SVM with RBF Kernel (Dataset 2) =====================</span></span><br><span class="line"><span class="comment"># 在你实现了核函数之后，我们现在可以使用它来训练SVM分类器</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Training SVM with RBF (Gaussian) Kernel (this may take 1 to 2 minutes) ...&#x27;</span>)</span><br><span class="line"></span><br><span class="line">c = <span class="number">1</span></span><br><span class="line">sigma = <span class="number">0.1</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gaussian_kernel</span>(<span class="params">x_1, x_2</span>):</span></span><br><span class="line">    n1 = x_1.shape[<span class="number">0</span>]</span><br><span class="line">    n2 = x_2.shape[<span class="number">0</span>]</span><br><span class="line">    result = np.zeros((n1, n2))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n1):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(n2):</span><br><span class="line">            result[i, j] = gk.gaussian_kernel(x_1[i], x_2[j], sigma)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line">clf = svm.SVC(C=c, kernel=gaussian_kernel)</span><br><span class="line"><span class="comment">#clf = svm.SVC(C=c, kernel=&#x27;rbf&#x27;, gamma=np.power(sigma, -2))</span></span><br><span class="line">clf.fit(X, y)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Training complete!&#x27;</span>)</span><br><span class="line"></span><br><span class="line">pd.plot_data(X, y)</span><br><span class="line">vb.visualize_boundary(clf, X, <span class="number">0</span>, <span class="number">1</span>, <span class="number">.4</span>, <span class="number">1.0</span>)</span><br><span class="line"><span class="built_in">input</span>(<span class="string">&#x27;Program paused. Press ENTER to continue&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>这里是根据高斯核函数的定义，直接手写了一个高斯核函数出来，也可以直接用<code>clf = svm.SVC(C=c, kernel=&#39;rbf&#39;, gamma=np.power(sigma, -2))</code>调用高斯核函数</p>
+<p>决策边界如下：</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231124200752177.png" alt="image-20231124200752177" style="zoom:67%;" /></p>
+<hr>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>最后加载一个新的数据集，测试一下高斯核函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ===================== Part 6: Visualizing Dataset 3 =====================</span></span><br><span class="line"><span class="comment"># 下面的代码将加载下一个数据集到你的环境中，并绘制数据</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Loading and Visualizing Data ...&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 从ex6data3加载数据：</span></span><br><span class="line">data = scio.loadmat(<span class="string">&#x27;ex6data3.mat&#x27;</span>)</span><br><span class="line">X = data[<span class="string">&#x27;X&#x27;</span>]</span><br><span class="line">y = data[<span class="string">&#x27;y&#x27;</span>].flatten()</span><br><span class="line">m = y.size</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制训练数据</span></span><br><span class="line">pd.plot_data(X, y)</span><br><span class="line">plt.show()</span><br><span class="line"><span class="built_in">input</span>(<span class="string">&#x27;Program paused. Press ENTER to continue&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># ===================== Part 7: Visualizing Dataset 3 =====================</span></span><br><span class="line"></span><br><span class="line">clf = svm.SVC(C=c, kernel=<span class="string">&#x27;rbf&#x27;</span>, gamma=np.power(sigma, -<span class="number">2</span>))</span><br><span class="line">clf.fit(X, y)</span><br><span class="line"></span><br><span class="line">pd.plot_data(X, y)</span><br><span class="line">vb.visualize_boundary(clf, X, -<span class="number">.5</span>, <span class="number">.3</span>, -<span class="number">.8</span>, <span class="number">.6</span>)</span><br><span class="line">plt.show()</span><br><span class="line"><span class="built_in">input</span>(<span class="string">&#x27;ex6 Finished. Press ENTER to exit&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231124201101203.png" alt="image-20231124201101203" style="zoom:80%;" /></p>
+<hr>
+<h2 id="后半"><a href="#后半" class="headerlink" title="后半"></a>后半</h2><p>后半部分文件：</p>
+<ul>
+<li><code>ex6 spam.py</code> - Python脚本，用于练习的后半部分 </li>
+<li><code>spamTrain.mat</code> - 垃圾邮件训练集 </li>
+<li><code>spamTest.mat</code> - 垃圾邮件测试集 </li>
+<li><code>emailSample1.txt</code> - 样本电子邮件1 </li>
+<li><code>emailSample2.txt</code> - 样本电子邮件2 </li>
+<li><code>spamSample1.txt</code> - 样本垃圾邮件1 </li>
+<li><code>spamSample2.txt</code> - 样本垃圾邮件2 </li>
+<li><code>vocab.txt</code> - 词汇表 </li>
+<li><code>getVocabList.py</code> - 载入词汇表 </li>
+<li><code>porterStemmer.py</code> - 词干提取函数 </li>
+<li><code>readFile.py</code> - 将文件读入字符字符串 </li>
+</ul>
+<p>需要补充的文件：</p>
+<ul>
+<li><p><code>processEmail.py</code> - 电子邮件预处理</p>
+</li>
+<li><p><code>emailFeatures.py</code> - 从电子邮件中提取特征</p>
+</li>
+</ul>
+<hr>
+<h3 id="导入-1"><a href="#导入-1" class="headerlink" title="导入"></a>导入</h3><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> scipy.io <span class="keyword">as</span> scio</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> svm</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> processEmail <span class="keyword">as</span> pe</span><br><span class="line"><span class="keyword">import</span> emailFeatures <span class="keyword">as</span> ef</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h3><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ===================== 第 1 部分：电子邮件预处理 =====================</span></span><br><span class="line"><span class="comment"># 为了使用SVM将电子邮件分类为垃圾邮件和非垃圾邮件，您首先需要将每封电子邮件转换为特征向量。</span></span><br><span class="line"><span class="comment"># 在这一部分，您将实现每封电子邮件的预处理步骤。</span></span><br><span class="line"><span class="comment"># 您应该完成processEmail.py中的代码，以生成给定电子邮件的单词索引向量。</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;正在预处理示例电子邮件（emailSample1.txt）...&#x27;</span>)</span><br><span class="line"></span><br><span class="line">file_contents = <span class="built_in">open</span>(<span class="string">&#x27;emailSample1.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>).read()</span><br><span class="line">word_indices = pe.process_email(file_contents)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印统计信息</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;单词索引：&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(word_indices)</span><br><span class="line"></span><br><span class="line"><span class="built_in">input</span>(<span class="string">&#x27;程序暂停。按回车键继续&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>完成<code>processEmail.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> nltk</span><br><span class="line"><span class="keyword">import</span> nltk.stem.porter</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">process_email</span>(<span class="params">email_contents</span>):</span></span><br><span class="line">    vocab_list = get_vocab_list()</span><br><span class="line"></span><br><span class="line">    word_indices = np.array([], dtype=np.int64)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># ===================== 预处理电子邮件 =====================</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 将整个电子邮件内容转换为小写</span></span><br><span class="line">    email_contents = email_contents.lower()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 移除HTML标签</span></span><br><span class="line">    email_contents = re.sub(<span class="string">&#x27;&lt;[^&lt;&gt;]+&gt;&#x27;</span>, <span class="string">&#x27; &#x27;</span>, email_contents)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 将所有数字替换为字符串&#x27;number&#x27;</span></span><br><span class="line">    email_contents = re.sub(<span class="string">&#x27;[0-9]+&#x27;</span>, <span class="string">&#x27;number&#x27;</span>, email_contents)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 将所有以http或https://开头的字符串替换为&#x27;httpaddr&#x27;</span></span><br><span class="line">    email_contents = re.sub(<span class="string">&#x27;(http|https)://[^\s]*&#x27;</span>, <span class="string">&#x27;httpaddr&#x27;</span>, email_contents)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 含有&#x27;@&#x27;的字符串被视为电子邮件 --&gt; &#x27;emailaddr&#x27;</span></span><br><span class="line">    email_contents = re.sub(<span class="string">&#x27;[^\s]+@[^\s]+&#x27;</span>, <span class="string">&#x27;emailaddr&#x27;</span>, email_contents)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 将&#x27;$&#x27;符号替换为&#x27;dollar&#x27;</span></span><br><span class="line">    email_contents = re.sub(<span class="string">&#x27;[$]+&#x27;</span>, <span class="string">&#x27;dollar&#x27;</span>, email_contents)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># ===================== 分词电子邮件 =====================</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 输出处理后的电子邮件</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;==== 处理后的电子邮件 ====&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 使用NLTK库的词干提取器</span></span><br><span class="line">    stemmer = nltk.stem.porter.PorterStemmer()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 使用正则表达式分割电子邮件文本</span></span><br><span class="line">    tokens = re.split(<span class="string">&#x27;[@$/#.-:&amp;*+=\[\]?!()&#123;\&#125;,\&#x27;\&quot;&gt;_&lt;;% ]&#x27;</span>, email_contents)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> token <span class="keyword">in</span> tokens:</span><br><span class="line">        <span class="comment"># 移除非字母数字字符</span></span><br><span class="line">        token = re.sub(<span class="string">&#x27;[^a-zA-Z0-9]&#x27;</span>, <span class="string">&#x27;&#x27;</span>, token)</span><br><span class="line">        <span class="comment"># 对单词进行词干提取</span></span><br><span class="line">        token = stemmer.stem(token)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(token) &lt; <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># ===================== 你的代码在这里 =====================</span></span><br><span class="line">        <span class="comment"># 说明：填写此函数以将单词的索引添加到word_indices数组中，</span></span><br><span class="line">        <span class="comment">#      如果它在词汇表中存在。在此代码点，你已经获得了</span></span><br><span class="line">        <span class="comment">#      来自电子邮件的词干单词，保存在变量token中。</span></span><br><span class="line">        <span class="comment">#      你应该在vocab_list中查找token。如果匹配存在，</span></span><br><span class="line">        <span class="comment">#      你应该将该单词的索引添加到word_indices数组中。</span></span><br><span class="line">        <span class="comment">#      具体而言，如果token == &#x27;action&#x27;，那么你应该在vocab_list中查找</span></span><br><span class="line">        <span class="comment">#      &#x27;action&#x27;的位置。例如，如果vocab_list[18] == &#x27;action&#x27;，</span></span><br><span class="line">        <span class="comment">#      那么你应该将18添加到word_indices数组中。</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># ==========================================================</span></span><br><span class="line">        <span class="keyword">if</span> token <span class="keyword">in</span> vocab_list.values():</span><br><span class="line">            <span class="comment"># 通过迭代查找单词的位置</span></span><br><span class="line">            <span class="keyword">for</span> key, value <span class="keyword">in</span> vocab_list.items():</span><br><span class="line">                <span class="keyword">if</span> value == token:</span><br><span class="line">                    index = key</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">            <span class="comment"># 将位置添加到word_indices数组中</span></span><br><span class="line">            word_indices = np.append(word_indices, index)</span><br><span class="line">        <span class="built_in">print</span>(token)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;==================&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> word_indices</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_vocab_list</span>():</span></span><br><span class="line">    vocab_dict = &#123;&#125;</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;vocab.txt&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> f:</span><br><span class="line">            (val, key) = line.split()</span><br><span class="line">            vocab_dict[<span class="built_in">int</span>(val)] = key</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> vocab_dict</span><br></pre></td></tr></table></figure>
+<p>这里的<code>vocab_list</code>会返回一个字典，先利用字典的<code>values</code>方法判断<code>token</code>是否在字典里面，如果在，就遍历字典，找到对应的<code>key</code>，然后记录下<code>key</code>，保存为<code>Index</code>，用<code>append</code>方法添加新<code>word_indices</code>数组里面去</p>
+<hr>
+<h3 id="特征提取"><a href="#特征提取" class="headerlink" title="特征提取"></a>特征提取</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ===================== 第 2 部分：特征提取 =====================</span></span><br><span class="line"><span class="comment"># 现在，您将把每封电子邮件转换为R^n中的特征向量。</span></span><br><span class="line"><span class="comment"># 您应该完成emailFeatures.py中的代码，以生成给定邮件的特征向量。</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;从示例电子邮件（emailSample1.txt）中提取特征...&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 提取特征</span></span><br><span class="line">features = ef.email_features(word_indices)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印统计信息</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;特征向量的长度：&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(features.size))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;非零条目的数量：&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(np.flatnonzero(features).size))</span><br><span class="line"></span><br><span class="line"><span class="built_in">input</span>(<span class="string">&#x27;程序暂停。按回车键继续&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>编写<code>emailFeatures.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">email_features</span>(<span class="params">word_indices</span>):</span></span><br><span class="line">    <span class="comment"># 词典中的总单词数</span></span><br><span class="line">    n = <span class="number">1899</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 你需要正确返回以下变量。</span></span><br><span class="line">    <span class="comment"># 由于numpy数组的索引从0开始，为了与单词索引对齐，我们创建大小为n + 1的数组</span></span><br><span class="line">    features = np.zeros(n + <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># ===================== 你的代码在这里 =====================</span></span><br><span class="line">    <span class="comment"># 说明：填写此函数以返回给定电子邮件（word_indices）的特征向量。</span></span><br><span class="line">    <span class="comment">#      为了更容易处理电子邮件，我们已经对每封电子邮件进行了预处理，</span></span><br><span class="line">    <span class="comment">#      并将电子邮件中的每个单词转换为固定词典中的索引（共1899个单词）。</span></span><br><span class="line">    <span class="comment">#      变量word_indices包含发生在一封电子邮件中的单词的索引列表。</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment">#      具体而言，如果一封电子邮件的文本如下：</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment">#         The quick brown fox jumped over the lazy dog.</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment">#      那么，这个文本的word_indices向量可能如下所示：</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment">#         60  100   33  44  10      53  60  58  5</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment">#      在这里，我们已将每个单词映射到一个数字，例如：</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment">#         the     --  60</span></span><br><span class="line">    <span class="comment">#         quick   --  100</span></span><br><span class="line">    <span class="comment">#         ...</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment">#      你的任务是获取一个这样的word_indices向量并构建一个二进制特征向量，</span></span><br><span class="line">    <span class="comment">#      该向量指示一个特定的单词是否在电子邮件中出现。也就是说，当单词i</span></span><br><span class="line">    <span class="comment">#      出现在电子邮件中时，features[i] = 1。具体而言，如果单词&#x27;the&#x27;</span></span><br><span class="line">    <span class="comment">#      （假设索引为60）出现在电子邮件中，则features[60] = 1。该特征向量应该如下所示：</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment">#      features = [0, 0, 0, 0, 1, 0, 0, 0, ... 0, 0, 0, 1, ... 0, 0, 0, 1, 0]</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment"># 遍历word_indices，将features中对应的位置置为1</span></span><br><span class="line">    <span class="keyword">for</span> index <span class="keyword">in</span> word_indices:</span><br><span class="line">        features[index] = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># ==========================================================</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> features</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>遍历<code>word_indices</code>，遇到特征词，变为<code>1</code>即可</p>
+<hr>
+<h3 id="线性SVM"><a href="#线性SVM" class="headerlink" title="线性SVM"></a>线性SVM</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ===================== 第 3 部分：用于垃圾邮件分类的线性SVM训练 =====================</span></span><br><span class="line"><span class="comment"># 在这一部分，您将训练一个线性分类器，以确定一封电子邮件是否是垃圾邮件。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载垃圾邮件数据集</span></span><br><span class="line"><span class="comment"># 您将在您的环境中有X，y</span></span><br><span class="line">data = scio.loadmat(<span class="string">&#x27;spamTrain.mat&#x27;</span>)</span><br><span class="line">X = data[<span class="string">&#x27;X&#x27;</span>]</span><br><span class="line">y = data[<span class="string">&#x27;y&#x27;</span>].flatten()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;训练线性SVM（垃圾邮件分类）&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;（可能需要1到2分钟）&#x27;</span>)</span><br><span class="line"></span><br><span class="line">c = <span class="number">0.1</span></span><br><span class="line">clf = svm.SVC(C=c, kernel=<span class="string">&#x27;linear&#x27;</span>)</span><br><span class="line">clf.fit(X, y)</span><br><span class="line"></span><br><span class="line">p = clf.predict(X)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;训练准确率：&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(np.mean(p == y) * <span class="number">100</span>))</span><br></pre></td></tr></table></figure>
+<p>用线性SVM进行分类</p>
+<hr>
+<h3 id="测试-1"><a href="#测试-1" class="headerlink" title="测试"></a>测试</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ===================== 第 4 部分：测试垃圾邮件分类 =====================</span></span><br><span class="line"><span class="comment"># 在训练分类器之后，我们可以在测试集上进行评估。</span></span><br><span class="line"><span class="comment"># 我们在spamTest.mat中包含了一个测试集</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载测试数据集</span></span><br><span class="line">data = scio.loadmat(<span class="string">&#x27;spamTest.mat&#x27;</span>)</span><br><span class="line">Xtest = data[<span class="string">&#x27;Xtest&#x27;</span>]</span><br><span class="line">ytest = data[<span class="string">&#x27;ytest&#x27;</span>].flatten()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;在测试集上评估经过训练的线性SVM...&#x27;</span>)</span><br><span class="line"></span><br><span class="line">p = clf.predict(Xtest)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;测试准确率：&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(np.mean(p == ytest) * <span class="number">100</span>))</span><br><span class="line"></span><br><span class="line"><span class="built_in">input</span>(<span class="string">&#x27;程序暂停。按回车键继续&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="查看预测因子"><a href="#查看预测因子" class="headerlink" title="查看预测因子"></a>查看预测因子</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ===================== 第 5 部分：垃圾邮件的前几个预测因子 =====================</span></span><br><span class="line"><span class="comment"># 由于我们训练的模型是一个线性SVM，我们可以检查模型学到的权重w，</span></span><br><span class="line"><span class="comment"># 以更好地了解它是如何确定一封电子邮件是否为垃圾邮件的。</span></span><br><span class="line"><span class="comment"># 以下代码找到分类器中权重最高的单词。非正式地说，分类器</span></span><br><span class="line"><span class="comment"># 认为这些单词最有可能是垃圾邮件的指标。</span></span><br><span class="line"></span><br><span class="line">vocab_list = pe.get_vocab_list()</span><br><span class="line">indices = np.argsort(clf.coef_).flatten()[::-<span class="number">1</span>]</span><br><span class="line"><span class="built_in">print</span>(indices)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">15</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;&#123;&#125; (&#123;:0.6f&#125;)&#x27;</span>.<span class="built_in">format</span>(vocab_list[indices[i]], clf.coef_.flatten()[indices[i]]))</span><br><span class="line"></span><br><span class="line"><span class="built_in">input</span>(<span class="string">&#x27;ex6_spam 完成。按回车键退出&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p><code>ndices = np.argsort(clf.coef_).flatten()[::-1]</code></p>
+<ul>
+<li><code>clf.coef_</code>: 这是训练后模型的权重矩阵。对于线性 SVM，每个特征都有一个相关联的权重。</li>
+<li><code>np.argsort(clf.coef_)</code>: 这一步是对权重进行排序，返回的是排序后的索引。在默认情况下，<code>argsort</code> 返回的是从小到大排列的索引。由于我们关心权重最高的单词，我们需要将索引按照权重的降序排列，因此我们使用 <code>[::-1]</code> 对数组进行逆序。</li>
+<li><code>flatten()</code>: 这一步是将排序后的索引数组扁平化，将其变为一维数组。在这里，我们希望得到一个简单的一维数组，以便后续的处理。</li>
+</ul>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></div><div class="post_share"><div class="social-share" data-image="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231020181029461.png" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/social-share.js/1.0.16/css/share.min.css" media="print" onload="this.media='all'"><script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/social-share.js/1.0.16/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/post/3076.html"><img class="prev-cover" src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231020181029461.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">10.0.支持向量机</div></div></a></div><div class="next-post pull-right"><a href="/post/59772.html"><img class="next-cover" src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231020181029461.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">11.0.无监督学习</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Candle</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">180</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">19</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ex6%EF%BC%9ASVM"><span class="toc-number">1.</span> <span class="toc-text">ex6：SVM</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E5%8D%8A"><span class="toc-number">1.1.</span> <span class="toc-text">前半</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%BC%E5%85%A5"><span class="toc-number">1.1.2.</span> <span class="toc-text">导入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A0%E8%BD%BD%E5%B9%B6%E7%BB%98%E5%9B%BE"><span class="toc-number">1.1.3.</span> <span class="toc-text">加载并绘图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%AD%E7%BB%83SVM"><span class="toc-number">1.1.4.</span> <span class="toc-text">训练SVM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AB%98%E6%96%AF%E6%A0%B8%E5%87%BD%E6%95%B0"><span class="toc-number">1.1.5.</span> <span class="toc-text">高斯核函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A0%E8%BD%BD%E6%96%B0%E6%95%B0%E6%8D%AE%E5%B9%B6%E7%BB%98%E5%9B%BE"><span class="toc-number">1.1.6.</span> <span class="toc-text">加载新数据并绘图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%AD%E7%BB%83SVM-RBF"><span class="toc-number">1.1.7.</span> <span class="toc-text">训练SVM(RBF)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95"><span class="toc-number">1.1.8.</span> <span class="toc-text">测试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8E%E5%8D%8A"><span class="toc-number">1.2.</span> <span class="toc-text">后半</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%BC%E5%85%A5-1"><span class="toc-number">1.2.1.</span> <span class="toc-text">导入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A0%E8%BD%BD"><span class="toc-number">1.2.2.</span> <span class="toc-text">加载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E5%BE%81%E6%8F%90%E5%8F%96"><span class="toc-number">1.2.3.</span> <span class="toc-text">特征提取</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E6%80%A7SVM"><span class="toc-number">1.2.4.</span> <span class="toc-text">线性SVM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95-1"><span class="toc-number">1.2.5.</span> <span class="toc-text">测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E9%A2%84%E6%B5%8B%E5%9B%A0%E5%AD%90"><span class="toc-number">1.2.6.</span> <span class="toc-text">查看预测因子</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recommend-post"><div class="item-headline"><i class="fas fa-dharmachakra"></i><span>相关推荐</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/post/12550.html" title="Python数据分析"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typora7-200525101140K8.png" alt="Python数据分析"></a><div class="content"><a class="title" href="/post/12550.html" title="Python数据分析">Python数据分析</a><time datetime="2023-10-27" title="������ 2023-10-27">2023-10-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/20569.html" title="1.机器学习绪论"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231020181029461.png" alt="1.机器学习绪论"></a><div class="content"><a class="title" href="/post/20569.html" title="1.机器学习绪论">1.机器学习绪论</a><time datetime="2023-10-17" title="������ 2023-10-17">2023-10-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/53740.html" title="2.单变量线性回归"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231020181029461.png" alt="2.单变量线性回归"></a><div class="content"><a class="title" href="/post/53740.html" title="2.单变量线性回归">2.单变量线性回归</a><time datetime="2023-10-20" title="������ 2023-10-20">2023-10-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/3076.html" title="10.0.支持向量机"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231020181029461.png" alt="10.0.支持向量机"></a><div class="content"><a class="title" href="/post/3076.html" title="10.0.支持向量机">10.0.支持向量机</a><time datetime="2023-11-23" title="������ 2023-11-23">2023-11-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/62884.html" title="3.5 ex1:linear regression"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231020181029461.png" alt="3.5 ex1:linear regression"></a><div class="content"><a class="title" href="/post/62884.html" title="3.5 ex1:linear regression">3.5 ex1:linear regression</a><time datetime="2023-11-09" title="������ 2023-11-09">2023-11-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/30433.html" title="11.5 ex7：k-means and PCA"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231020181029461.png" alt="11.5 ex7：k-means and PCA"></a><div class="content"><a class="title" href="/post/30433.html" title="11.5 ex7：k-means and PCA">11.5 ex7：k-means and PCA</a><time datetime="2023-11-28" title="������ 2023-11-28">2023-11-28</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2023 By Candle</div><div class="framework-info"><span>Powered by </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a></div><div class="footer_custom_text">So Long, and Thanks for All the Fish</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.2
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container:not\([display]\)').forEach(node => {
+            const target = node.parentNode
+            if (target.nodeName.toLowerCase() === 'li') {
+              target.parentNode.classList.add('has-jax')
+            } else {
+              target.classList.add('has-jax')
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-y/mathjax/3.2.0/es5/tex-mml-chtml.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script></div><script src="https://npm.elemecdn.com/pjax/pjax.min.js"></script><script>let pjaxSelectors = [
+  'title',
+  '#config-diff',
+  '#body-wrap',
+  '#rightside-config-hide',
+  '#rightside-config-show',
+  '.js-pjax'
+]
+
+if (false) {
+  pjaxSelectors.unshift('meta[property="og:image"]', 'meta[property="og:title"]', 'meta[property="og:url"]')
+}
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.removeEventListener('scroll', window.tocScrollFn)
+  window.removeEventListener('scroll', scrollCollect)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // Analytics
+  if (false) {
+    MtaH5.pgv()
+  }
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

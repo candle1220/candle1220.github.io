@@ -1,0 +1,431 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>11.0.无监督学习 | Night's Watch</title><meta name="keywords" content="机器学习"><meta name="author" content="Candle"><meta name="copyright" content="Candle"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="无监督学习简介无监督学习是一种机器学习方法，其目标是从数据中发现模式、结构或关系，而不需要预先标记的目标变量。与监督学习不同，无监督学习不依赖于已知输出的训练数据。在无监督学习中，算法尝试从输入数据中提取信息，探索数据的内在结构，或者执行某种形式的聚类、降维、关联规则挖掘等任务。  聚类(Clustering): 将数据分成不同的组，使得同一组内的数据相似度较高，而不同组之间的相似度较低。 降维(">
+<meta property="og:type" content="article">
+<meta property="og:title" content="11.0.无监督学习">
+<meta property="og:url" content="http://candle1220.github.io/post/59772.html">
+<meta property="og:site_name" content="Night&#39;s Watch">
+<meta property="og:description" content="无监督学习简介无监督学习是一种机器学习方法，其目标是从数据中发现模式、结构或关系，而不需要预先标记的目标变量。与监督学习不同，无监督学习不依赖于已知输出的训练数据。在无监督学习中，算法尝试从输入数据中提取信息，探索数据的内在结构，或者执行某种形式的聚类、降维、关联规则挖掘等任务。  聚类(Clustering): 将数据分成不同的组，使得同一组内的数据相似度较高，而不同组之间的相似度较低。 降维(">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231020181029461.png">
+<meta property="article:published_time" content="2023-11-25T07:09:30.483Z">
+<meta property="article:modified_time" content="2023-11-28T01:44:12.553Z">
+<meta property="article:author" content="Candle">
+<meta property="article:tag" content="机器学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231020181029461.png"><link rel="shortcut icon" href="/img/candle.png"><link rel="canonical" href="http://candle1220.github.io/post/59772"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#55d5fc","bgDark":"#121212","position":"top-center"},
+  source: {
+    jQuery: 'https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/3.6.0/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.js',
+      css: 'https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '11.0.无监督学习',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-11-28 09:44:12'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    document.addEventListener('pjax:complete', detectApple)})(window)</script><link rel="stylesheet" href="/css/background.css"><link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/Swiper/8.0.6/swiper-bundle.min.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/head.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">180</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">19</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-crow"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/background.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Night's Watch</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-crow"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">11.0.无监督学习</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-11-25T07:09:30.483Z" title="发表于 2023-11-25 15:09:30">2023-11-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-11-28T01:44:12.553Z" title="更新于 2023-11-28 09:44:12">2023-11-28</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="11.0.无监督学习"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="无监督学习"><a href="#无监督学习" class="headerlink" title="无监督学习"></a>无监督学习</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><strong>无监督学习</strong>是一种机器学习方法，其目标是从数据中发现模式、结构或关系，而不需要预先标记的目标变量。与监督学习不同，无监督学习不依赖于已知输出的训练数据。在无监督学习中，算法尝试从输入数据中提取信息，探索数据的内在结构，或者执行某种形式的聚类、降维、关联规则挖掘等任务。</p>
+<ul>
+<li><strong>聚类(Clustering):</strong> 将数据分成不同的组，使得同一组内的数据相似度较高，而不同组之间的相似度较低。</li>
+<li><strong>降维(Dimensionality Reduction):</strong> 减少数据的维度，保留最重要的特征，以便更好地理解数据或加速后续的学习算法。</li>
+<li><strong>异常检测(Anomaly Detection):</strong> 发现与大多数数据不同的异常数据点。</li>
+<li><strong>关联规则挖掘(Association Rule Mining):</strong> 寻找数据集中项目之间的关联关系，例如购物篮分析</li>
+<li><strong>生成模型(Generative Models):</strong> 学习数据的概率分布，以生成新的与训练数据相似的样本</li>
+</ul>
+<hr>
+<h2 id="聚类"><a href="#聚类" class="headerlink" title="聚类"></a>聚类</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>在一个典型的监督学习中，我们有一个有标签的训练集，我们的目标是找到能够区分正样本和负样本的决策边界，在这里的监督学习中，我们有一系列标签，我们需要据此拟合一个假设函数。与此不同的是，在非监督学习中，我们的数据没有附带任何标签，我们拿到的数据就是这样的：</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231125151753657.png" alt="image-20231125151753657"></p>
+<p>在这里有一系列点，却没有标签。因此，我们的训练集可以写成只有$x^{(1)}$,$x^{(2)}$…..一直到$x^{(m)}$。我们没有任何标签$y$。</p>
+<p>我们可能需要某种算法帮助我们寻找一种结构。图上的数据看起来可以分成两个分开的点集（称为簇），一个能够找到我圈出的这些点集的算法，就被称为<strong>聚类算法</strong>。</p>
+<p><strong>聚类算法</strong>是一类无监督学习算法，其主要目标是将数据集中的样本分成不同的组，每个组内的样本相似度较高，而不同组之间的相似度较低。这样的分组通常称为簇（Cluster）。聚类算法旨在发现数据中的内在结构，帮助我们理解数据并进行有效的数据分析。</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231125160358944.png" alt="image-20231125160358944"></p>
+<p>聚类算法可以应用到：市场分割，社交网络，计算机集群，天文数据分析等领域</p>
+<hr>
+<h3 id="K-均值算法"><a href="#K-均值算法" class="headerlink" title="K-均值算法"></a>K-均值算法</h3><p>K均值聚类（K-Means Clustering）是一种常用的聚类算法，属于无监督学习的范畴。该算法的目标是将数据集划分成K个不同的簇，每个簇内的样本点与簇中心（cluster center）的距离最小。簇中心是簇内所有样本点的平均值</p>
+<p>K-均值算法的步骤为：</p>
+<ol>
+<li><strong>选择簇的数量K：</strong> 首先，需要指定要形成的簇的数量$K$。</li>
+<li><strong>初始化簇中心：</strong> 随机选择$K$个样本作为初始簇中心，或者通过其他方法初始化。</li>
+<li><strong>分配样本到簇：</strong> 对每个样本，计算其与各个簇中心的距离，将样本分配给距离最近的簇。</li>
+<li><strong>更新簇中心：</strong> 对每个簇，计算簇内所有样本的平均值，将该平均值作为新的簇中心。</li>
+<li><strong>重复步骤3和步骤4：</strong> 重复执行分配样本到簇和更新簇中心的步骤，直到满足停止条件，例如簇中心不再发生显著变化或达到最大迭代次数。</li>
+</ol>
+<p>下面是一个聚类示例：</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraff1db77ec2e83b592bbe1c4153586120.jpg" alt=""></p>
+<p>迭代 1 次</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraacdb3ac44f1fe61ff3b5a77d5a4895a1.jpg" alt=""></p>
+<p>迭代 3 次</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typorafe6dd7acf1a1eddcd09da362ecdf976f.jpg" alt=""></p>
+<p>迭代 10 次</p>
+<p>用$μ^1$,$μ^2$,…,$μ^k$ 来表示聚类中心，用$c^{(1)}$,$c^{(2)}$,…,$c^{(m)}$来存储与第$i$个实例数据最近的聚类中心的索引，<strong>K-均值</strong>算法的伪代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Repeat &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i = <span class="number">1</span> to m</span><br><span class="line"></span><br><span class="line">c(i) := index (form <span class="number">1</span> to K) of cluster centroid closest to x(i)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> k = <span class="number">1</span> to K</span><br><span class="line"></span><br><span class="line">μk := average (mean) of points assigned to cluster k</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>算法分为两个步骤，第一个<strong>for</strong>循环是赋值步骤，即：对于每一个样例$i$，计算其应该属于的类。第二个<strong>for</strong>循环是聚类中心的移动，即：对于每一个类$K$，重新计算该类的质心。</p>
+<hr>
+<h3 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h3><p>K-均值最小化问题，是要最小化所有的数据点与其所关联的聚类中心点之间的距离之和，因此<br>K-均值的代价函数（又称<strong>畸变函数</strong> <strong>Distortion function</strong>）为：</p>
+<script type="math/tex; mode=display">
+ J(c^{(1)}, \ldots, c^{(m)}, \mu_1, \ldots, \mu_K) = \frac{1}{m} \sum_{i=1}^{m} \|X^{(i)} - \mu_{c^{(i)}}\|^2</script><p>其中$\mu_{c^{(i)}}$代表与$x^{(i)}$最近的聚类中心点。</p>
+<p>我们的的优化目标便是找出使得代价函数最小的 $c^{(1)}$,$c^{(2)}$,…,$c^{(m)}$和$μ^1$,$μ^2$,…,$μ^k$，目标函数 ( $J$ ) 的含义是所有簇内样本点到其簇中心的距离平方和的总和。K均值聚类的优化目标就是找到一组簇中心，使得这个目标函数最小化。</p>
+<p>K均值算法通过迭代执行两个步骤来优化这个目标：</p>
+<ol>
+<li><p><strong>簇分配步骤（Assign Step）：</strong> 将每个样本点分配给距离最近的簇中心。</p>
+</li>
+<li><p><strong>簇更新步骤（Update Step）：</strong> 更新每个簇的中心，计算簇内所有样本的平均值。</p>
+</li>
+</ol>
+<p>这两个步骤交替进行，直到簇中心不再发生显著变化或达到最大迭代次数。在每次迭代后，目标函数 ( $J$ ) 都应该减小，这表示簇内样本点与簇中心之间的平方距离和在减小，从而更好地达到了聚类的效果。</p>
+<hr>
+<h3 id="随机初始化"><a href="#随机初始化" class="headerlink" title="随机初始化"></a>随机初始化</h3><p>运行K-均值算法的之前，我们首先要随机初始化所有的聚类中心点，下面介绍怎样做：</p>
+<ol>
+<li><p>我们应该选择$K&lt;m$，即聚类中心点的个数要小于所有训练集实例的数量</p>
+</li>
+<li><p>随机选择$K$个训练实例，然后令$K$个聚类中心分别与这$K$个训练实例相等</p>
+</li>
+</ol>
+<p><strong>K-均值</strong>的一个问题在于，它有可能会停留在一个局部最小值处，而这取决于初始化的情况。</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231125162715663.png" alt="image-20231125162715663"></p>
+<p>为了解决这个问题，我们通常需要<strong>多次运行**</strong>K-均值<strong>算法，每一次都重新进行随机初始化，最后再比较多次运行</strong>K-均值**的结果，选择代价函数最小的结果。这种方法在$K$较小的时候（2—10）还是可行的，但是如果$K$较大，这么做也可能不会有明显地改善。</p>
+<hr>
+<h2 id="降维"><a href="#降维" class="headerlink" title="降维"></a>降维</h2><h3 id="数据压缩"><a href="#数据压缩" class="headerlink" title="数据压缩"></a>数据压缩</h3><p>降维：指通过<strong>减少数据的特征维度</strong>，从而保留数据关键信息的过程。在实际应用中，数据集往往包含大量的特征，而其中一些特征可能是冗余的、噪音的，或者不太重要的。通过降维，我们可以剔除这些不必要的信息，从而达到简化数据、提高模型性能的目的。</p>
+<p>将数据从二维降至一维：</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231127193533848.png" alt="image-20231127193533848" style="zoom:80%;" /></p>
+<p>假设我们未知两个的特征：$x_1$:长度：用厘米表示；$x_2$：是用英寸表示同一物体的长度。</p>
+<p>现在的问题的是，两种仪器对同一个东西测量的结果不完全相等（由于误差、精度等），而将两者都作为特征有些重复，因而，我们希望将这个<strong>二维的数据降至一维</strong>。</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231127194457054.png" alt="image-20231127194457054" style="zoom:80%;" /></p>
+<p>我们画出一条直线，降每个点都<strong>投影到直线</strong>上，观察投影点在直线上的位置，就将数据从二维降到了一维：</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231127194711194.png" alt="image-20231127194711194" style="zoom:80%;" /></p>
+<p>将数据从三维降至二维：</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231127194829271.png" alt="image-20231127194829271"></p>
+<p>过程是与上面类似的，我们将三维向量投射到一个二维的平面上，强迫使得所有的数据都在同一个平面上，降至二维的特征向量。</p>
+<p>这样的处理过程可以被用于把任何维度的数据降到任何想要的维度，例如将1000维的特征降至100维。</p>
+<hr>
+<h3 id="主成分分析-PCA"><a href="#主成分分析-PCA" class="headerlink" title="主成分分析(PCA)"></a>主成分分析(PCA)</h3><p>主成分分析（Principal Component Analysis，PCA）是一种常用的降维技术，通过线性变换将原始数据映射到一个新的坐标系中，使得在新坐标系中数据的方差分布被最大化。这样，通过保留最重要的特征，PCA可以实现数据的降维。</p>
+<p>在<strong>PCA</strong>中，我们要做的是找到一个方向向量（<strong>Vector direction</strong>），当我们把所有的数据都投射到该向量上时，我们希望投射平均均方误差能尽可能地小。方向向量是一个经过原点的向量，而投射误差是从特征向量向该方向向量作<strong>垂线</strong>的长度。</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231127211838019.png" alt="image-20231127211838019" style="zoom: 50%;" /></p>
+<p>目标是找到向量$u^{(1)}$,$u^{(2)}$,…,$u^{(k)}$使得总的投射误差最小</p>
+<p>主成分分析与线性回归是两种不同的算法。主成分分析最小化的是投射误差，而线性回归尝试的是最小化预测误差。线性回归的目的是预测结果，而主成分分析不作任何预测</p>
+<hr>
+<h3 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h3><p>假设要利用PCA将数据从$n$维降低到$k$维</p>
+<p>当执行主成分分析（PCA）时，具体的步骤可以如下：</p>
+<ol>
+<li><p><strong>均值归一化：</strong></p>
+<ul>
+<li>对每个特征减去该特征的均值，使得每个特征的均值为零。</li>
+</ul>
+<script type="math/tex; mode=display">
+ X_{\text{centered}} = X - \bar{X}</script><p>其中，$(X)$ 是原始数据矩阵，$(\bar{X})$ 是每个特征的均值向量，。如果特征是在不同的数量级上，我们还需要将其除以标准差 $σ^2$</p>
+</li>
+<li><p><strong>计算协方差矩阵：</strong></p>
+<ul>
+<li>计算中心化后的数据的协方差矩阵。</li>
+</ul>
+<script type="math/tex; mode=display">
+\text{Cov} =\dfrac {1}{m}\sum^{n}_{i=1}\left( x^{(i)}\right) \left( x^{(i)}\right) ^{T}</script><p>其中，($m$) 是样本数。</p>
+</li>
+<li><p><strong>计算特征值和特征向量：</strong></p>
+<ul>
+<li>对协方差矩阵进行特征值分解。</li>
+</ul>
+<script type="math/tex; mode=display">
+\text{Cov} \times V = \lambda \times V</script><p>其中，($\lambda$) 是特征值组成的对角矩阵，($V$) 是特征向量组成的矩阵。</p>
+</li>
+<li><p><strong>选择主成分：</strong></p>
+<ul>
+<li>特征值表示数据在特征向量方向上的方差，选择特征值较大的前 ($k$) 个特征向量作为主成分。</li>
+</ul>
+<script type="math/tex; mode=display">
+\text{Top-k U} = \text{first } k \text{ columns of } V</script></li>
+</ol>
+<ol>
+<li><p><strong>构建投影矩阵：</strong></p>
+<ul>
+<li>将选择的主成分组成一个投影矩阵。</li>
+</ul>
+<script type="math/tex; mode=display">
+U_{reduce} = \begin{bmatrix} | & | & | \\ u^{(1)} & u^{(2)} & \ldots \\ | & | & | \end{bmatrix}</script><p>其中，$u^{(1)}$、$u^{(2)}$ 等是选择的主成分。对于一个 $n×n$维度的矩阵，上式中的$U$是一个具有与数据之间最小投射误差的方向向量构成的矩阵。如果我们希望将数据从$n$维降至$k$维，我们只需要从$U$中选取前$k$个向量，获得一个$n×k$维度的矩阵，我们用$U_{reduce}$表示</p>
+</li>
+<li><p><strong>降维：</strong></p>
+<ul>
+<li>将原始数据乘以投影矩阵，将数据映射到新的低维空间。</li>
+</ul>
+<script type="math/tex; mode=display">
+z^{(i)}=U^{T}_{reduce}\times x^{(i)}</script><p>其中$x$是$n×1$维的，因此结果为$k×1$维度。</p>
+</li>
+</ol>
+<p>这样，通过选择最重要的主成分，PCA实现了在保留尽可能多的信息的同时降低数据的维度。这对于减少特征的冗余性和去除噪声，以及在某些情况下提高模型性能都是有益的。</p>
+<p>在<code>Python</code>中，使用<code>U, S, V = scipy.linalg.svd(sigma)</code>，<code>sigma</code>就是协方差矩阵<code>Cov</code></p>
+<p>$U$的列是$AA^T$的特征向量，称为左奇异向量。$S$是奇异值组成特征向量，$V$是右奇异向量矩阵$A^TA$的转置。你可以根据需要选择保留多少个主成分，例如，只取前$k$个奇异值对应的左右奇异向量，以实现降维。</p>
+<hr>
+<h3 id="选择主成分的数量"><a href="#选择主成分的数量" class="headerlink" title="选择主成分的数量"></a>选择主成分的数量</h3><p>主要成分分析(PCA)的优化目标是减少投射的平均均方误差：</p>
+<script type="math/tex; mode=display">
+\dfrac {1}{m}\sum^{m}_{i=1}\left\| x^{\left( i\right) }\right\| ^{2}</script><p>我们希望在平均均方误差与训练集方差的比例尽可能小的情况下选择尽可能小的$k$值。</p>
+<p>如果我们希望这个比例小于1%，就意味着原本数据的偏差有99%都保留下来了，如果我们选择保留95%的偏差，便能非常显著地降低模型中特征的维度了。</p>
+<p>可以通过特征矩阵来选择K，在python调用U, S, V = np.linalg.svd(sigma)中得到了S这个特征值数组，我们可以使用这个数组来计算平均均方误差与训练集方差的比例：</p>
+<script type="math/tex; mode=display">
+\dfrac {\dfrac {1}{m}\sum^{m}_{i=1}\left\| x^{\left( i\right) }-x^{\left( i\right) }_{approx}\right\| ^{2}}{\dfrac {1}{m}\sum^{m}_{i=1}\left\| x^{(i)}\right\| ^{2}}=1-\dfrac {\Sigma^{k}_{i=1}S_{i}}{\Sigma^{m}_{i=1}S_{i}}\leq 1\%</script><p>$i$慢慢减小，刚好满足条件的$i$，就是选择的$k$值</p>
+<hr>
+<h3 id="应用建议"><a href="#应用建议" class="headerlink" title="应用建议"></a>应用建议</h3><p>一个常见<strong>错误</strong>使用主要成分分析的情况是，将其用于<strong>减少过拟合</strong>（减少了特征的数量）。这样做非常不好，不如尝试<strong>正则化处理</strong>。原因在于主要成分分析只是近似地丢弃掉一些特征，它并不考虑任何与结果变量有关的信息，因此可能会丢失非常重要的特征。然而当我们进行正则化处理时，会考虑到结果变量，不会丢掉重要的数据。</p>
+<p>另一个常见的错误是，默认地将主要成分分析作为学习过程中的一部分，这虽然很多时候有效果，最好还是<strong>从所有原始特征</strong>开始，只在有必要的时候（算法运行太慢或者占用太多内存）才考虑采用主要成分分析。</p>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></div><div class="post_share"><div class="social-share" data-image="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231020181029461.png" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/social-share.js/1.0.16/css/share.min.css" media="print" onload="this.media='all'"><script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/social-share.js/1.0.16/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/post/1111.html"><img class="prev-cover" src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231020181029461.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">10.5 ex6：SVM</div></div></a></div><div class="next-post pull-right"><a href="/post/30433.html"><img class="next-cover" src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231020181029461.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">11.5 ex7：k-means and PCA</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Candle</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">180</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">19</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%97%A0%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0"><span class="toc-number">1.</span> <span class="toc-text">无监督学习</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%81%9A%E7%B1%BB"><span class="toc-number">1.2.</span> <span class="toc-text">聚类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89"><span class="toc-number">1.2.1.</span> <span class="toc-text">定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#K-%E5%9D%87%E5%80%BC%E7%AE%97%E6%B3%95"><span class="toc-number">1.2.2.</span> <span class="toc-text">K-均值算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E5%8C%96"><span class="toc-number">1.2.3.</span> <span class="toc-text">优化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9A%8F%E6%9C%BA%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">1.2.4.</span> <span class="toc-text">随机初始化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%99%8D%E7%BB%B4"><span class="toc-number">1.3.</span> <span class="toc-text">降维</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%8E%8B%E7%BC%A9"><span class="toc-number">1.3.1.</span> <span class="toc-text">数据压缩</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E6%88%90%E5%88%86%E5%88%86%E6%9E%90-PCA"><span class="toc-number">1.3.2.</span> <span class="toc-text">主成分分析(PCA)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%97%E6%B3%95"><span class="toc-number">1.3.3.</span> <span class="toc-text">算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E4%B8%BB%E6%88%90%E5%88%86%E7%9A%84%E6%95%B0%E9%87%8F"><span class="toc-number">1.3.4.</span> <span class="toc-text">选择主成分的数量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%BB%BA%E8%AE%AE"><span class="toc-number">1.3.5.</span> <span class="toc-text">应用建议</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recommend-post"><div class="item-headline"><i class="fas fa-dharmachakra"></i><span>相关推荐</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/post/12550.html" title="Python数据分析"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typora7-200525101140K8.png" alt="Python数据分析"></a><div class="content"><a class="title" href="/post/12550.html" title="Python数据分析">Python数据分析</a><time datetime="2023-10-27" title="������ 2023-10-27">2023-10-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/20569.html" title="1.机器学习绪论"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231020181029461.png" alt="1.机器学习绪论"></a><div class="content"><a class="title" href="/post/20569.html" title="1.机器学习绪论">1.机器学习绪论</a><time datetime="2023-10-17" title="������ 2023-10-17">2023-10-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/1111.html" title="10.5 ex6：SVM"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231020181029461.png" alt="10.5 ex6：SVM"></a><div class="content"><a class="title" href="/post/1111.html" title="10.5 ex6：SVM">10.5 ex6：SVM</a><time datetime="2023-11-24" title="������ 2023-11-24">2023-11-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/53740.html" title="2.单变量线性回归"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231020181029461.png" alt="2.单变量线性回归"></a><div class="content"><a class="title" href="/post/53740.html" title="2.单变量线性回归">2.单变量线性回归</a><time datetime="2023-10-20" title="������ 2023-10-20">2023-10-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/3076.html" title="10.0.支持向量机"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231020181029461.png" alt="10.0.支持向量机"></a><div class="content"><a class="title" href="/post/3076.html" title="10.0.支持向量机">10.0.支持向量机</a><time datetime="2023-11-23" title="������ 2023-11-23">2023-11-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/62884.html" title="3.5 ex1:linear regression"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231020181029461.png" alt="3.5 ex1:linear regression"></a><div class="content"><a class="title" href="/post/62884.html" title="3.5 ex1:linear regression">3.5 ex1:linear regression</a><time datetime="2023-11-09" title="������ 2023-11-09">2023-11-09</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2023 By Candle</div><div class="framework-info"><span>Powered by </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a></div><div class="footer_custom_text">So Long, and Thanks for All the Fish</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.2
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container:not\([display]\)').forEach(node => {
+            const target = node.parentNode
+            if (target.nodeName.toLowerCase() === 'li') {
+              target.parentNode.classList.add('has-jax')
+            } else {
+              target.classList.add('has-jax')
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-y/mathjax/3.2.0/es5/tex-mml-chtml.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script></div><script src="https://npm.elemecdn.com/pjax/pjax.min.js"></script><script>let pjaxSelectors = [
+  'title',
+  '#config-diff',
+  '#body-wrap',
+  '#rightside-config-hide',
+  '#rightside-config-show',
+  '.js-pjax'
+]
+
+if (false) {
+  pjaxSelectors.unshift('meta[property="og:image"]', 'meta[property="og:title"]', 'meta[property="og:url"]')
+}
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.removeEventListener('scroll', window.tocScrollFn)
+  window.removeEventListener('scroll', scrollCollect)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // Analytics
+  if (false) {
+    MtaH5.pgv()
+  }
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

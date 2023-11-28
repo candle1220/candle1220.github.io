@@ -1,0 +1,539 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>10.0.支持向量机 | Night's Watch</title><meta name="keywords" content="机器学习"><meta name="author" content="Candle"><meta name="copyright" content="Candle"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="支持向量机直觉理解硬间隔具体而言，如果你考察这样一个数据集，其中有正样本，也有负样本，可以看到这个数据集是线性可分的。我的意思是，存在一条直线把正负样本分开。当然有多条不同的直线，可以把正样本和负样本完全分开。  那么该如何选择哪一条直线来划分数据？ 从直觉来说，应该在数据中间画一条直线，如下图所示：  在这种画法中，两类数据中所有的点，都与这条线保持了一定的距离，这个距离起到了缓冲区的作用，当这">
+<meta property="og:type" content="article">
+<meta property="og:title" content="10.0.支持向量机">
+<meta property="og:url" content="http://candle1220.github.io/post/3076.html">
+<meta property="og:site_name" content="Night&#39;s Watch">
+<meta property="og:description" content="支持向量机直觉理解硬间隔具体而言，如果你考察这样一个数据集，其中有正样本，也有负样本，可以看到这个数据集是线性可分的。我的意思是，存在一条直线把正负样本分开。当然有多条不同的直线，可以把正样本和负样本完全分开。  那么该如何选择哪一条直线来划分数据？ 从直觉来说，应该在数据中间画一条直线，如下图所示：  在这种画法中，两类数据中所有的点，都与这条线保持了一定的距离，这个距离起到了缓冲区的作用，当这">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231020181029461.png">
+<meta property="article:published_time" content="2023-11-23T09:12:08.198Z">
+<meta property="article:modified_time" content="2023-11-23T21:12:01.109Z">
+<meta property="article:author" content="Candle">
+<meta property="article:tag" content="机器学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231020181029461.png"><link rel="shortcut icon" href="/img/candle.png"><link rel="canonical" href="http://candle1220.github.io/post/3076"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#55d5fc","bgDark":"#121212","position":"top-center"},
+  source: {
+    jQuery: 'https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/3.6.0/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.js',
+      css: 'https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '10.0.支持向量机',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-11-24 05:12:01'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    document.addEventListener('pjax:complete', detectApple)})(window)</script><link rel="stylesheet" href="/css/background.css"><link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/Swiper/8.0.6/swiper-bundle.min.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/head.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">180</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">19</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-crow"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/background.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Night's Watch</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-crow"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">10.0.支持向量机</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-11-23T09:12:08.198Z" title="发表于 2023-11-23 17:12:08">2023-11-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-11-23T21:12:01.109Z" title="更新于 2023-11-24 05:12:01">2023-11-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="10.0.支持向量机"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="支持向量机"><a href="#支持向量机" class="headerlink" title="支持向量机"></a>支持向量机</h1><h2 id="直觉理解"><a href="#直觉理解" class="headerlink" title="直觉理解"></a>直觉理解</h2><h3 id="硬间隔"><a href="#硬间隔" class="headerlink" title="硬间隔"></a>硬间隔</h3><p>具体而言，如果你考察这样一个数据集，其中有正样本，也有负样本，可以看到这个数据集是线性可分的。我的意思是，存在一条直线把正负样本分开。当然有多条不同的直线，可以把正样本和负样本完全分开。</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231123195040322.png" alt="image-20231123195040322" style="zoom: 33%;" /></p>
+<p>那么该如何选择哪一条直线来划分数据？</p>
+<p>从直觉来说，应该在数据中间画一条直线，如下图所示：</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231123195301005.png" alt="image-20231123195301005" style="zoom:67%;" /></p>
+<p>在这种画法中，两类数据中所有的点，都与这条线保持了一定的距离，这个距离起到了缓冲区的作用，当这个距离足够大时，分类结果的可信度也就足够高了，把这个缓冲区称为：<strong>间隔</strong></p>
+<p>间隔距离体现了两类数据的差异大小，间隔的正中，就是<strong>决策边界</strong>，寻找最佳决策边界线的问题可以转化为求解两类数据的最大间隔问题</p>
+<p>而当有新数据需要判断时，根据新数据处于决策边界的相对位置，就可以进行分类</p>
+<p><br/></p>
+<p>假设决策边界的超平面公式为：</p>
+<script type="math/tex; mode=display">
+w_1x_1+w_2x_2+b=0</script><p>然后我们平移决策边界，由于平移过程中一定会经过数据的点，而上下最先接触到的点决定了间隔距离，我们称之为<strong>支持向量</strong></p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231123200906685.png" alt="image-20231123200906685" style="zoom: 50%;" /></p>
+<p>其上下边界的方程式为：</p>
+<script type="math/tex; mode=display">
+w_1x_1+w_2x_2+b=c\\w_1x_1+w_2x_2+b=-c</script><p>等式两边同时除以c</p>
+<script type="math/tex; mode=display">
+\frac{w_1}{c}x_1+\frac{w_2}{c}x_2+\frac{b}{c}=1\\\frac{w_1}{c}x_1+\frac{w_2}{c}x_2+\frac{b}{c}=-1</script><p>因为c是常数，实际上可以直接写成</p>
+<script type="math/tex; mode=display">
+w_1x_1+w_2x_2+b=1\\w_1x_1+w_2x_2+b=0\\w_1x_1+w_2x_2+b=-1</script><p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231123201545930.png" alt="image-20231123201545930" style="zoom: 50%;" /></p>
+<p><br/></p>
+<p>这种间隔称之为<strong>硬间隔</strong>，具体定义如下：</p>
+<p>硬间隔（Hard Margin）是指在支持向量机（SVM）中，对于线性可分的数据集，找到一个能够完美分隔两个类别的决策边界，使得每个训练样本都正确分类，且离决策边界的距离（间隔）最大。硬间隔 SVM 被用于处理线性可分的情况。</p>
+<p>硬间隔的目标是使得决策边界两侧的支持向量到决策边界的距离（间隔）最大化，以确保对于未见过的样本，有更大的容错空间，从而提高模型的泛化性能。这个最大间隔的决策边界通常位于支持向量之间，这也解释了为什么这个方法叫做“硬间隔”，因为它对于训练数据的分类是非常严格的。</p>
+<p><br/></p>
+<hr>
+<h3 id="软间隔"><a href="#软间隔" class="headerlink" title="软间隔"></a>软间隔</h3><p>假如初始数据发生了如下变化：</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231123204118475.png" alt="image-20231123204118475" style="zoom: 50%;" /></p>
+<p>那么按照硬间隔的划分方法，实际上会这个样子：</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231123204328493.png" alt="image-20231123204328493" style="zoom:50%;" /></p>
+<p>这显然不对，当有很多异常值的时候，硬间隔就会变得非常难找，所以需要引入损失函数<code>cost</code>的概念</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231123205223017.png" alt="image-20231123205223017" style="zoom:50%;" /></p>
+<p>问题就转换为了，考虑损失的情况下，如何最大化间隔，而这种情况下的间隔，称为软间隔</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231123211025447.png" alt="image-20231123211025447" style="zoom: 50%;" /></p>
+<p>具体定义如下：</p>
+<p><strong>软间隔</strong>（Soft Margin）是指在支持向量机（SVM）中，对于一些非线性可分或受到噪声干扰的数据集，允许在寻找决策边界时有一些样本被误分类或距离决策边界的间隔不满足硬间隔的条件。软间隔 SVM 的目标是在最大化间隔的同时，允许一些样本违反间隔的要求，以提高模型的鲁棒性。</p>
+<p>软间隔的主要思想是在寻找决策边界时，允许一些样本出现在决策边界的错误一侧或距离边界较近，以更好地适应现实中可能存在的噪声或异常点。这使得软间隔 SVM 在处理线性不可分的数据或受到噪声干扰的情况下更具有鲁棒性。</p>
+<p><br/></p>
+<hr>
+<h2 id="优化目标"><a href="#优化目标" class="headerlink" title="优化目标"></a>优化目标</h2><h3 id="代价函数"><a href="#代价函数" class="headerlink" title="代价函数"></a>代价函数</h3><p>从逻辑回归开始，通过一点一点展示，得到软间隔中的代价函数$cost$</p>
+<p>首先，逻辑回归的图像和$sigmoid$函数如下图所示：</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231109212532866.png" alt="image-20231109212532866"></p>
+<script type="math/tex; mode=display">
+h_\theta(x)=\frac{1}{1+e^{-\theta^Tx}}</script><p>$y=1$的情况下，我们希望预测值$h_\theta(x)\approx 1$，此时$\theta^Tx\gg0$</p>
+<p>$y=0$的情况下，我们希望预测值$h_\theta(x)\approx 0$，此时$\theta^Tx\ll0$</p>
+<p><br/></p>
+<p>进一步观察逻辑回归的代价函数：</p>
+<script type="math/tex; mode=display">
+Cost\left( {h_\theta}\left( x \right),y \right)=-ylog {\frac{1}{1+e^{-\theta^Tx}}}-(1-y)log\left( 1-\frac{1}{1+e^{-\theta^Tx}}\right)+\frac{\lambda}{2m}\sum_{j=1}^{n}\theta_j^2</script><p>$y=1$时，$log {\frac{1}{1+e^{-\theta^Tx}}}$图像如下：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231123234246303.png" alt="image-20231123234246303" style="zoom: 80%;" /></th>
+<th><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231123235229263.png" alt="image-20231123235229263" style="zoom: 67%;" /></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><br/></p>
+<p>可以观察到，当$\theta^Tx&gt;1$时，代价就已经很小了，在SVM中，我们把这条曲线近似为两条直线取$\theta^Tx=1$的点，将右边的所有值都看做是1</p>
+<p>这里我们直接代入软间隔去直观的理解一下为什么要分成两段</p>
+<p>当$\theta^Tx&gt;1$时，如图所示：</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231124033036249.png" alt="image-20231124033036249" style="zoom: 50%;" /></p>
+<p>此时数据相当于都在下面虚线以下，所以代价直接看做是0，对决策边界根本没有影响</p>
+<p><br/></p>
+<p>当$\theta^Tx&lt;1$时，说明数据点突破了决策边界，在不断的远离负超平面，所以代价越来越大</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231124033251675.png" alt="image-20231124033251675" style="zoom:50%;" /></p>
+<p>$y=0$时，代价函数$cost$图像如下：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231124012410475.png" alt="image-20231124012410475"></th>
+<th><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231124012454189.png" alt="image-20231124012454189" style="zoom: 80%;" /></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>可以观察到，当$\theta^Tx&lt;-1$时，代价就已经很小了，在SVM中，我们把这条曲线近似为两条直线，取$\theta^Tx=-1$的点，将左边的所有值都看做是-1</p>
+<p><br/></p>
+<p>联系之前提到的软间隔，显然当$\theta^Tx&lt;-1$或者$\theta^Tx&gt;1$的时候，数据点离决策边界较远，对决策边界的影响较弱，通过这样的设计，SVM 在优化过程中<strong>更加关注</strong>对那些<strong>接近决策边界</strong>的支持向量，即那些对于分类决策起到<strong>关键作用</strong>的样本。</p>
+<p>这也是为什么在代价函数中使用两段线段的原因，以强调对于分类决策边界附近的支持向量的敏感性。这有助于建立一个在最大化分类间隔的同时，对分类错误的<strong>敏感度</strong>更强的分类器。</p>
+<p><br/></p>
+<hr>
+<p>接下来简化代价函数：</p>
+<script type="math/tex; mode=display">
+Cost\left( {h_\theta}\left( x \right),y \right)=-\frac{1}{m}\sum_{i=1}^{m}-ylog {\frac{1}{1+e^{-\theta^Tx}}}-(1-y)log\left( 1-\frac{1}{1+e^{-\theta^Tx}}\right)+\frac{\lambda}{2m}\sum_{j=1}^{n}\theta_j^2</script><p>用$cost$替换掉刚才的曲线，除去$1/m$这一项，当然，这仅仅是由于人们使用支持向量机时，对比于逻辑回归而言，<strong>不同的习惯</strong>所致，正则化系数也能简化，只保留$\frac{1}{2}$，去掉$m$和$\lambda$</p>
+<p>在支持向量机（SVM）中，使用参数 <em>C</em> 来代替逻辑回归中正则化参数$\lambda$类似的作用。它控制了在训练数据的拟合与模型正则化项之间的权衡。</p>
+<p>简化后公式如下：</p>
+<script type="math/tex; mode=display">
+Cost\left( {h_\theta}\left( x \right),y \right)=C\sum\limits_{i=1}^{m}{[y^{(i)}cost_1(\theta^Tx^{(i)}) +\left( 1-{y^{(i)}} \right)cost_0(\theta^Tx^{(i)})]}+\frac{1}{2}\sum_{j=1}^{n}\theta_j^2</script><p>C的作用和$\lambda$的正好相反，C越大，即代表的是$\lambda$越小，更容易过拟合，而C越小，说明容易欠拟合</p>
+<p><br/></p>
+<hr>
+<h2 id="核函数"><a href="#核函数" class="headerlink" title="核函数"></a>核函数</h2><p>SVM最广泛的应用的分类问题，而某些数据在低维度下很难进行分类，遇到这种情况时，需要考虑对数据进行升维，从而使数据易于分类</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231124033922069.png" alt="image-20231124033922069" style="zoom:50%;" /></th>
+<th><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231124033958950.png" alt="image-20231124033958950" style="zoom:50%;" /></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>但是数据升维转换需要明确的维度转换函数，以及更多的存储要求，会大大增加程序的负担，为了避免将数据升维，可以直接使用核函数进行运算</p>
+<p><br/></p>
+<p><strong>核函数</strong>（Kernel Function）是支持向量机（SVM）中的一个关键概念。在 SVM 中，核函数用于将输入特征<strong>映射</strong>到高维空间，从而使得原始特征空间中的非线性问题能够在高维空间中变得线性可分。</p>
+<p>核函数的主要作用是通过计算两个样本在高维空间中的相似性（内积）来替代在原始特征空间中的显式计算。这使得我们可以在高维空间中进行计算，而无需显式地知道或计算高维空间中的特征向量。核函数在 SVM 中的使用使得模型更加灵活，可以处理非线性的决策边界</p>
+<p>常见的核函数有：</p>
+<ol>
+<li><strong>线性核函数（Linear Kernel）：</strong> $K(x, y) = x^Ty$，对应于原始特征空间。</li>
+<li><strong>多项式核函数（Polynomial Kernel）：</strong> $K(x, y) = (x^Ty + c)^d$，引入了多项式的高阶项。</li>
+<li><strong>高斯径向基函数核（Gaussian Radial Basis Function Kernel，RBF）：</strong> $(K(x, y) = \exp\left(-\frac{|x-y|^2}{2\sigma^2}\right))$，引入了高斯分布的概念。</li>
+<li><strong>Sigmoid核函数（Sigmoid Kernel）：</strong> $K(x, y) = \tanh(\alpha x^Ty + c)$，模拟神经网络的激活函数。</li>
+</ol>
+<p>核函数的选择通常取决于数据的性质和问题的要求。正确选择核函数可以显著提高 SVM 模型的性能。</p>
+<p><br/></p>
+<p>这里介绍一下<strong>高斯核函数</strong>：</p>
+<p>高斯径向基函数核（Gaussian Radial Basis Function Kernel，RBF Kernel）是支持向量机中常用的核函数之一。它的表达式如下：</p>
+<script type="math/tex; mode=display">
+K(x, y) = \exp\left(-\frac{\|x-y\|^2}{2\sigma^2}\right)</script><p>其中：</p>
+<ul>
+<li>$( K(x, y) )$ 是样本 ( $x$ ) 和 ( $y$ ) 之间的内积，表示它们在高维空间中的相似性。</li>
+<li>$( |x-y| )$ 表示样本 ( $x$ ) 和 ( $y$ ) 之间的欧几里德距离。</li>
+<li>$(\sigma)$ 是控制高斯分布宽度的参数。</li>
+</ul>
+<p>高斯径向基函数核的主要思想是将样本映射到一个无穷维的高维空间，并通过高斯分布来衡量它们之间的相似性。在这个高维空间中，样本之间的内积可以被计算，而不需要显式计算高维空间中的特征向量。这使得 SVM 在处理非线性问题时更为灵活。</p>
+<p>关键点解释：</p>
+<ol>
+<li><strong>相似性度量：</strong> 如果两个样本 ( x ) 和 ( y ) 在原始特征空间中相似，它们在高维空间中的内积将更接近1，表现为高斯核函数的值更接近1，反之亦然。</li>
+<li><strong>参数 ( $\sigma$ )：</strong> 参数 ( $\sigma$ ) 控制了高斯分布的宽度。较小的 ( $\sigma$ ) 使得高斯分布更加尖锐，更强调相邻样本之间的相似性；较大的 ( $\sigma$ ) 使得高斯分布更加平滑，更强调整体样本之间的相似性。</li>
+<li><strong>非线性决策边界：</strong> 高斯径向基函数核允许 SVM 学习复杂的非线性决策边界，因为它可以通过内积的方式在高维空间中捕捉非线性关系。</li>
+</ol>
+<p><br/></p>
+<hr>
+<p>接下来将说明如何具体的使用核函数来输入特征<strong>映射</strong>到高维空间中去</p>
+<p>回顾我们之前讨论过可以使用高级数的多项式模型来解决无法用直线进行分隔的分类问题：</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231124034655472.png" alt="image-20231124034655472"></p>
+<p>为了获得上图所示的判定边界，我们的模型可能是$(\theta_0 + \theta_1 x_1 + \theta_2 x_2 + \theta_3 x_1 x_2 + \theta_4 x_1^2 + \theta_5 x_2^2 + \ldots) $的形式。</p>
+<p>我们可以用一系列的新的特征$f$来替换模型中的每一项。例如令：<br>$\ f_1 = x_1, f_2 = x_2, f_3 = x_1 x_2, f_4 = x_1^2,f_5 = x_2^2, \ldots $得到$h_θ(x)={\theta _{1}}f_1+{\theta _2}f_2+…+{\theta_n}f_n$。</p>
+<p><br/></p>
+<p>然而，除了对原有的特征进行组合以外，有的方法来构造$f_1,f_2,f_3$，我们可以利用<strong>核函数</strong>来计算出新的特征。</p>
+<p>给定一个训练样本$x$，我们利用$x$的各个特征与我们预先选定的<strong>地标</strong>(<strong>landmarks</strong>)$l^{(1)},l^{(2)},l^{(3)}$的近似程度来选取新的特征$f_1,f_2,f_3$。</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231124034708629.png" alt="image-20231124034708629"></p>
+<p>这里的地标通常指的是一组特定的点，这些点被选择用于<strong>构建新的特征</strong>，从而将数据映射到更高维度的空间。这个过程有时称为<strong>特征映射</strong>。</p>
+<p>具体来说，在使用核函数的情况下，我们选择一组地标，通常是从训练集中选择的数据点，作为新特征的基础。对于每个训练样本，我们计算它与地标之间的<strong>相似性</strong>，然后利用这些相似性值构建新的特征。这样，原始的特征空间被映射到一个更高维度的空间，使得在高维空间中的数据更容易被线性分离。</p>
+<p><br/></p>
+<p>例如：$ f_1 = \text{similarity}(x,l^{(1)}) = e\left(-\frac{||x-l^{(1)}||^2}{2 \sigma^2}\right) $</p>
+<p>其中：$ | x - l^{(1)} |^2 = \sum_{j=1}^n (x_j - l_j^{(1)})^2 $，为实例$x$中所有特征与地标$l^{(1)}$之间的距离的和。上例中的$similarity(x,l^{(1)})$就是核函数，具体而言，这里是一个<strong>高斯核函数</strong>(<strong>Gaussian Kernel</strong>)</p>
+<p><br/></p>
+<p>如果一个训练样本$x$与地标$l$之间的距离近似于0，则新特征 $f$近似于$e^{-0}=1$，如果训练样本$x$与地标$l$之间距离较远，则$f$近似于$e^{-(一个较大的数)}=0$。</p>
+<p>在下图中，当样本处于洋红色的点位置处，因为其离$l^{(1)}$更近，但是离$l^{(2)}$和$l^{(3)}$较远，因此$f_1$接近1，而$f_2$,$f_3$接近0。因此$h_θ(x)=θ_0+θ_1f_1+θ_2f_2+θ_1f_3&gt;0$，因此预测$y=1$。同理可以求出，对于离$l^{(2)}$较近的绿色点，也预测$y=1$，但是对于蓝绿色的点，因为其离三个地标都较远，预测$y=0$。</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231124035207734.png" alt="image-20231124035207734"></p>
+<p>这样，图中红色的封闭曲线所表示的范围，便是我们依据一个单一的训练样本和我们选取的地标所得出的判定边界，在预测时，我们采用的特征不是训练样本本身的特征，而是通过核函数计算出的<strong>新特征</strong>$f_1,f_2,f_3$</p>
+<p><br/></p>
+<hr>
+<p>那么该如何选取地标？</p>
+<p>通常是根据训练集的数量选择地标的数量，即如果训练集中有$m$个样本，则我们选取$m$个地标，并且令:$l^{(1)}=x^{(1)},l^{(2)}=x^{(2)},…..,l^{(m)}=x^{(m)}$。这样做的好处在于：现在我们得到的新特征是建立在原有特征与训练集中所有其他特征之间距离的基础之上的，即：</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231124035414470.png" alt="image-20231124035414470"></p>
+<p>下面我们将核函数运用到支持向量机中，修改我们的支持向量机假设为：</p>
+<ul>
+<li>给定$x$，计算新特征$f$，当$θ^Tf&gt;=0$ 时，预测 $y=1$，否则反之。 </li>
+</ul>
+<p>相应地修改代价函数为：$\sum{_{j=1}^{n=m}}\theta _j^2=\theta^T\theta $，</p>
+<script type="math/tex; mode=display">
+\text{cost} = \min  C\sum\limits_{i=1}^{m}{[y^{(i)}cost_1(\theta^Tf^{(i)}) +\left( 1-{y^{(i)}} \right)cost_0(\theta^Tf^{(i)})]}+\frac{1}{2}\sum_{j=1}^{n=m}\theta_j^2</script><p>在具体实施过程中，我们还需要对最后的正则化项进行些微调整，在计算$\sum{_{j=1}^{n=m}}\theta _j^2={\theta^T}\theta $时，我们用$θ^TMθ$代替$θ^Tθ$，其中$M$是根据我们选择的核函数而不同的一个矩阵。这样做的原因是为了简化计算。</p>
+<p>理论上讲，我们也可以在逻辑回归中使用核函数，但是上面使用 $M$来简化计算的方法不适用与逻辑回归，因此计算将非常耗费时间。</p>
+<p>在此，我们不介绍最小化支持向量机的代价函数的方法，你可以使用现有的软件包（如<strong>liblinear</strong>,<strong>libsvm</strong>等）。在使用这些软件包最小化我们的代价函数之前，我们通常需要编写核函数，并且如果我们使用高斯核函数，那么在使用之前进行特征缩放是非常必要的。</p>
+<p>另外，支持向量机也可以不使用核函数，不使用核函数又称为<strong>线性核函数</strong>(<strong>linear kernel</strong>)，当我们不采用非常复杂的函数，或者我们的训练集特征非常多而样本非常少的时候，可以采用这种不带核函数的支持向量机</p>
+<p><br/></p>
+<p>下面是支持向量机的两个参数$C$和$\sigma$的影响：</p>
+<p>$C=1/\lambda$</p>
+<ul>
+<li><p>$C$ 较大时，相当于$\lambda$较小，可能会导致过拟合，高方差；</p>
+</li>
+<li><p>$C$ 较小时，相当于$\lambda$较大，可能会导致低拟合，高偏差；</p>
+</li>
+</ul>
+<p>高斯核函数 $e\left(-\frac{||x-l^{(1)}||^2}{2 \sigma^2}\right)$</p>
+<ul>
+<li><p>$\sigma$较大时，可能会导致低方差，高偏差；</p>
+</li>
+<li><p>$\sigma$较小时，可能会导致低偏差，高方差。</p>
+</li>
+</ul>
+<p><br/></p>
+<hr>
+<h2 id="多类分类问题"><a href="#多类分类问题" class="headerlink" title="多类分类问题"></a>多类分类问题</h2><p>假设我们利用之前介绍的一对多方法来解决一个多类分类问题。如果一共有$k$个类，则我们需要$k$个模型，以及$k$个参数向量$$。我们同样也可以训练$k$个支持向量机来解决多类分类问题。但是大多数支持向量机软件包都有内置的多类分类功能，我们只要直接使用即可。</p>
+<p>尽管你不去写你自己的<strong>SVM</strong>的优化软件，但是你也需要做几件事：</p>
+<p>1、是提出参数$C$的选择。我们在之前的视频中讨论过误差/方差在这方面的性质。</p>
+<p>2、你也需要选择内核参数或你想要使用的相似函数，其中一个选择是：我们选择不需要任何内核参数，没有内核参数的理念，也叫线性核函数。因此，如果有人说他使用了线性核的<strong>SVM</strong>（支持向量机），这就意味这他使用了不带有核函数的<strong>SVM</strong>（支持向量机）</p>
+<p><br/></p>
+<hr>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>逻辑回归</th>
+<th>支持向量机（SVM）</th>
+<th>神经网络</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>特征数 (n) 较大，(m) 较小</td>
+<td>适用，训练速度相对较快</td>
+<td>不适用</td>
+<td>适用，训练速度可能较慢</td>
+</tr>
+<tr>
+<td>(n) 较小，(m) 在 10-10000 之间</td>
+<td>适用，尤其是不带核函数的 SVM</td>
+<td>适用</td>
+<td>适用，但可能有更快的选择</td>
+</tr>
+<tr>
+<td>(n) 较小，(m) 大于50000</td>
+<td>适用，训练速度相对较快</td>
+<td>不适用</td>
+<td>适用，但训练可能较慢</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>说明：</strong></p>
+<ol>
+<li>对于小规模数据集，特别是当特征数量较大时，逻辑回归或不带核函数的 SVM 是常用的选择，因为它们的训练速度相对较快。</li>
+<li>当面对中等规模数据集，特别是特征数量较小，可以尝试使用高斯核函数的 SVM。</li>
+<li>对于复杂的非线性函数拟合，或者存在大量数据和特征的情况，神经网络可能是一个有效的选择，但训练时间可能较长。</li>
+<li>对于大规模数据集，支持向量机通常是比较高效的选择，尤其是在使用不同的核函数时。</li>
+</ol>
+<p><br/></p>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></div><div class="post_share"><div class="social-share" data-image="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231020181029461.png" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/social-share.js/1.0.16/css/share.min.css" media="print" onload="this.media='all'"><script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/social-share.js/1.0.16/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/post/45376.html"><img class="prev-cover" src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231020181029461.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">9.0.机器学习系统的设计</div></div></a></div><div class="next-post pull-right"><a href="/post/1111.html"><img class="next-cover" src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231020181029461.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">10.5 ex6：SVM</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Candle</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">180</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">19</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA"><span class="toc-number">1.</span> <span class="toc-text">支持向量机</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B4%E8%A7%89%E7%90%86%E8%A7%A3"><span class="toc-number">1.1.</span> <span class="toc-text">直觉理解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A1%AC%E9%97%B4%E9%9A%94"><span class="toc-number">1.1.1.</span> <span class="toc-text">硬间隔</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AF%E9%97%B4%E9%9A%94"><span class="toc-number">1.1.2.</span> <span class="toc-text">软间隔</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%98%E5%8C%96%E7%9B%AE%E6%A0%87"><span class="toc-number">1.2.</span> <span class="toc-text">优化目标</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E4%BB%B7%E5%87%BD%E6%95%B0"><span class="toc-number">1.2.1.</span> <span class="toc-text">代价函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%87%BD%E6%95%B0"><span class="toc-number">1.3.</span> <span class="toc-text">核函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E7%B1%BB%E5%88%86%E7%B1%BB%E9%97%AE%E9%A2%98"><span class="toc-number">1.4.</span> <span class="toc-text">多类分类问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.5.</span> <span class="toc-text">总结</span></a></li></ol></li></ol></div></div><div class="card-widget card-recommend-post"><div class="item-headline"><i class="fas fa-dharmachakra"></i><span>相关推荐</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/post/12550.html" title="Python数据分析"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typora7-200525101140K8.png" alt="Python数据分析"></a><div class="content"><a class="title" href="/post/12550.html" title="Python数据分析">Python数据分析</a><time datetime="2023-10-27" title="������ 2023-10-27">2023-10-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/20569.html" title="1.机器学习绪论"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231020181029461.png" alt="1.机器学习绪论"></a><div class="content"><a class="title" href="/post/20569.html" title="1.机器学习绪论">1.机器学习绪论</a><time datetime="2023-10-17" title="������ 2023-10-17">2023-10-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/1111.html" title="10.5 ex6：SVM"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231020181029461.png" alt="10.5 ex6：SVM"></a><div class="content"><a class="title" href="/post/1111.html" title="10.5 ex6：SVM">10.5 ex6：SVM</a><time datetime="2023-11-24" title="������ 2023-11-24">2023-11-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/53740.html" title="2.单变量线性回归"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231020181029461.png" alt="2.单变量线性回归"></a><div class="content"><a class="title" href="/post/53740.html" title="2.单变量线性回归">2.单变量线性回归</a><time datetime="2023-10-20" title="������ 2023-10-20">2023-10-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/62884.html" title="3.5 ex1:linear regression"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231020181029461.png" alt="3.5 ex1:linear regression"></a><div class="content"><a class="title" href="/post/62884.html" title="3.5 ex1:linear regression">3.5 ex1:linear regression</a><time datetime="2023-11-09" title="������ 2023-11-09">2023-11-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/30433.html" title="11.5 ex7：k-means and PCA"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231020181029461.png" alt="11.5 ex7：k-means and PCA"></a><div class="content"><a class="title" href="/post/30433.html" title="11.5 ex7：k-means and PCA">11.5 ex7：k-means and PCA</a><time datetime="2023-11-28" title="������ 2023-11-28">2023-11-28</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2023 By Candle</div><div class="framework-info"><span>Powered by </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a></div><div class="footer_custom_text">So Long, and Thanks for All the Fish</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.2
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container:not\([display]\)').forEach(node => {
+            const target = node.parentNode
+            if (target.nodeName.toLowerCase() === 'li') {
+              target.parentNode.classList.add('has-jax')
+            } else {
+              target.classList.add('has-jax')
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-y/mathjax/3.2.0/es5/tex-mml-chtml.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script></div><script src="https://npm.elemecdn.com/pjax/pjax.min.js"></script><script>let pjaxSelectors = [
+  'title',
+  '#config-diff',
+  '#body-wrap',
+  '#rightside-config-hide',
+  '#rightside-config-show',
+  '.js-pjax'
+]
+
+if (false) {
+  pjaxSelectors.unshift('meta[property="og:image"]', 'meta[property="og:title"]', 'meta[property="og:url"]')
+}
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.removeEventListener('scroll', window.tocScrollFn)
+  window.removeEventListener('scroll', scrollCollect)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // Analytics
+  if (false) {
+    MtaH5.pgv()
+  }
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

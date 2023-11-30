@@ -4,6 +4,56 @@
   
     
     <entry>
+      <title>13.0.推荐系统</title>
+      <link href="/post/48693.html"/>
+      <url>/post/48693.html</url>
+      
+        <content type="html"><![CDATA[<h1 id="推荐系统"><a href="#推荐系统" class="headerlink" title="推荐系统"></a>推荐系统</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>机器学习中的推荐系统是一种利用算法和模型来预测用户对特定项目的兴趣程度，并向用户推荐可能感兴趣的项目的系统。推荐系统在许多在线平台上都得到了广泛应用，例如电子商务网站、社交媒体平台、音乐和视频流媒体服务等。</p><p>推荐系统的主要目标是提供个性化的推荐，以提高用户体验，增加用户对平台的参与度，并帮助用户发现新的有趣内容。有两种主要类型的推荐系统：<strong>协同过滤和内容过滤</strong>。</p><p>从一个例子开始定义推荐系统的问题。</p><p>假使我们是一个电影供应商，我们有 5 部电影和 4 个用户，我们要求用户为电影打分。</p><p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231130132735836.png" alt="image-20231130132735836"></p><p>前三部电影是爱情片，后两部则是动作片，我们可以看出<strong>Alice</strong>和<strong>Bob</strong>似乎更倾向与爱情片， 而 <strong>Carol</strong> 和 <strong>Dave</strong> 似乎更倾向与动作片。并且没有一个用户给所有的电影都打过分。我们希望构建一个算法来<strong>预测</strong>他们每个人可能会给他们没看过的电影打多少分，并以此作为推荐的依据。</p><p>下面引入一些标记：</p><ul><li>$n_u$ 代表用户的数量</li><li>$n_m$ 代表电影的数量</li><li>$r(i, j)$ 如果用户j给电影 $i$ 评过分则 $r(i,j)=1$</li><li>$y^{(i, j)}$ 代表用户 $j$ 给电影$i$的评分</li><li>$m_j$代表用户 $j$ 评过分的电影的总数</li></ul><hr><h2 id="内容过滤"><a href="#内容过滤" class="headerlink" title="内容过滤"></a>内容过滤</h2><p>这种方法利用<strong>项目的特征</strong>和用户的偏好之间的匹配来进行推荐。内容过滤系统会考虑项目的属性，例如关键词、主题或其他描述性特征，然后将这些特征与用户过去的行为或偏好进行匹配。</p><p>在一个基于内容的推荐系统算法中，我们假设对于我们希望推荐的东西有一些数据，这些数据是有关这些东西的特征。</p><p>在我们的例子中，我们可以假设每部电影都有两个特征，如$x_1$代表电影的<strong>浪漫程度</strong>，$x_2$ 代表电影的<strong>动作程度</strong>。</p><p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231130132744985.png" alt="image-20231130132744985"></p><p>则每部电影都有一个特征向量，如$x^{(1)}$是第一部电影的特征向量为$[0.9,0]$</p><p>下面我们要基于这些特征来构建一个推荐系统算法。假设我们采用线性回归模型，我们可以针对每一个用户都训练一个线性回归模型，如$\theta ^{(1)}$是第一个用户的模型的参数。</p><p>于是，我们有：</p><ul><li><p>$\theta^{(j)}$用户 $j$ 的参数向量</p></li><li><p>$x^{(i)}$电影 $i$ 的特征向量</p></li><li><p>对于用户 $j$ 和电影 $i$，我们预测评分为：$(\theta^{(j)})^T x^{(i)}$</p></li></ul><p>比如alice是用户1，假设其$\theta^{(1)}=[0,5,0]$，而$x^{(3)}=[1,0.99,0]$，用$(\theta^{(1)})^T x^{(3)}=4.95$，所以预测其对第三部电影评分为4.95分</p><p>代价函数：针对用户 $j$，该线性回归模型的代价为预测误差的平方和，加上正则化项：</p><script type="math/tex; mode=display">\min_{\theta (j)}\frac{1}{2}\sum_{i:r(i,j)=1}\left((\theta^{(j)})^Tx^{(i)}-y^{(i,j)}\right)^2+\frac{\lambda}{2}\left(\theta_{k}^{(j)}\right)^2</script><p>其中 $i:r(i,j)$表示我们只计算那些用户 $j$ 评过分的电影。在一般的线性回归模型中，误差项和正则项应该都是乘以$1/2m$，在这里我们将$m$去掉。并且我们不对方差项$\theta_0$进行正则化处理。</p><p>上面的代价函数只是针对一个用户的，为了学习所有用户，我们将<strong>所有用户的代价函数</strong>求和：</p><script type="math/tex; mode=display">\min_{\theta^{(1)},...,\theta^{(n_u)}} \frac{1}{2}\sum_{j=1}^{n_u}\sum_{i:r(i,j)=1}\left((\theta^{(j)})^Tx^{(i)}-y^{(i,j)}\right)^2+\frac{\lambda}{2}\sum_{j=1}^{n_u}\sum_{k=1}^{n}(\theta_k^{(j)})^2</script><p>用梯度下降法求最优解：</p><script type="math/tex; mode=display">\theta_k^{(j)}:=\theta_k^{(j)}-\alpha\left(\sum_{i:r(i,j)=1}((\theta^{(j)})^Tx^{(i)}-y^{(i,j)})x_{k}^{(i)}+\lambda\theta_k^{(j)}\right) \quad (\text{for} \, k\neq 0)</script><hr><h2 id="协同过滤"><a href="#协同过滤" class="headerlink" title="协同过滤"></a>协同过滤</h2><p>定义：<strong>协同过滤</strong>是推荐系统中一种常见的技术，它基于用户之间的相似性或项目之间的相似性来进行推荐。这种方法利用用户和项目的历史行为或偏好信息，通过<strong>比较用户或项目之间的相似性</strong>，预测用户可能感兴趣的项目或向用户推荐可能喜欢的其他用户。</p><p>在之前的基于内容的推荐系统中，对于每一部电影，我们都掌握了可用的特征，使用这些特征训练出了每一个用户的参数。相反地，如果我们拥有用户的参数，我们可以学习得出电影的特征</p><script type="math/tex; mode=display">\mathop{min}\limits_{x^{(1)},...,x^{(n_m)}}\frac{1}{2}\sum_{i=1}^{n_m}\sum_{j{r(i,j)=1}}((\theta^{(j)})^Tx^{(i)}-y^{(i,j)})^2+\frac{\lambda}{2}\sum_{i=1}^{n_m}\sum_{k=1}^{n}(x_k^{(i)})^2</script><p>但是如果我们既没有用户的参数，也没有电影的特征，这两种方法都不可行了，而<strong>协同过滤算法</strong>可以同时学习这两者。</p><p>我们的优化目标便改为同时针对$x$和$\theta$进行。</p><script type="math/tex; mode=display">J(x^{(1)},...x^{(n_m)},\theta^{(1)},...,\theta^{(n_u)})=\frac{1}{2}\sum_{(i:j):r(i,j)=1}((\theta^{(j)})^Tx^{(i)}-y^{(i,j)})^2+\frac{\lambda}{2}\sum_{i=1}^{n_m}\sum_{k=1}^{n}(x_k^{(j)})^2+\frac{\lambda}{2}\sum_{j=1}^{n_u}\sum_{k=1}^{n}(\theta_k^{(j)})^2</script><p>对代价函数求偏导数的结果如下：</p><script type="math/tex; mode=display">x_k^{(i)}:=x_k^{(i)}-\alpha\left(\sum_{j:r(i,j)=1}((\theta^{(j)})^Tx^{(i)}-y^{(i,j)}\theta_k^{j}+\lambda x_k^{(i)}\right)</script><script type="math/tex; mode=display">\theta_k^{(i)}:=\theta_k^{(i)}-\alpha\left(\sum_{i:r(i,j)=1}((\theta^{(j)})^Tx^{(i)}-y^{(i,j)}x_k^{(i)}+\lambda \theta_k^{(j)}\right)</script><p>注：在协同过滤从算法中，我们通常不使用$x_0=1$的截距项，如果需要的话，算法会自动学得。</p><p>协同过滤算法使用步骤如下：</p><ol><li><p>初始 $x^{(1)},x^{(1)},…x^{(nm)},\ \theta^{(1)},\theta^{(2)},…,\theta^{(n_u)}$为一些随机小值</p></li><li><p>使用梯度下降算法最小化代价函数</p></li><li><p>在训练完算法后，我们预测$(\theta^{(j)})^Tx^{(i)}$为用户 $j$ 给电影 $i$ 的评分</p></li></ol><p>通过这个学习过程获得的特征矩阵包含了有关电影的重要数据，这些数据不总是人能读懂的，但是我们可以用这些数据作为给用户推荐电影的依据。</p><p>例如，如果一位用户正在观看电影 $x^{(i)}$，我们可以寻找另一部电影$x^{(j)}$，依据两部电影的特征向量之间的距离$\left| {x}^{(i)}-{x}^{(j)} \right|$的大小。</p><hr><h2 id="低秩矩阵分解"><a href="#低秩矩阵分解" class="headerlink" title="低秩矩阵分解"></a>低秩矩阵分解</h2><p><strong>低秩矩阵分解</strong>（Low Rank Matrix Factorization）是一种矩阵分解技术，常被应用于推荐系统和数据降维等领域。其核心思想是将<strong>一个大矩阵表示为两个或多个较小维度</strong>的矩阵的乘积，这些小矩阵通常被称为因子矩阵。低秩表示意味着这些因子矩阵的秩（rank）相对较小。</p><p>在推荐系统中，低秩矩阵分解主要用于学习用户和物品之间的潜在关系。通过将用户-物品评分矩阵分解为<strong>用户因子矩阵和物品因子矩阵</strong>，可以学习到用户和物品的隐藏特征，从而进行个性化的推荐。</p><p>举例说明：</p><p>我们有关于五部电影的数据集，我将要做的是，将这些用户的电影评分，进行分组并存到一个矩阵中。</p><p>我们有五部电影，以及四位用户，那么 这个矩阵 $Y$ 就是一个5行4列的矩阵，它将这些电影的用户评分数据都存在矩阵里：</p><div class="table-container"><table><thead><tr><th><strong>Movie</strong></th><th><strong>Alice (1)</strong></th><th><strong>Bob (2)</strong></th><th><strong>Carol (3)</strong></th><th><strong>Dave (4)</strong></th></tr></thead><tbody><tr><td>Love at last</td><td>5</td><td>5</td><td>0</td><td>0</td></tr><tr><td>Romance forever</td><td>5</td><td>?</td><td>?</td><td>0</td></tr><tr><td>Cute puppies of love</td><td>?</td><td>4</td><td>0</td><td>?</td></tr><tr><td>Nonstop car chases</td><td>0</td><td>0</td><td>5</td><td>4</td></tr><tr><td>Swords vs. karate</td><td>0</td><td>0</td><td>5</td><td>?</td></tr></tbody></table></div><p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231130145917739.png" alt="image-20231130145917739"></p><p>那么用户-物品评分矩阵可以表示为：</p><p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231130150006503.png" alt="image-20231130150006503"></p><p>这矩阵可以被分解为<strong>物品因子矩阵和用户因子矩阵</strong>，分别是：$X=\left [ \begin{matrix}<br>x^{(1)} \\<br>x^{(2)}\\<br>\cdot\cdot\cdot\\<br>x^{(n)}\\<br>\end{matrix} \right ]$以及$\Theta=\left [ \begin{matrix}<br>\theta^{(1)^T} \\<br>\theta^{(2)^T}\\<br>\cdot\cdot\cdot\\<br>\theta^{(n)^T}\\<br>\end{matrix} \right ]$</p><p>其中，$X$的每一行表示一个物品的潜在特征，$\Theta$的每一行表示一个用户的潜在特征。矩阵$\Theta^T X$的乘积近似等于原始评分矩阵</p><p>低秩矩阵分解的优点之一是它能够处理数据的稀疏性，即使用户只对很少的物品进行了评分，也能够进行有效的推荐。此外，低秩矩阵分解还可以通过学习潜在特征来发现用户和物品之间的关系，从而提高推荐的准确性。</p><hr><h2 id="均值归一化"><a href="#均值归一化" class="headerlink" title="均值归一化"></a>均值归一化</h2><p>让我们来看下面的用户评分数据：</p><p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231130150953401.png" alt="image-20231130150953401"></p><p>如果我们新增一个用户 <strong>Eve</strong>，并且 <strong>Eve</strong> 没有为任何电影评分，那么我们以什么为依据为<strong>Eve</strong>推荐电影呢？</p><p>直接用协同过滤计算，结果会是Eve对电影的评分都为0，这样无法给eve推荐</p><p>我们首先需要对结果 $Y $矩阵进行均值归一化处理，将每一个用户对某一部电影的评分减去所有用户对该电影评分的平均值：</p><p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231130151008327.png" alt="image-20231130151008327"></p><p>然后我们利用这个新的 $Y$ 矩阵来训练算法。<br>如果我们要用新训练出的算法来预测评分，则需要将平均值重新加回去，预测$(\theta^{(j)})^T x^{(i)}+\mu_i$，对于<strong>Eve</strong>，我们的新模型会认为她给每部电影的评分都是该电影的平均分。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 机器学习 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 机器学习 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>12.0.异常检测</title>
+      <link href="/post/59772.html"/>
+      <url>/post/59772.html</url>
+      
+        <content type="html"><![CDATA[<h1 id="异常检测"><a href="#异常检测" class="headerlink" title="异常检测"></a>异常检测</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>异常检测（Anomaly Detection）是机器学习中的一种任务，其目标是识别数据中的异常或不寻常的行为、实例或模式。这种异常通常是与正常行为显著不同的数据点，可能表示潜在的问题、异常事件或者有趣的情况。</p><p>举一个例子说明：假想你是一个飞机引擎制造商，当你生产的飞机引擎从生产线上流出时，你需要进行<strong>QA</strong>(质量控制测试)，而作为这个测试的一部分，你测量了飞机引擎的一些<strong>特征变量</strong>，比如引擎运转时产生的热量，或者引擎的振动等等。</p><p>这样一来，你就有了一个<strong>数据集</strong>，从$x^{(1)}$到$x^{(m)}$，如果你生产了$m$个引擎的话，你将这些数据绘制成图表，看起来就是如图所示：</p><p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231129103217520.png" alt="image-20231129103217520"></p><p>这里的每个点、每个叉，都是<strong>无标签数据</strong>。假设后来有一天，你有一个新的飞机引擎从生产线上流出，而你的新飞机引擎有特征变量$x_{test}$。</p><p>所谓的异常检测问题就是：我们希望知道这个新的飞机引擎是否有某种<strong>异常</strong>，或者说，我们希望判断这个引擎是否需要进一步测试。因为，如果它看起来像一个正常的引擎，那么我们可以直接将它运送到客户那里，而不需要进一步的测试。</p><p>给定数据集 $x^{(1)},x^{(2)},..,x^{(m)}$，我们假使数据集是正常的，我们希望知道新的数据 $x_{test}$ 是不是异常的，即这个测试数据不属于该组数据的几率如何。我们所构建的模型应该能根据该测试数据的位置告诉我们其属于一组数据的可能性 $p(x)$。</p><p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231129104244108.png" alt="image-20231129104244108"></p><p>上图中，在蓝色圈内的数据属于该组数据的可能性较高，而越是偏远的数据，其属于该组数据的可能性就越低。</p><p>这种方法称为密度估计，表达如下：</p><script type="math/tex; mode=display">if \quad p(x)\begin{cases}< \varepsilon & anomaly \\> =\varepsilon & normal\end{cases}</script><p>模型$p(x)$ 为我们其属于一组数据的可能性，通过$p(x) &lt; \varepsilon$检测非正常用户。</p><hr><h2 id="高斯分布"><a href="#高斯分布" class="headerlink" title="高斯分布"></a>高斯分布</h2><p>高斯分布，也称为正态分布或钟形曲线，是概率论和统计学中最重要的分布之一。高斯分布的定义如下：</p><p>对于一个一维随机变量 (X)，其服从高斯分布，记作 ($X \sim \mathcal{N}(\mu, \sigma^2)$)，其中：</p><ul><li>($\mu$) 是分布的均值，决定曲线的位置：$\mu=\frac{1}{m}\sum\limits_{i=1}^{m}x^{(i)}$</li><li>($\sigma^2$) 是方差，决定曲线的宽度：$\sigma^2=\frac{1}{m}\sum\limits_{i=1}^{m}(x^{(i)}-\mu)^2$</li></ul><p>概率密度函数表示为：</p><script type="math/tex; mode=display">f(x | \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(x - \mu)^2}{2\sigma^2}\right)</script><p>这个函数描述了随机变量 ($X$) 取某个特定值的概率，曲线呈钟形，且在均值处取得最大值。标准正态分布是均值 ($\mu = 0$)，方差 ($\sigma^2 = 1$) 的高斯分布。</p><p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231129105200319.png" alt="image-20231129105200319" style="zoom: 25%;" /></p><p>注：机器学习中对于方差我们通常只除以$m$而非统计学中的$(m-1)$。这里顺便提一下，在实际使用中，到底是选择使用$1/m$还是$1/(m-1)$其实区别很小，只要你有一个还算大的训练集，在机器学习领域大部分人更习惯使用$1/m$这个版本的公式</p><hr><h2 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h2><ol><li><p><strong>数据准备：</strong></p><ul><li>收集并准备要进行异常检测的数据集。</li></ul></li><li><p><strong>选择特征：</strong></p><ul><li>选择用于建模的特征。通常，这些特征应该能够很好地描述正常数据的模式。</li></ul></li><li><p><strong>建模正常数据：</strong></p><ul><li>使用高斯分布（或者是多元高斯分布）对正常数据进行建模。计算特征的均值$\mu$ 和方差  $\sigma^2$</li></ul></li><li><p><strong>计算概率密度函数：</strong></p><ul><li><p>对于每个样本，使用建模得到的均值和方差计算其在高斯分布中的概率密度函数值。对于一元高斯分布，使用： $p(x)=\prod\limits_{j=1}^np(x_j;\mu_j,\sigma_j^2)=\prod\limits_{j=1}^1\frac{1}{\sqrt{2\pi}\sigma_j}exp(-\frac{(x_j-\mu_j)^2}{2\sigma_j^2})$</p></li><li><p>下图是一个由两个特征的训练集，以及特征的分布情况：</p><p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraba47767a11ba39a23898b9f1a5a57cc5.png" alt=""></p></li></ul></li><li><p><strong>设定阈值：</strong></p><ul><li>选择一个适当的阈值，该阈值将用于决定哪些样本被认为是异常。通常，可以使用交叉验证或其他评估方法来选择最佳的阈值。</li></ul></li><li><p><strong>检测异常：</strong></p><ul><li>对于每个样本，比较其概率密度函数值与设定的阈值。如果概率密度函数值低于阈值，将该样本标记为异常，当$p(x) &lt; \varepsilon$时，为异常。</li></ul></li><li><p><strong>评估性能：</strong></p><ul><li>当我们开发一个异常检测系统时，我们从带标记（异常或正常）的数据着手，我们从其中选择一部分正常数据用于构建训练集，然后用剩下的正常数据和异常数据混合的数据构成<strong>交叉检验集和测试集</strong></li><li><p>具体的评价方法如下：</p><ol><li><p>根据测试集数据，我们估计特征的平均值和方差并构建$p(x)$函数</p></li><li><p>对交叉检验集，我们尝试使用<strong>不同的$\varepsilon$值</strong>作为阀值，并预测数据是否异常，根据$F1$值或者查准率与查全率的比例来选择 $\varepsilon$</p></li><li><p>选出 $\varepsilon$ 后，针对测试集进行预测，计算异常检验系统的$F1$值，或者查准率与查全率之比</p></li></ol></li></ul></li></ol><hr><h2 id="异常检测与监督学习对比"><a href="#异常检测与监督学习对比" class="headerlink" title="异常检测与监督学习对比"></a>异常检测与监督学习对比</h2><p>之前我们构建的异常检测系统也使用了带标记的数据，与监督学习有些相似，下面的对比有助于选择采用监督学习还是异常检测：</p><div class="table-container"><table><thead><tr><th><strong>特征</strong></th><th><strong>异常检测</strong></th><th><strong>监督学习</strong></th></tr></thead><tbody><tr><td><strong>目标</strong></td><td>发现数据中的异常模式，通常关注少量异常实例</td><td>分类预测目标变量的类别，关注整体数据分布</td></tr><tr><td><strong>数据需求</strong></td><td>正常数据通常占多数，异常数据较少</td><td>包含已标记的训练数据，涵盖各个类别</td></tr><tr><td><strong>标签</strong></td><td>大多数情况下，数据集中只有正常样本，无异常标签</td><td>所有样本都有已知的类别标签</td></tr><tr><td><strong>算法输入</strong></td><td>正常模型的参数（均值、方差等）</td><td>特征和标签（训练数据的输入和输出）</td></tr><tr><td><strong>算法输出</strong></td><td>标记异常样本或异常概率</td><td>预测目标变量的类别</td></tr><tr><td><strong>适用场景</strong></td><td><strong>异常数据相对较少</strong>，难以获得大量异常标签</td><td><strong>大量</strong>已标记的训练数据，目标类别的分布相对均衡</td></tr><tr><td><strong>样本平衡</strong></td><td>不平衡，正常数据占多数</td><td>可能是平衡的，如果类别不平衡可能需要额外处理</td></tr><tr><td><strong>模型评估</strong></td><td>使用异常检测指标如精确度、召回率等</td><td>使用分类指标如准确度、召回率、精确度等</td></tr></tbody></table></div><hr><h2 id="选择特征"><a href="#选择特征" class="headerlink" title="选择特征"></a>选择特征</h2><p>异常检测假设特征符合高斯分布，如果数据的分布不是高斯分布，异常检测算法也能够工作，但是最好还是将数据转换成高斯分布，例如使用对数函数：$x= log(x+c)$，其中 $c$ 为非负常数； 或者 $x=x^c$，$c$为 0-1 之间的一个分数，等方法。</p><p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231129112257059.png" alt="image-20231129112257059"></p><p>误差分析：</p><p>一个常见的问题是一些异常的数据可能也会有较高的$p(x)$值，因而被算法认为是正常的。这种情况下误差分析能够帮助我们，我们可以分析那些被算法错误预测为正常的数据，观察能否找出一些问题。我们可能能从问题中发现我们需要<strong>增加一些新的特征</strong>，增加这些新特征后获得的新算法能够帮助我们更好地进行异常检测。</p><p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231129113900576.png" alt="image-20231129113900576"></p><p>例如，在检测数据中心的计算机状况的例子中，我们可以用<strong>CPU</strong>负载与网络通信量的比例作为一个新的特征，如果该值异常地大，便有可能意味着该服务器是陷入了一些问题中。</p><hr><h2 id="多元高斯分布"><a href="#多元高斯分布" class="headerlink" title="多元高斯分布"></a>多元高斯分布</h2><p>假使我们有两个相关的特征，而且这两个特征的值域范围比较宽，这种情况下，一般的高斯分布模型可能不能很好地识别异常数据。其原因在于，一般的高斯分布模型尝试的是去同时抓住两个特征的偏差，因此创造出一个比较大的判定边界。</p><p>下图中是两个相关特征，洋红色的线（根据ε的不同其范围可大可小）是一般的高斯分布模型获得的判定边界，很明显绿色的<strong>X</strong>所代表的数据点很可能是异常值，但是其$p(x)$值却仍然在正常范围内。多元高斯分布将创建像图中蓝色曲线所示的判定边界。</p><p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231129114827564.png" alt="image-20231129114827564"></p><p>为了解决这个问题，我们需要利用多元的高斯分布，定义如下：</p><p>多元高斯分布（Multivariate Gaussian Distribution）是用于描述多维随机变量的概率分布。它是一种对多变<strong>量同时进行建模</strong>的方法，考虑了各个变量之间的<strong>协方差</strong>关系。</p><p>在一般的高斯分布模型中，我们计算 $p(x)$ 的方法是：<br>通过分别计算每个特征对应的几率然后将其累乘起来，而在多元高斯分布模型中，我们将构建特征的<strong>协方差矩阵</strong>，用所有的特征一起来计算 $p(x)$。</p><ol><li><p><strong>收集数据：</strong></p><ul><li>收集包含多个特征的多维数据。</li></ul></li><li><p><strong>选择特征：</strong></p><ul><li>选择用于建模的特征。</li></ul></li><li><p><strong>估计均值和协方差：</strong></p><ul><li>计算每个特征的均值 ($\mu_i$) 和特征之间的协方差 ($\Sigma_{ij}$)。</li><li>对于一个包含 (m) 个样本的数据集，均值计算如下：<br> $\mu_i = \frac{1}{m} \sum_{j=1}^{m} x_{ij}$ </li><li>协方差矩阵计算如下：<br> $\Sigma_{ij} = \frac{1}{m} \sum_{k=1}^{m} (x_{ik} - \mu_i)(x_{jk} - \mu_j)$ </li></ul></li><li><p><strong>建模多元高斯分布：</strong></p><ul><li>使用估计得到的均值向量和协方差矩阵建模多元高斯分布。</li></ul></li><li><p><strong>计算概率密度函数：</strong></p><ul><li><p>对于一个新的样本 ($\mathbf{x}$)，使用多元高斯分布的概率密度函数计算其概率：</p><script type="math/tex; mode=display">f(\mathbf{x} | \boldsymbol{\mu}, \boldsymbol{\Sigma}) = \frac{1}{(2\pi)^{n/2}|\boldsymbol{\Sigma}|^{1/2}} \exp\left(-\frac{1}{2} (\mathbf{x} - \boldsymbol{\mu})^T \boldsymbol{\Sigma}^{-1} (\mathbf{x} - \boldsymbol{\mu})\right)</script></li><li><p>($\mathbf{x}$) 是一个 $n$维向量，表示一个随机样本。</p></li><li><p>($\boldsymbol{\mu}$) 是一个 $n$维均值向量。</p></li><li><p>($\boldsymbol{\Sigma}$) 是一个 ($n \times n$) 的协方差矩阵。</p></li></ul></li></ol><p>$\Sigma^{-1}$ 是逆矩阵，下面我们来看看协方差矩阵是如何影响模型的：</p><p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231129115855720.png" alt="image-20231129115855720"></p><p>上图是5个不同的模型，从左往右依次分析：</p><ol><li><p>是一个一般的高斯分布模型</p></li><li><p>通过协方差矩阵，令特征1拥有较小的偏差，同时保持特征2的偏差</p></li><li><p>通过协方差矩阵，令特征2拥有较大的偏差，同时保持特征1的偏差</p></li><li><p>通过协方差矩阵，在不改变两个特征的原有偏差的基础上，增加两者之间的正相关性</p></li><li><p>通过协方差矩阵，在不改变两个特征的原有偏差的基础上，增加两者之间的负相关性</p></li></ol><p>多元高斯分布模型与原高斯分布模型的关系：</p><p>可以证明的是，原本的高斯分布模型是多元高斯分布模型的一个子集，即像上图中的第1、2、3，3个例子所示，如果协方差矩阵只在对角线的单位上有非零的值时，即为原本的高斯分布模型了。</p><p>原高斯分布模型和多元高斯分布模型的比较：</p><div class="table-container"><table><thead><tr><th><strong>征</strong></th><th><strong>原高斯分布模型（一元高斯）</strong></th><th><strong>多元高斯分布模型</strong></th></tr></thead><tbody><tr><td><strong>维度</strong></td><td>一维（单变量）</td><td>多维（多变量）</td></tr><tr><td><strong>模型参数</strong></td><td>均值 <em>μ</em>、方差$\sigma^2$</td><td>均值向量 $\boldsymbol{\mu}$、协方差矩阵 $\boldsymbol{\Sigma}$</td></tr><tr><td><strong>概率密度函数</strong></td><td>$\frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(x - \mu)^2}{2\sigma^2}\right)$</td><td>$\frac{1}{(2\pi)^{n/2}\boldsymbol{</td><td>\Sigma</td><td>}^{1/2}} \exp\left(-\frac{1}{2} (\mathbf{x} - \boldsymbol{\mu})^T \boldsymbol{\Sigma}^{-1} (\mathbf{x} - \boldsymbol{\mu})\right)$</td></tr><tr><td><strong>建模</strong></td><td>单一变量（一维数据）</td><td>多变量（多维数据）</td></tr><tr><td><strong>变量之间关系</strong></td><td>假设变量之间独立</td><td>考虑变量之间协方差关系</td></tr><tr><td><strong>适用性</strong></td><td>通常适用于一维数据集</td><td>适用于多维数据集，能更全面地捕捉变量之间的相关性</td></tr><tr><td><strong>应用场景</strong></td><td>计算代价低，能适应大规模的特征</td><td>必须要有 $m&gt;n$，不然的话协方差矩阵$\Sigma$不可逆的，通常需要 $m&gt;10n$ 另外特征冗余也会导致协方差矩阵不可逆</td></tr></tbody></table></div><hr>]]></content>
+      
+      
+      <categories>
+          
+          <category> 机器学习 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 机器学习 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>11.5 ex7：k-means and PCA</title>
       <link href="/post/30433.html"/>
       <url>/post/30433.html</url>
@@ -1989,31 +2039,6 @@
     
     
     <entry>
-      <title>JAVA之数组</title>
-      <link href="/post/50083.html"/>
-      <url>/post/50083.html</url>
-      
-        <content type="html"><![CDATA[<h1 id="JAVA之数组"><a href="#JAVA之数组" class="headerlink" title="JAVA之数组"></a>JAVA之数组</h1><h2 id="数组的创建"><a href="#数组的创建" class="headerlink" title="数组的创建"></a>数组的创建</h2><p>数组是JAVA的特殊队形，它们具有length的简单属性</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 一般来说，有两种形式</span></span><br><span class="line"><span class="keyword">int</span> [] a=<span class="keyword">new</span> <span class="keyword">int</span> [n];</span><br><span class="line"><span class="keyword">int</span> [] a=&#123;<span class="number">94</span>,<span class="number">45</span>,<span class="number">45</span>&#125;;</span><br></pre></td></tr></table></figure><p>如果要获取数组的长度，只需要使用<code>a.length</code>就可以了</p><hr><h2 id="For-Each循环"><a href="#For-Each循环" class="headerlink" title="For-Each循环"></a><strong>For-Each循环</strong></h2><p>能在不使用下标的情况下遍历数组</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(Elemtype element:array)&#123;</span><br><span class="line">    System.out.println(element);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><hr><h2 id="Arrays类"><a href="#Arrays类" class="headerlink" title="Arrays类"></a>Arrays类</h2><p>Arrays类能够方便的操作数组，提供静态方法</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Elemtype array;</span><br><span class="line"><span class="function"><span class="keyword">void</span>  <span class="title">sort</span><span class="params">(array)</span></span>;</span><br><span class="line"><span class="comment">//sort 方法，对指定对象数组根据其元素的自然顺序进行升序排列。</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">fill</span><span class="params">(array,val)</span></span>;</span><br><span class="line"><span class="comment">//将指定的 int 值分配给指定 int 型数组指定范围中的每个元素。</span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(array,array1)</span></span>;</span><br><span class="line"><span class="comment">//如果两个指定的 long 型数组彼此相等，则返回 true。</span></span><br><span class="line"><span class="comment">//换句话说，如果两个数组以相同顺序包含相同的元素，则两个数组是相等的。</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">binarySearch</span><span class="params">(array,key)</span></span>;</span><br><span class="line"><span class="comment">//用二分查找算法在给定数组中搜索给定值的对象(Byte,Int,double等)。</span></span><br><span class="line"><span class="comment">//数组在调用前必须排序好的。如果查找值包含在数组中，则返回搜索键的索引；否则返回 (-(插入点) - 1)。</span></span><br><span class="line"><span class="function">ArrayList <span class="title">asList</span><span class="params">(array)</span></span>;</span><br><span class="line"><span class="comment">//将一个数组转变成一个List，准确来说是ArrayList</span></span><br><span class="line"><span class="function">String <span class="title">toString</span><span class="params">(array)</span></span>;</span><br><span class="line"><span class="comment">//将一个数组转变成一个字符串，中间用,隔开</span></span><br><span class="line"><span class="keyword">int</span>[] copyOfRange(<span class="keyword">int</span> [] original ,<span class="keyword">int</span> from,<span class="keyword">int</span> to);</span><br><span class="line"><span class="comment">//复制出一个从from到to的左闭右开的数组</span></span><br></pre></td></tr></table></figure>]]></content>
-      
-      
-      <categories>
-          
-          <category> JAVA </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> JAVA </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>JAVA之字符</title>
       <link href="/post/26759.html"/>
       <url>/post/26759.html</url>
@@ -2044,6 +2069,31 @@
       <url>/post/30509.html</url>
       
         <content type="html"><![CDATA[<h1 id="JAVA之集合—-Collection"><a href="#JAVA之集合—-Collection" class="headerlink" title="JAVA之集合—-Collection"></a>JAVA之集合—-Collection</h1><p>数组有很多的缺点，比如</p><ul><li>一旦初始化以后，其长度就不可修改。</li><li>数组中提供的方法非常有限，对于添加、删除、插入数据等操作，非常不便，同时效率不高。</li><li>获取数组中实际元素的个数的需求，数组没有现成的属性或方法可用</li><li>数组存储数据的特点：有序、可重复。对于无序、不可重复的需求，不能满足。</li></ul><p>所以我们使用<strong>集合</strong>来实现</p><p>集合分为<strong>Collection和Map</strong>两种体系</p><ul><li><strong>Collection</strong>：主要由List、Set、Queue接口组成，List代表有序、重复的集合；其中Set代表无序、不可重复的集合；Java 5 又增加了Queue体系集合，代表一种队列集合实现。</li><li><strong>Map</strong>：则代表具有映射关系的键值对集合。</li></ul><p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/image-20211130204408289.png" alt="image-20211130204408289"></p><h2 id="Collections方法"><a href="#Collections方法" class="headerlink" title="Collections方法"></a>Collections<strong>方法</strong></h2><p>所有的Collection下的实现类都能使用此方法</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Collection&lt;Integer&gt; coll = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">Collection&lt;Integer&gt; coll = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">Collection&lt;Integer&gt; coll = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">add</span><span class="params">(Elemtype  e)</span></span>;<span class="comment">//添加一个元素</span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(Elemtype e)</span></span>;<span class="comment">//检查集合中指定的元素</span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">remove</span><span class="params">(Eletmtype e)</span></span>;<span class="comment">//移除集合中的元素</span></span><br><span class="line"><span class="function"><span class="keyword">int</span>  <span class="title">max</span><span class="params">(coll)</span> <span class="comment">//根据元素的自然顺序，返回给定集合中的最大元素</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span>  <span class="title">min</span><span class="params">(coll)</span><span class="comment">//根据元素的自然顺序，返回给定集合中的最小元素</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">frequency</span><span class="params">(coll，<span class="keyword">int</span> i)</span> <span class="comment">//返回指定集合中指定元素的出现次数</span></span></span><br><span class="line"><span class="function"></span></span><br></pre></td></tr></table></figure><p>不过有些限定了只能List使用</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Collection&lt;Integer&gt; coll = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reverse</span> <span class="params">(coll)</span></span>;<span class="comment">//反转 List 中元素的顺序</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(coll,<span class="keyword">int</span> i,<span class="keyword">int</span> j)</span></span>;<span class="comment">//将指定 list 集合中的 i 处元素和 j 处元素进行交换</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">sort</span><span class="params">(List)</span></span>;<span class="comment">//根据元素的自然顺序对指定 List 集合元素按升序排序</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">sort</span><span class="params">(List，Comparator)</span></span>;<span class="comment">//根据指定的 Comparator 产生的顺序对 List 集合元素进行排序</span></span><br></pre></td></tr></table></figure><hr><p>Collection接口，是单列数据，定义了一组对象方法的集合</p><ul><li>List：元素有序，可重复的集合</li><li>Set：元素无序，不可重复的集合</li><li>Queue：Queue是一个队列集合，队列通常是指“先进先出”（FIFO）的容器。</li></ul><hr><h2 id="List（有序列表）"><a href="#List（有序列表）" class="headerlink" title="List（有序列表）"></a><strong>List（有序列表）</strong></h2><p>List集合的特点就是存取有序，可以存储重复的元素，可以用<strong>下标</strong>进行元素的操作</p><p>List方法</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Elemtype <span class="title">get</span><span class="params">(<span class="keyword">int</span> index)</span></span>;</span><br><span class="line"><span class="comment">//获取此集合中指定索引位置的元素，E 为集合中元素的数据类型</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">index</span><span class="params">(Elemtype e)</span></span>;</span><br><span class="line"><span class="comment">//返回此集合中第一次出现指定元素的索引，如果此集合不包含该元素，则返回 -1</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">lastIndexOf</span><span class="params">(Elemtype e)</span></span>;</span><br><span class="line"><span class="comment">//返回此集合中最后一次出现指定元素的索引，如果此集合不包含该元素，则返回 -1</span></span><br><span class="line"><span class="function">Elemtype <span class="title">set</span><span class="params">(<span class="keyword">int</span> index, Eelement)</span></span>;</span><br><span class="line"><span class="comment">//将此集合中指定索引位置的元素修改为 element 参数指定的对象。此方法返回此集合中指定索引位置的原元素</span></span><br><span class="line"><span class="function">List&lt;E&gt; <span class="title">subList</span><span class="params">(<span class="keyword">int</span> fromlndex, <span class="keyword">int</span> tolndex)</span></span>;</span><br><span class="line"><span class="comment">//返回一个新的集合，新集合中包含 fromlndex 和 tolndex 索引之间的所有元素。包含fromlndex 处的元素，不包含 tolndex 索引处的元素</span></span><br></pre></td></tr></table></figure><hr><h3 id="数组转换成List的方法"><a href="#数组转换成List的方法" class="headerlink" title="数组转换成List的方法"></a>数组转换成List的方法</h3><p>最简单的是，直接用一个<code>for</code>循环遍历数组，用<code>add</code>方法添加进<code>List</code>即可</p><p>首先将一个数组从<code>int</code>转换为<code>Integer</code>类</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//初始化int数组</span></span><br><span class="line"><span class="keyword">int</span>[] nums = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>&#125;;</span><br><span class="line"><span class="comment">//将int数组转换为数值流</span></span><br><span class="line">IntStream stream = Arrays.stream(nums);</span><br><span class="line"><span class="comment">//流中的元素全部装箱，转换为Integer流 </span></span><br><span class="line">Stream&lt;Integer&gt; integerStream = stream.boxed();</span><br><span class="line"><span class="comment">//将流转换为数组</span></span><br><span class="line">Integer[] integers = integerStream.toArray(Integer[]::<span class="keyword">new</span>);</span><br></pre></td></tr></table></figure><p>实际上可用一行代码完成：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Integer newNums[] = Arrays.stream(nums).boxed().toArray(Integer[]::<span class="keyword">new</span>);</span><br></pre></td></tr></table></figure><hr><h3 id="ArrayList（动态数组）"><a href="#ArrayList（动态数组）" class="headerlink" title="ArrayList（动态数组）"></a><strong>ArrayList（动态数组）</strong></h3><p>ArrayList 是一个动态数组结构，支持随机存取，尾部插入删除方便，内部插入删除效率低（因为要移动数组元素）；如果内部数组容量不足则自动扩容，因此当数组很大时，效率较低。</p><p>ArrayList继承了List和Collection的所有方法</p><p>利用Arrays类方法<code>asList</code>可将数组转换为<code>ArrayList</code></p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ArrayList <span class="title">asList</span><span class="params">(array)</span></span>;</span><br><span class="line"><span class="comment">//将一个数组转变成一个List，准确来说是ArrayList</span></span><br></pre></td></tr></table></figure><hr><h3 id="LinkedList（双向链表）"><a href="#LinkedList（双向链表）" class="headerlink" title="LinkedList（双向链表）"></a><strong>LinkedList（双向链表）</strong></h3><p>LinkedList 是一个双向链表结构，在任意位置插入删除都很方便，但是不支持随机取值，每次都只能从一端开始遍历，直到找到查询的对象，然后返回；不过，它不像 ArrayList 那样需要进行内存拷贝，因此相对来说效率较高，但是因为存在额外的前驱和后继节点指针，因此占用的内存比 ArrayList 多一些。</p><p>LinkedList除了继承了List和Collection的所有方法，根据其链表的特性，还特有几种方法</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">addFirst</span><span class="params">(E e)</span></span>; <span class="comment">//将指定元素添加到此集合的开头</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">addLast</span><span class="params">(E e)</span></span>; <span class="comment">//将指定元素添加到此集合的末尾</span></span><br><span class="line"><span class="function">Elemtype <span class="title">getFirst</span><span class="params">()</span></span>;    <span class="comment">//返回此集合的第一个元素</span></span><br><span class="line"><span class="function">Elemtype <span class="title">getLast</span><span class="params">()</span></span>; <span class="comment">//返回此集合的最后一个元素</span></span><br><span class="line"><span class="function">Elemtype <span class="title">removeFirst</span><span class="params">()</span></span>; <span class="comment">//删除此集合中的第一个元素</span></span><br><span class="line"><span class="function">Elemtype <span class="title">removeLast</span><span class="params">()</span></span>;  <span class="comment">//删除此集合中的最后一个元素</span></span><br></pre></td></tr></table></figure><hr><h3 id="Vector（动态数组）"><a href="#Vector（动态数组）" class="headerlink" title="Vector（动态数组）"></a><del>Vector（动态数组）</del></h3><p>Vector 也是一个动态数组结构，一个元老级别的类，早在 jdk1.1 就引入进来类，之后在 jdk1.2 里引进 ArrayList，ArrayList 大部分的方法和 Vector 比较相似，两者是不同的，Vector 是允许同步访问的，<strong>Vector 中的操作是线程安全的</strong>，但是效率低，而 ArrayList 所有的操作都是异步的，执行效率高，但不安全！</p><p>因为ArrayList已经有了其他安全的方法，所以没有用Vector的必要</p><hr><h3 id="Stack（栈）"><a href="#Stack（栈）" class="headerlink" title="Stack（栈）"></a><del>Stack（栈）</del></h3><p>Stack 是 Vector 的一个子类，本质也是一个动态数组结构，不同的是，它的数据结构是先进后出，取名叫栈！</p><p>关于<code>Stack</code>，现在用的也很少，因为有个<code>ArrayDeque</code>双端队列，可以替代<code>Stack</code>所有的功能，并且执行效率比它高！</p><hr><h2 id="Queue（队列）"><a href="#Queue（队列）" class="headerlink" title="Queue（队列）"></a><strong>Queue（队列）</strong></h2><p>Queue是一个队列集合，队列通常是指“先进先出”（FIFO）的容器。新元素插入（offer）到队列的尾部，访问元素（poll）操作会返回队列头部的元素。通常，队列不允许随机访问队列中的元素</p><hr><h3 id="ArrayDeque-（双端队列）"><a href="#ArrayDeque-（双端队列）" class="headerlink" title="ArrayDeque （双端队列）"></a>ArrayDeque （双端队列）</h3><p>ArrayQueue是一个基于数组实现的<strong>双端队列</strong>，可以想象，在队列中存在两个指针，一个指向头部，一个指向尾部，因此它具有“FIFO队列”及“栈”的方法特性。</p><p>既可以先进先出，也可以先进后出</p><p>常用方法 </p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//队列常用方法：</span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span></span>;<span class="comment">//队列空返回真，否则返回假</span></span><br><span class="line"><span class="function"><span class="keyword">void</span>  <span class="title">peek</span><span class="params">()</span></span>;<span class="comment">//获取队头元素，但不出栈</span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">offer</span><span class="params">(E e)</span></span>;<span class="comment">//入队</span></span><br><span class="line"><span class="function">Elemtype <span class="title">poll</span><span class="params">()</span></span>;<span class="comment">//出队，获取并移除队头元素，若为空则返回Null</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//栈常用方法：</span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span></span>;<span class="comment">//栈空返回真，否则返回假</span></span><br><span class="line"><span class="function"><span class="keyword">void</span>  <span class="title">peek</span><span class="params">()</span></span>;<span class="comment">//获取栈顶元素，但不出栈</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">push</span><span class="params">(E e)</span></span>;<span class="comment">//入栈</span></span><br><span class="line"><span class="function">Elemtype <span class="title">pop</span><span class="params">(E e)</span></span>;<span class="comment">//出栈,获取并移除栈顶元素，若为空则返回Null</span></span><br></pre></td></tr></table></figure><hr><h3 id="PriorityQueue（优先队列）"><a href="#PriorityQueue（优先队列）" class="headerlink" title="PriorityQueue（优先队列）"></a>PriorityQueue（优先队列）</h3><p>PriorityQueue也是一个队列的实现类，此实现类中存储的元素排列并不是按照元素添加的顺序进行排列，而是内部会按元素的大小顺序进行排列，是一种能够自动排序的队列。</p><hr><h3 id="LinkedList（双向链表）-1"><a href="#LinkedList（双向链表）-1" class="headerlink" title="LinkedList（双向链表）"></a>LinkedList（双向链表）</h3><p>双向链表同样也实现了Queue类</p><hr><h2 id="Set-集"><a href="#Set-集" class="headerlink" title="Set(集)"></a><strong>Set(集)</strong></h2><p>Set集合的特点：元素不重复，存取无序，<strong>无下标</strong>；</p><p><strong>Set 集合的实现，基本都是基于 Map 中的键做文章，使用 Map 中键不能重复、无序的特性；所以，我们只需要重点关注 Map 的实现即可！</strong></p><hr><h3 id="Set转换为数组的办法"><a href="#Set转换为数组的办法" class="headerlink" title="Set转换为数组的办法"></a>Set转换为数组的办法</h3><p>方法1：采用<code>toArray(new Integer[] &#123;&#125;)</code>方法直接转为<code>Integer</code>数组，然后再转为整型数组；</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span>[] SetToInt(Set&lt;Integer&gt; allSet) &#123;</span><br><span class="line">        <span class="comment">// 先将set集合转为Integer型数组</span></span><br><span class="line">        Set&lt;Integer&gt; allSet = <span class="keyword">new</span> TreeSet&lt;Integer&gt;();</span><br><span class="line">        Integer[] temp = allSet.toArray(<span class="keyword">new</span> Integer[] &#123;&#125;);<span class="comment">//关键语句</span></span><br><span class="line"> </span><br><span class="line">        <span class="comment">// 再将Integer型数组转为int型数组</span></span><br><span class="line">        <span class="keyword">int</span>[] intArray = <span class="keyword">new</span> <span class="keyword">int</span>[temp.length];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; temp.length; i++) &#123;</span><br><span class="line">            intArray[i] = temp[i].intValue();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> intArray;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure><hr><h3 id="HashSet（哈希集）"><a href="#HashSet（哈希集）" class="headerlink" title="HashSet（哈希集）"></a>HashSet（哈希集）</h3><p>HashSet底层是基于 HashMap 的<code>k</code>实现的，元素不可重复，特性同 HashMap。</p><hr><h3 id="LinkedHashSet（链表哈希集）"><a href="#LinkedHashSet（链表哈希集）" class="headerlink" title="LinkedHashSet（链表哈希集）"></a>LinkedHashSet（链表哈希集）</h3><p>LinkedHashSet底层也是基于 LinkedHashMap 的<code>k</code>实现的，一样元素不可重复，特性同 LinkedHashMap。</p><hr><h3 id="TreeSet（树集）"><a href="#TreeSet（树集）" class="headerlink" title="TreeSet（树集）"></a>TreeSet（树集）</h3><p>同样的，TreeSet 也是基于 TreeMap 的<code>k</code>实现的，同样元素不可重复，特性同 TreeMap；</p><h4 id="独特方法"><a href="#独特方法" class="headerlink" title="独特方法"></a>独特方法</h4><p>因为TreeMap实现了具有一些独特方法，所以TreeSet同样也有</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Elemtype <span class="title">ceiling</span><span class="params">(E e)</span></span>;</span><br><span class="line"><span class="comment">//返回在这一组大于或等于e的最小元素，如果没有这样的元素则返回null。</span></span><br><span class="line"><span class="function">Elemtype <span class="title">higher</span><span class="params">(E e)</span></span>;</span><br><span class="line"><span class="comment">//返回Set中大于e的最小元素</span></span><br><span class="line"><span class="function">Elemtype <span class="title">floor</span><span class="params">(E e)</span></span>;</span><br><span class="line"><span class="comment">//返回在这一组中小于或等于e的最大元素,如果没有这样的元素则返回null</span></span><br><span class="line"><span class="function">Elemtype <span class="title">lower</span><span class="params">(E e)</span></span>;</span><br><span class="line"><span class="comment">// 返回Set中小于e的最大元素</span></span><br><span class="line"><span class="function">Elemtype <span class="title">first</span><span class="params">()</span></span>;</span><br><span class="line"><span class="comment">//返回第一个 （最小） 元素</span></span><br><span class="line"><span class="function">Elemtype <span class="title">last</span><span class="params">()</span></span>;</span><br><span class="line"><span class="comment">//返回最后一个(最高)元素</span></span><br></pre></td></tr></table></figure><hr>]]></content>
+      
+      
+      <categories>
+          
+          <category> JAVA </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> JAVA </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>JAVA之数组</title>
+      <link href="/post/50083.html"/>
+      <url>/post/50083.html</url>
+      
+        <content type="html"><![CDATA[<h1 id="JAVA之数组"><a href="#JAVA之数组" class="headerlink" title="JAVA之数组"></a>JAVA之数组</h1><h2 id="数组的创建"><a href="#数组的创建" class="headerlink" title="数组的创建"></a>数组的创建</h2><p>数组是JAVA的特殊队形，它们具有length的简单属性</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 一般来说，有两种形式</span></span><br><span class="line"><span class="keyword">int</span> [] a=<span class="keyword">new</span> <span class="keyword">int</span> [n];</span><br><span class="line"><span class="keyword">int</span> [] a=&#123;<span class="number">94</span>,<span class="number">45</span>,<span class="number">45</span>&#125;;</span><br></pre></td></tr></table></figure><p>如果要获取数组的长度，只需要使用<code>a.length</code>就可以了</p><hr><h2 id="For-Each循环"><a href="#For-Each循环" class="headerlink" title="For-Each循环"></a><strong>For-Each循环</strong></h2><p>能在不使用下标的情况下遍历数组</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(Elemtype element:array)&#123;</span><br><span class="line">    System.out.println(element);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><hr><h2 id="Arrays类"><a href="#Arrays类" class="headerlink" title="Arrays类"></a>Arrays类</h2><p>Arrays类能够方便的操作数组，提供静态方法</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Elemtype array;</span><br><span class="line"><span class="function"><span class="keyword">void</span>  <span class="title">sort</span><span class="params">(array)</span></span>;</span><br><span class="line"><span class="comment">//sort 方法，对指定对象数组根据其元素的自然顺序进行升序排列。</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">fill</span><span class="params">(array,val)</span></span>;</span><br><span class="line"><span class="comment">//将指定的 int 值分配给指定 int 型数组指定范围中的每个元素。</span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(array,array1)</span></span>;</span><br><span class="line"><span class="comment">//如果两个指定的 long 型数组彼此相等，则返回 true。</span></span><br><span class="line"><span class="comment">//换句话说，如果两个数组以相同顺序包含相同的元素，则两个数组是相等的。</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">binarySearch</span><span class="params">(array,key)</span></span>;</span><br><span class="line"><span class="comment">//用二分查找算法在给定数组中搜索给定值的对象(Byte,Int,double等)。</span></span><br><span class="line"><span class="comment">//数组在调用前必须排序好的。如果查找值包含在数组中，则返回搜索键的索引；否则返回 (-(插入点) - 1)。</span></span><br><span class="line"><span class="function">ArrayList <span class="title">asList</span><span class="params">(array)</span></span>;</span><br><span class="line"><span class="comment">//将一个数组转变成一个List，准确来说是ArrayList</span></span><br><span class="line"><span class="function">String <span class="title">toString</span><span class="params">(array)</span></span>;</span><br><span class="line"><span class="comment">//将一个数组转变成一个字符串，中间用,隔开</span></span><br><span class="line"><span class="keyword">int</span>[] copyOfRange(<span class="keyword">int</span> [] original ,<span class="keyword">int</span> from,<span class="keyword">int</span> to);</span><br><span class="line"><span class="comment">//复制出一个从from到to的左闭右开的数组</span></span><br></pre></td></tr></table></figure>]]></content>
       
       
       <categories>
@@ -2148,9 +2198,9 @@
             
             <tag> 哈希表 </tag>
             
-            <tag> 栈 </tag>
-            
             <tag> 数组 </tag>
+            
+            <tag> 栈 </tag>
             
         </tags>
       
@@ -2413,9 +2463,9 @@
           
           <category> Leetcode </category>
           
-          <category> 数学 </category>
-          
           <category> 数组 </category>
+          
+          <category> 数学 </category>
           
       </categories>
       
@@ -2529,18 +2579,18 @@
           
           <category> Leetcode </category>
           
-          <category> 数学 </category>
-          
           <category> 字符串 </category>
+          
+          <category> 数学 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 字符串 </tag>
-            
             <tag> 数学 </tag>
+            
+            <tag> 字符串 </tag>
             
         </tags>
       
@@ -2587,20 +2637,20 @@
           
           <category> Leetcode </category>
           
-          <category> 数学 </category>
-          
           <category> 字符串 </category>
+          
+          <category> 数学 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 字符串 </tag>
+            <tag> 动态规划 </tag>
             
             <tag> 数学 </tag>
             
-            <tag> 动态规划 </tag>
+            <tag> 字符串 </tag>
             
         </tags>
       
@@ -2736,18 +2786,18 @@
           
           <category> Leetcode </category>
           
-          <category> 字符串 </category>
-          
           <category> 动态规划 </category>
+          
+          <category> 字符串 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 字符串 </tag>
-            
             <tag> 动态规划 </tag>
+            
+            <tag> 字符串 </tag>
             
         </tags>
       
@@ -2778,11 +2828,11 @@
       
         <tags>
             
+            <tag> 位运算 </tag>
+            
             <tag> 字符串 </tag>
             
             <tag> 哈希表 </tag>
-            
-            <tag> 位运算 </tag>
             
         </tags>
       
@@ -2796,6 +2846,37 @@
       <url>/post/53571.html</url>
       
         <content type="html"><![CDATA[<h1 id="387-字符串中的第一个唯一字符"><a href="#387-字符串中的第一个唯一字符" class="headerlink" title="387.字符串中的第一个唯一字符"></a>387.字符串中的第一个唯一字符</h1><p>给定一个字符串，找到它的第一个不重复的字符，并返回它的索引。如果不存在，则返回 -1。</p><p><strong>示例：</strong></p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">s = <span class="string">&quot;leetcode&quot;</span></span><br><span class="line">返回 <span class="number">0</span></span><br><span class="line"></span><br><span class="line">s = <span class="string">&quot;loveleetcode&quot;</span></span><br><span class="line">返回 <span class="number">2</span></span><br></pre></td></tr></table></figure><hr><p><strong>Solution</strong></p><p>经典Map统计字符出现频数</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">firstUniqChar</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">      String[] x=s.split(<span class="string">&quot;&quot;</span>);</span><br><span class="line">      Map&lt;String,Integer&gt; map=<span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;s.length();i++)&#123;</span><br><span class="line">       <span class="keyword">int</span> count = map.getOrDefault(x[i],<span class="number">0</span>)+<span class="number">1</span>;</span><br><span class="line">        map.put(x[i],count);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;s.length();j++)&#123;</span><br><span class="line">       <span class="keyword">if</span>(map.get(x[j])==<span class="number">1</span>)&#123;</span><br><span class="line">           <span class="keyword">return</span> j;</span><br><span class="line">       &#125;</span><br><span class="line">      &#125;</span><br><span class="line">           <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Leetcode </category>
+          
+          <category> 哈希表 </category>
+          
+          <category> 字符串 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 字符串 </tag>
+            
+            <tag> 哈希表 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>383.赎金信</title>
+      <link href="/post/37889.html"/>
+      <url>/post/37889.html</url>
+      
+        <content type="html"><![CDATA[<h1 id="383-赎金信"><a href="#383-赎金信" class="headerlink" title="383.赎金信"></a>383.赎金信</h1><p>为了不在赎金信中暴露字迹，从杂志上搜索各个需要的字母，组成单词来表达意思。</p><p>给你一个赎金信 (<code>ransomNote</code>) 字符串和一个杂志(<code>magazine</code>)字符串，判断 <code>ransomNote</code> 能不能由 <code>magazines</code> 里面的字符构成。</p><p>如果可以构成，返回 <code>true</code> ；否则返回 <code>false</code> 。</p><p><code>magazine</code> 中的每个字符只能在 <code>ransomNote</code> 中使用一次。</p><p><strong>示例 1：</strong></p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：ransomNote = <span class="string">&quot;a&quot;</span>, magazine = <span class="string">&quot;b&quot;</span></span><br><span class="line">输出：<span class="literal">false</span></span><br></pre></td></tr></table></figure><p>小写字母的词频统计</p><hr><p><strong>Solution</strong>：</p><p>只要统计字符串<code>magazine</code>中每个英文字母的频率，都大于等于<code>reansomNote</code>的频率，就可以成立</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">canConstruct</span><span class="params">(String ransomNote, String magazine)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (ransomNote.length() &gt; magazine.length()) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span>[] cnt = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">26</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">char</span> c : magazine.toCharArray()) &#123;</span><br><span class="line">            cnt[c - <span class="string">&#x27;a&#x27;</span>]++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">char</span> c : ransomNote.toCharArray()) &#123;</span><br><span class="line">            cnt[c - <span class="string">&#x27;a&#x27;</span>]--;</span><br><span class="line">            <span class="keyword">if</span>(cnt[c - <span class="string">&#x27;a&#x27;</span>] &lt; <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><strong>Solution1</strong>：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//初次提交的做法，可以说是熟练使用String方法了</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">canConstruct</span><span class="params">(String ransomNote, String magazine)</span> </span>&#123;</span><br><span class="line">        String[] arr = ransomNote.split(<span class="string">&quot;&quot;</span>);</span><br><span class="line">         <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;ransomNote.length();i++)&#123;</span><br><span class="line">             <span class="keyword">if</span>(magazine.contains(arr[i]))&#123;</span><br><span class="line">                magazine=magazine.replaceFirst(arr[i],<span class="string">&quot;1&quot;</span>);</span><br><span class="line">             &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                 <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">             &#125;</span><br><span class="line">           </span><br><span class="line">         &#125;</span><br><span class="line">         <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       
       
       <categories>
@@ -2841,37 +2922,6 @@
         <tags>
             
             <tag> 数学 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>383.赎金信</title>
-      <link href="/post/37889.html"/>
-      <url>/post/37889.html</url>
-      
-        <content type="html"><![CDATA[<h1 id="383-赎金信"><a href="#383-赎金信" class="headerlink" title="383.赎金信"></a>383.赎金信</h1><p>为了不在赎金信中暴露字迹，从杂志上搜索各个需要的字母，组成单词来表达意思。</p><p>给你一个赎金信 (<code>ransomNote</code>) 字符串和一个杂志(<code>magazine</code>)字符串，判断 <code>ransomNote</code> 能不能由 <code>magazines</code> 里面的字符构成。</p><p>如果可以构成，返回 <code>true</code> ；否则返回 <code>false</code> 。</p><p><code>magazine</code> 中的每个字符只能在 <code>ransomNote</code> 中使用一次。</p><p><strong>示例 1：</strong></p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：ransomNote = <span class="string">&quot;a&quot;</span>, magazine = <span class="string">&quot;b&quot;</span></span><br><span class="line">输出：<span class="literal">false</span></span><br></pre></td></tr></table></figure><p>小写字母的词频统计</p><hr><p><strong>Solution</strong>：</p><p>只要统计字符串<code>magazine</code>中每个英文字母的频率，都大于等于<code>reansomNote</code>的频率，就可以成立</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">canConstruct</span><span class="params">(String ransomNote, String magazine)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (ransomNote.length() &gt; magazine.length()) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span>[] cnt = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">26</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">char</span> c : magazine.toCharArray()) &#123;</span><br><span class="line">            cnt[c - <span class="string">&#x27;a&#x27;</span>]++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">char</span> c : ransomNote.toCharArray()) &#123;</span><br><span class="line">            cnt[c - <span class="string">&#x27;a&#x27;</span>]--;</span><br><span class="line">            <span class="keyword">if</span>(cnt[c - <span class="string">&#x27;a&#x27;</span>] &lt; <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><strong>Solution1</strong>：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//初次提交的做法，可以说是熟练使用String方法了</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">canConstruct</span><span class="params">(String ransomNote, String magazine)</span> </span>&#123;</span><br><span class="line">        String[] arr = ransomNote.split(<span class="string">&quot;&quot;</span>);</span><br><span class="line">         <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;ransomNote.length();i++)&#123;</span><br><span class="line">             <span class="keyword">if</span>(magazine.contains(arr[i]))&#123;</span><br><span class="line">                magazine=magazine.replaceFirst(arr[i],<span class="string">&quot;1&quot;</span>);</span><br><span class="line">             &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                 <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">             &#125;</span><br><span class="line">           </span><br><span class="line">         &#125;</span><br><span class="line">         <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      
-      
-      <categories>
-          
-          <category> Leetcode </category>
-          
-          <category> 哈希表 </category>
-          
-          <category> 字符串 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 字符串 </tag>
-            
-            <tag> 哈希表 </tag>
             
         </tags>
       
@@ -3074,9 +3124,9 @@
       
         <tags>
             
-            <tag> 位运算 </tag>
-            
             <tag> 动态规划 </tag>
+            
+            <tag> 位运算 </tag>
             
         </tags>
       
@@ -3778,18 +3828,18 @@
           
           <category> Leetcode </category>
           
-          <category> 数学 </category>
-          
           <category> 哈希表 </category>
+          
+          <category> 数学 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 哈希表 </tag>
-            
             <tag> 数学 </tag>
+            
+            <tag> 哈希表 </tag>
             
         </tags>
       
@@ -3863,18 +3913,18 @@
           
           <category> Leetcode </category>
           
-          <category> 数学 </category>
-          
           <category> 字符串 </category>
+          
+          <category> 数学 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 字符串 </tag>
-            
             <tag> 数学 </tag>
+            
+            <tag> 字符串 </tag>
             
         </tags>
       
@@ -3925,18 +3975,18 @@
           
           <category> Leetcode </category>
           
-          <category> 数学 </category>
-          
           <category> 字符串 </category>
+          
+          <category> 数学 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 字符串 </tag>
-            
             <tag> 数学 </tag>
+            
+            <tag> 字符串 </tag>
             
         </tags>
       
@@ -4543,18 +4593,18 @@
           
           <category> Leetcode </category>
           
-          <category> 数学 </category>
-          
           <category> 动态规划 </category>
+          
+          <category> 数学 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 数学 </tag>
-            
             <tag> 动态规划 </tag>
+            
+            <tag> 数学 </tag>
             
         </tags>
       
@@ -4628,9 +4678,9 @@
           
           <category> Leetcode </category>
           
-          <category> 数学 </category>
-          
           <category> 数组 </category>
+          
+          <category> 数学 </category>
           
       </categories>
       
@@ -4906,22 +4956,22 @@
           
           <category> Leetcode </category>
           
-          <category> 数学 </category>
-          
           <category> 哈希表 </category>
           
           <category> 字符串 </category>
+          
+          <category> 数学 </category>
           
       </categories>
       
       
         <tags>
             
+            <tag> 数学 </tag>
+            
             <tag> 字符串 </tag>
             
             <tag> 哈希表 </tag>
-            
-            <tag> 数学 </tag>
             
         </tags>
       

@@ -1,0 +1,448 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>5.0 pytorch基础 | Night's Watch</title><meta name="keywords" content="深度学习"><meta name="author" content="Candle"><meta name="copyright" content="Candle"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="pytorch基础块块的定义块（block）可以描述单个层、由多个层组成的组件或整个模型本身。 使用块进行抽象的一个好处是可以将一些块组合成更大的组件， 这一过程通常是递归的，如所示。 通过定义代码来按需生成任意复杂度的块， 我们可以通过简洁的代码实现复杂的神经网络。  从编程的角度来看，块由类（class）表示。 它的任何子类都必须定义一个将其输入转换为输出的前向传播函数， 并且必须存储任何必需">
+<meta property="og:type" content="article">
+<meta property="og:title" content="5.0 pytorch基础">
+<meta property="og:url" content="http://candle1220.github.io/post/21849.html">
+<meta property="og:site_name" content="Night&#39;s Watch">
+<meta property="og:description" content="pytorch基础块块的定义块（block）可以描述单个层、由多个层组成的组件或整个模型本身。 使用块进行抽象的一个好处是可以将一些块组合成更大的组件， 这一过程通常是递归的，如所示。 通过定义代码来按需生成任意复杂度的块， 我们可以通过简洁的代码实现复杂的神经网络。  从编程的角度来看，块由类（class）表示。 它的任何子类都必须定义一个将其输入转换为输出的前向传播函数， 并且必须存储任何必需">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231210050612555.png">
+<meta property="article:published_time" content="2024-02-21T11:25:45.815Z">
+<meta property="article:modified_time" content="2024-02-23T12:44:11.466Z">
+<meta property="article:author" content="Candle">
+<meta property="article:tag" content="深度学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231210050612555.png"><link rel="shortcut icon" href="/img/candle.png"><link rel="canonical" href="http://candle1220.github.io/post/21849"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#55d5fc","bgDark":"#121212","position":"top-center"},
+  source: {
+    jQuery: 'https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/3.6.0/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.js',
+      css: 'https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '5.0 pytorch基础',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-02-23 20:44:11'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    document.addEventListener('pjax:complete', detectApple)})(window)</script><link rel="stylesheet" href="/css/background.css"><link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/Swiper/8.0.6/swiper-bundle.min.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/head.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">192</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">20</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">24</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-crow"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/background.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Night's Watch</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-crow"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">5.0 pytorch基础</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-02-21T11:25:45.815Z" title="发表于 2024-02-21 19:25:45">2024-02-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-02-23T12:44:11.466Z" title="更新于 2024-02-23 20:44:11">2024-02-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">人工智能</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="5.0 pytorch基础"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="pytorch基础"><a href="#pytorch基础" class="headerlink" title="pytorch基础"></a>pytorch基础</h1><h2 id="块"><a href="#块" class="headerlink" title="块"></a>块</h2><h3 id="块的定义"><a href="#块的定义" class="headerlink" title="块的定义"></a>块的定义</h3><p><em>块</em>（block）可以描述单个层、由多个层组成的组件或整个模型本身。</p>
+<p>使用块进行抽象的一个好处是可以将一些块组合成更大的组件， 这一过程通常是递归的，如所示。 通过定义代码来按需生成任意复杂度的块， 我们可以通过简洁的代码实现复杂的神经网络。</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typorablocks.svg" alt="../_images/blocks.svg"></p>
+<p>从编程的角度来看，块由<em>类</em>（class）表示。 它的任何子类都必须定义一个将其输入转换为输出的前向传播函数， 并且必须存储任何必需的参数。 注意，有些块不需要任何参数。 最后，为了计算梯度，块必须具有反向传播函数。 在定义我们自己的块时，由于<strong>自动微分</strong>提供了一些后端实现，我们只需要考虑前向传播函数和必需的参数。</p>
+<p>比如多层感知机的代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> torch <span class="keyword">import</span> nn</span><br><span class="line"><span class="keyword">from</span> torch.nn <span class="keyword">import</span> functional <span class="keyword">as</span> F</span><br><span class="line"></span><br><span class="line">net = nn.Sequential(nn.Linear(<span class="number">20</span>, <span class="number">256</span>), nn.ReLU(), nn.Linear(<span class="number">256</span>, <span class="number">10</span>))</span><br><span class="line"></span><br><span class="line">X = torch.rand(<span class="number">2</span>, <span class="number">20</span>)</span><br><span class="line">net(X)</span><br></pre></td></tr></table></figure>
+<p>上面的代码生成一个网络，其中包含一个具有256个单元和ReLU激活函数的全连接隐藏层， 然后是一个具有10个隐藏单元且不带激活函数的全连接输出层。</p>
+<p>在这个例子中，我们通过实例化<code>nn.Sequential</code>来构建我们的模型， 层的执行顺序是作为参数传递的。 简而言之，<code>nn.Sequential</code>定义了一种特殊的<code>Module</code>， 即在PyTorch中表示一个块的类， 它维护了一个由<code>Module</code>组成的有序列表。 注意，两个全连接层都是<code>Linear</code>类的实例， <code>Linear</code>类本身就是<code>Module</code>的子类。 </p>
+<p>另外，到目前为止，我们一直在通过<code>net(X)</code>调用我们的模型来获得模型的输出。 这实际上是<code>net.__call__(X)</code>的简写。 这个前向传播函数非常简单： 它将列表中的每个块连接在一起，将每个块的输出作为下一个块的输入。</p>
+<hr>
+<h3 id="自定义块"><a href="#自定义块" class="headerlink" title="自定义块"></a>自定义块</h3><p> 每个块必须提供的基本功能如下：</p>
+<ol>
+<li>将输入数据作为其前向传播函数的参数。</li>
+<li>通过前向传播函数来生成输出。请注意，输出的形状可能与输入的形状不同。例如，我们上面模型中的第一个全连接的层接收一个20维的输入，但是返回一个维度为256的输出。</li>
+<li>计算其输出关于输入的梯度，可通过其反向传播函数进行访问。通常这是自动发生的。</li>
+<li>存储和访问前向传播计算所需的参数。</li>
+<li>根据需要初始化模型参数。</li>
+</ol>
+<p>我们从零开始编写一个块。 它包含一个多层感知机，其具有256个隐藏单元的隐藏层和一个10维输出层</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MLP</span>(<span class="params">nn.Module</span>):</span></span><br><span class="line">    <span class="comment"># 用模型参数声明层。这里，我们声明两个全连接的层</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="comment"># 调用MLP的父类Module的构造函数来执行必要的初始化。</span></span><br><span class="line">        <span class="comment"># 这样，在类实例化时也可以指定其他函数参数，例如模型参数params（稍后将介绍）</span></span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        self.hidden = nn.Linear(<span class="number">20</span>, <span class="number">256</span>)  <span class="comment"># 隐藏层</span></span><br><span class="line">        self.out = nn.Linear(<span class="number">256</span>, <span class="number">10</span>)  <span class="comment"># 输出层</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 定义模型的前向传播，即如何根据输入X返回所需的模型输出</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span>(<span class="params">self, X</span>):</span></span><br><span class="line">        <span class="comment"># 注意，这里我们使用ReLU的函数版本，其在nn.functional模块中定义。</span></span><br><span class="line">        <span class="keyword">return</span> self.out(F.relu(self.hidden(X)))</span><br></pre></td></tr></table></figure>
+<p>首先看一下前向传播函数，它以<code>X</code>作为输入， 计算带有激活函数的隐藏表示，并输出其未规范化的输出值。 在这个<code>MLP</code>实现中，两个层都是实例变量</p>
+<p>接着我们实例化多层感知机的层，然后在每次调用前向传播函数时调用这些层。 注意一些关键细节： 首先，我们定制的<code>__init__</code>函数通过<code>super().__init__()</code> 调用父类的<code>__init__</code>函数， 省去了重复编写模版代码的痛苦</p>
+<p>然后，我们实例化两个全连接层， 分别为<code>self.hidden</code>和<code>self.out</code>。 注意，除非我们实现一个新的运算符， 否则我们不必担心反向传播函数或参数初始化， 系统将自动生成这些</p>
+<hr>
+<h3 id="顺序块"><a href="#顺序块" class="headerlink" title="顺序块"></a>顺序块</h3><p>为了构建我们自己的简化的<code>MySequential</code>， 我们只需要定义两个关键函数：</p>
+<ol>
+<li>一种将块逐个追加到列表中的函数；</li>
+<li>一种前向传播函数，用于将输入按追加块的顺序传递给块组成的“链条”。</li>
+</ol>
+<p>下面的<code>MySequential</code>类提供了与默认<code>Sequential</code>类相同的功能。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MySequential</span>(<span class="params">nn.Module</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, *args</span>):</span></span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        <span class="keyword">for</span> idx, module <span class="keyword">in</span> <span class="built_in">enumerate</span>(args):</span><br><span class="line">            <span class="comment"># 这里，module是Module子类的一个实例。我们把它保存在&#x27;Module&#x27;类的成员</span></span><br><span class="line">            <span class="comment"># 变量_modules中。_module的类型是OrderedDict</span></span><br><span class="line">            self._modules[<span class="built_in">str</span>(idx)] = module</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span>(<span class="params">self, X</span>):</span></span><br><span class="line">        <span class="comment"># OrderedDict保证了按照成员添加的顺序遍历它们</span></span><br><span class="line">        <span class="keyword">for</span> block <span class="keyword">in</span> self._modules.values():</span><br><span class="line">            X = block(X)</span><br><span class="line">        <span class="keyword">return</span> X</span><br></pre></td></tr></table></figure>
+<p><code>_modules</code>的主要优点是： 在模块的参数初始化过程中， 系统知道在<code>_modules</code>字典中查找需要初始化参数的子块</p>
+<p><code>OrderedDict</code>是Python标准库<code>collections</code>模块中的一个类，它是字典（<code>dict</code>）的一个子类，提供了所有常规字典的方法。与普通的字典不同，<code>OrderedDict</code>记住了元素添加的顺序。这意味着当你对<code>OrderedDict</code>进行迭代或序列化操作时，元素的顺序会按照它们被添加的顺序来进行，这是<code>OrderedDict</code>的主要特性。</p>
+<hr>
+<h3 id="在前向传播函数中执行代码"><a href="#在前向传播函数中执行代码" class="headerlink" title="在前向传播函数中执行代码"></a>在前向传播函数中执行代码</h3><p><code>Sequential</code>类使模型构造变得简单， 允许我们组合新的架构，而不必定义自己的类。 然而，并不是所有的架构都是简单的顺序架构，当需要更强的灵活性时，我们需要定义自己的块</p>
+<p>到目前为止， 我们网络中的所有操作都对网络的激活值及网络的参数起作用。 然而，有时我们可能希望合并既不是上一层的结果也不是可更新参数的项， 我们称之为<strong><em>常数参数</em></strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 定义FixedHiddenMLP类，它继承自nn.Module</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FixedHiddenMLP</span>(<span class="params">nn.Module</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="built_in">super</span>().__init__()  <span class="comment"># 调用父类的构造函数进行初始化</span></span><br><span class="line">        <span class="comment"># 初始化一个固定的随机权重矩阵，这个权重在训练过程中不会被更新</span></span><br><span class="line">        <span class="comment"># requires_grad=False意味着不需要计算梯度，即这个权重不会在反向传播中更新</span></span><br><span class="line">        self.rand_weight = torch.rand((<span class="number">20</span>, <span class="number">20</span>), requires_grad=<span class="literal">False</span>)</span><br><span class="line">        <span class="comment"># 定义一个线性层（全连接层），输入和输出维度都是20</span></span><br><span class="line">        self.linear = nn.Linear(<span class="number">20</span>, <span class="number">20</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span>(<span class="params">self, X</span>):</span></span><br><span class="line">        <span class="comment"># 将输入X通过一个线性层</span></span><br><span class="line">        X = self.linear(X)</span><br><span class="line">        <span class="comment"># 应用ReLU激活函数，并通过固定的随机权重矩阵进行矩阵乘法运算</span></span><br><span class="line">        <span class="comment"># torch.mm用于矩阵乘法，加上1是对结果的一个简单偏置调整</span></span><br><span class="line">        X = F.relu(torch.mm(X, self.rand_weight) + <span class="number">1</span>)</span><br><span class="line">        <span class="comment"># 再次将X通过相同的线性层（全连接层），这相当于两个全连接层共享了相同的参数</span></span><br><span class="line">        <span class="comment"># 参数共享意味着在两次不同的操作中，使用了相同的权重和偏置，而不是输入数据相同。</span></span><br><span class="line">        X = self.linear(X)</span><br><span class="line">        <span class="comment"># 使用控制流（一个while循环），不断地将X除以2，直到X的绝对值之和小于等于1</span></span><br><span class="line">        <span class="keyword">while</span> X.<span class="built_in">abs</span>().<span class="built_in">sum</span>() &gt; <span class="number">1</span>:</span><br><span class="line">            X /= <span class="number">2</span></span><br><span class="line">        <span class="comment"># 返回X的元素和，这是这个网络的最终输出</span></span><br><span class="line">        <span class="keyword">return</span> X.<span class="built_in">sum</span>()</span><br></pre></td></tr></table></figure>
+<p>注意，在返回输出之前，模型做了一些不寻常的事情： 它运行了一个<code>while</code>循环，在$L_1$范数大于1的条件下， 将输出向量除以2，直到它满足条件为止。 最后，模型返回了<code>X</code>中所有项的和。 注意，此操作可能不会常用于在任何实际任务中， 我们只展示如何将任意代码集成到神经网络计算的流程中。</p>
+<hr>
+<h2 id="参数管理"><a href="#参数管理" class="headerlink" title="参数管理"></a>参数管理</h2><p>选择了架构并设置了超参数后，我们就进入了训练阶段。 此时，我们的目标是找到使损失函数最小化的模型参数值。 经过训练后，我们将需要使用这些参数来做出未来的预测。 此外，有时我们希望提取参数，以便在其他环境中复用它们， 将模型保存下来，以便它可以在其他软件中执行， 或者为了获得科学的理解而进行检查。</p>
+<p>本节，我们将介绍以下内容：</p>
+<ul>
+<li>访问参数，用于调试、诊断和可视化；</li>
+<li>参数初始化；</li>
+<li>在不同模型组件间共享参数。</li>
+</ul>
+<p>先创建一个单隐藏层的多层感知机</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> torch <span class="keyword">import</span> nn</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个顺序模型</span></span><br><span class="line">net = nn.Sequential(</span><br><span class="line">    nn.Linear(<span class="number">4</span>, <span class="number">8</span>),  <span class="comment"># 第一个全连接层，接受4个特征的输入，输出8个特征</span></span><br><span class="line">    nn.ReLU(),        <span class="comment"># ReLU激活函数，引入非线性，增强模型的表达能力</span></span><br><span class="line">    nn.Linear(<span class="number">8</span>, <span class="number">1</span>)   <span class="comment"># 第二个全连接层，将8个特征转换为1个输出特征</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个形状为(2, 4)的随机张量，模拟两个具有4个特征的样本</span></span><br><span class="line">X = torch.rand(size=(<span class="number">2</span>, <span class="number">4</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将X作为输入传递给顺序模型，执行前向传播计算</span></span><br><span class="line"><span class="comment"># 输出为模型根据输入特征对每个样本做出的预测结果</span></span><br><span class="line">output = net(X)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印模型的输出</span></span><br><span class="line"><span class="built_in">print</span>(output)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="参数访问"><a href="#参数访问" class="headerlink" title="参数访问"></a>参数访问</h3><p>我们从已有模型中访问参数。 当通过<code>Sequential</code>类定义模型时， 我们可以通过索引来访问模型的任意层。 这就像模型是一个列表一样，每层的参数都在其属性中。 如下所示，我们可以检查第二个全连接层的参数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(net[<span class="number">2</span>].state_dict())</span><br><span class="line"><span class="comment">#输出：OrderedDict([(&#x27;weight&#x27;, tensor([[-0.0427, -0.2939, -0.1894,  0.0220, -0.1709, -0.1522, -0.0334, -0.2263]])), (&#x27;bias&#x27;, tensor([0.0887]))])</span></span><br></pre></td></tr></table></figure>
+<p><code>state_dict()</code>方法返回一个包含该层参数的Python字典，其中键是参数名称，值是参数值（权重和偏置）。</p>
+<p>输出的结果告诉我们一些重要的事情： 首先，这个全连接层包含两个参数，分别是该层的权重和偏置。 两者都存储为单精度浮点数（float32）。 注意，参数名称允许唯一标识每个参数，即使在包含数百个层的网络中也是如此。</p>
+<hr>
+<p>注意，每个参数都表示为参数类的一个实例。 要对参数执行任何操作，首先我们需要访问底层的数值。 有几种方法可以做到这一点。有些比较简单，而另一些则比较通用。 </p>
+<p>下面的代码从第二个全连接层（即第三个神经网络层）提取偏置， 提取后返回的是一个参数类实例，并进一步访问该参数的值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(net[<span class="number">2</span>].bias))</span><br><span class="line"><span class="built_in">print</span>(net[<span class="number">2</span>].bias)</span><br><span class="line"><span class="built_in">print</span>(net[<span class="number">2</span>].bias.data)</span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">输出：</span></span><br><span class="line"><span class="string">&lt;class &#x27;torch.nn.parameter.Parameter&#x27;&gt;</span></span><br><span class="line"><span class="string">Parameter containing:</span></span><br><span class="line"><span class="string">tensor([0.0887], requires_grad=True)</span></span><br><span class="line"><span class="string">tensor([0.0887])</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+<p>参数是复合的对象，包含值、梯度和额外信息。 这就是我们需要显式参数值的原因。 除了值之外，我们还可以访问每个参数的梯度</p>
+<hr>
+<p><strong>访问单层</strong></p>
+<p>当我们需要对所有参数执行操作时，逐个访问它们可能会很麻烦。 当我们处理更复杂的块（例如，嵌套块）时，情况可能会变得特别复杂， 因为我们需要递归整个树来提取每个子块的参数。 下面，我们将通过演示来比较访问第一个全连接层的参数和访问所有层。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(*[(name, param.shape) <span class="keyword">for</span> name, param <span class="keyword">in</span> net[<span class="number">0</span>].named_parameters()])</span><br><span class="line"><span class="comment">#输出结果：(&#x27;weight&#x27;, torch.Size([8, 4])) (&#x27;bias&#x27;, torch.Size([8]))</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><code>[(name, param.shape) for name, param in net[0].named_parameters()]</code>是一个<strong>列表推导式</strong>，用于创建一个列表。列表中的每个元素都是由<code>name</code>和<code>param.shape</code>组成的元组，其中<code>name</code>是参数的名称（如<code>&#39;weight&#39;</code>或<code>&#39;bias&#39;</code>），<code>param.shape</code>是对应参数的形状（即它的尺寸）。</p>
+</li>
+<li><p><code>net[0]</code>访问<code>net</code>这个<code>nn.Sequential</code>模型的第一个模块（层）。<code>named_parameters()</code>是一个方法，返回模块中所有参数的迭代器，其中每个参数由其名称和参数本身组成。这意味着你会遍历第一个层中的所有参数，例如全连接层的权重和偏置。</p>
+</li>
+<li>在<code>print</code>函数调用中，<code>*</code>操作符用于解包列表，这意味着列表中的每个元素都将作为独立的参数传递给<code>print</code>函数。这样，列表中的每个元组都将单独打印，而不是打印整个列表。</li>
+</ul>
+<p><strong>访问所有层</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(*[(name, param.shape) <span class="keyword">for</span> name, param <span class="keyword">in</span> net.named_parameters()])</span><br><span class="line"><span class="comment">#输出结果：(&#x27;0.weight&#x27;, torch.Size([8, 4])) (&#x27;0.bias&#x27;, torch.Size([8])) </span></span><br><span class="line"><span class="comment">#(&#x27;2.weight&#x27;, torch.Size([1, 8])) (&#x27;2.bias&#x27;, torch.Size([1]))</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>列表推导式仍然用于创建一个列表，列表中的每个元素是由参数的名称和形状组成的元组。</p>
+</li>
+<li><p><strong><code>net.named_parameters()</code>方法</strong>：</p>
+<p>与<code>net[0].named_parameters()</code>不同，<code>net.named_parameters()</code>遍历整个<code>nn.Sequential</code>模型的所有参数。这意味着它不仅包括第一个层的参数，而且包括模型中所有层的参数。</p>
+<p><code>weight</code>和<code>bias</code>前面的编号表示在<code>Sequential</code>中的位置</p>
+</li>
+</ul>
+<p>这为我们提供了另一种访问网络参数的方式，如下所示，访问第三层的偏置参数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net.state_dict()[<span class="string">&#x27;2.bias&#x27;</span>].data</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong>嵌套块</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> torch <span class="keyword">import</span> nn</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个简单的模块，该模块包含两个全连接层和两个ReLU激活函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">block1</span>():</span></span><br><span class="line">    <span class="comment"># 第一个全连接层将输入特征从4维扩展到8维</span></span><br><span class="line">    <span class="comment"># 第二个全连接层将特征从8维缩减回4维</span></span><br><span class="line">    <span class="comment"># 每个全连接层后面跟着一个ReLU激活函数，以引入非线性</span></span><br><span class="line">    <span class="keyword">return</span> nn.Sequential(nn.Linear(<span class="number">4</span>, <span class="number">8</span>), nn.ReLU(),</span><br><span class="line">                         nn.Linear(<span class="number">8</span>, <span class="number">4</span>), nn.ReLU())</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义另一个模块，该模块通过循环创建4个block1模块并将它们添加到一个Sequential模型中</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">block2</span>():</span></span><br><span class="line">    net = nn.Sequential()  <span class="comment"># 创建一个空的Sequential模型</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>):</span><br><span class="line">        <span class="comment"># 循环中，为Sequential模型动态添加block1模块</span></span><br><span class="line">        <span class="comment"># 使用格式化字符串为每个嵌套的block1提供唯一的名称</span></span><br><span class="line">        net.add_module(<span class="string">f&#x27;block <span class="subst">&#123;i&#125;</span>&#x27;</span>, block1())</span><br><span class="line">    <span class="keyword">return</span> net</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建最终的神经网络rgnet</span></span><br><span class="line"><span class="comment"># 首先使用block2函数得到的模块，它包含了4个嵌套的block1模块</span></span><br><span class="line"><span class="comment"># 然后添加一个全连接层，将特征从4维缩减为1维，可能用于回归任务的输出层</span></span><br><span class="line">rgnet = nn.Sequential(block2(), nn.Linear(<span class="number">4</span>, <span class="number">1</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个随机输入张量X，用于演示模型的前向传播</span></span><br><span class="line">X = torch.rand(size=(<span class="number">2</span>, <span class="number">4</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将输入X传递给模型rgnet进行前向传播，打印输出结果</span></span><br><span class="line"><span class="built_in">print</span>(rgnet(X))</span><br></pre></td></tr></table></figure>
+<p>设计了网络后，我们看看它是如何工作的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(rgnet)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">Sequential(</span><br><span class="line">  (<span class="number">0</span>): Sequential(</span><br><span class="line">    (block <span class="number">0</span>): Sequential(</span><br><span class="line">      (<span class="number">0</span>): Linear(in_features=<span class="number">4</span>, out_features=<span class="number">8</span>, bias=<span class="literal">True</span>)</span><br><span class="line">      (<span class="number">1</span>): ReLU()</span><br><span class="line">      (<span class="number">2</span>): Linear(in_features=<span class="number">8</span>, out_features=<span class="number">4</span>, bias=<span class="literal">True</span>)</span><br><span class="line">      (<span class="number">3</span>): ReLU()</span><br><span class="line">    )</span><br><span class="line">    (block <span class="number">1</span>): Sequential(</span><br><span class="line">      (<span class="number">0</span>): Linear(in_features=<span class="number">4</span>, out_features=<span class="number">8</span>, bias=<span class="literal">True</span>)</span><br><span class="line">      (<span class="number">1</span>): ReLU()</span><br><span class="line">      (<span class="number">2</span>): Linear(in_features=<span class="number">8</span>, out_features=<span class="number">4</span>, bias=<span class="literal">True</span>)</span><br><span class="line">      (<span class="number">3</span>): ReLU()</span><br><span class="line">    )</span><br><span class="line">    (block <span class="number">2</span>): Sequential(</span><br><span class="line">      (<span class="number">0</span>): Linear(in_features=<span class="number">4</span>, out_features=<span class="number">8</span>, bias=<span class="literal">True</span>)</span><br><span class="line">      (<span class="number">1</span>): ReLU()</span><br><span class="line">      (<span class="number">2</span>): Linear(in_features=<span class="number">8</span>, out_features=<span class="number">4</span>, bias=<span class="literal">True</span>)</span><br><span class="line">      (<span class="number">3</span>): ReLU()</span><br><span class="line">    )</span><br><span class="line">    (block <span class="number">3</span>): Sequential(</span><br><span class="line">      (<span class="number">0</span>): Linear(in_features=<span class="number">4</span>, out_features=<span class="number">8</span>, bias=<span class="literal">True</span>)</span><br><span class="line">      (<span class="number">1</span>): ReLU()</span><br><span class="line">      (<span class="number">2</span>): Linear(in_features=<span class="number">8</span>, out_features=<span class="number">4</span>, bias=<span class="literal">True</span>)</span><br><span class="line">      (<span class="number">3</span>): ReLU()</span><br><span class="line">    )</span><br><span class="line">  )</span><br><span class="line">  (<span class="number">1</span>): Linear(in_features=<span class="number">4</span>, out_features=<span class="number">1</span>, bias=<span class="literal">True</span>)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>因为层是分层嵌套的，所以我们也可以像通过嵌套列表索引一样访问它们。 下面，我们访问第一个主要的块中、第二个子块的第一层的偏置项。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rgnet[<span class="number">0</span>][<span class="number">1</span>][<span class="number">0</span>].bias.data</span><br><span class="line"><span class="comment">#输出：tensor([ 0.1999, -0.4073, -0.1200, -0.2033, -0.1573,  0.3546, -0.2141, -0.2483])</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="参数初始化"><a href="#参数初始化" class="headerlink" title="参数初始化"></a>参数初始化</h3><p> 深度学习框架提供默认随机初始化， 也允许我们创建自定义初始化方法， 满足我们通过其他规则实现初始化权重。</p>
+<p>默认情况下，PyTorch会根据一个范围均匀地初始化权重和偏置矩阵， 这个范围是根据输入和输出维度计算出的。 PyTorch的<code>nn.init</code>模块提供了多种预置初始化方法。</p>
+<p><strong>内置初始化</strong></p>
+<p>下面的代码将所有权重参数初始化为标准差为0.01的高斯随机变量， 且将偏置参数设置为0。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">init_normal</span>(<span class="params">m</span>):</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">type</span>(m) == nn.Linear:</span><br><span class="line">        nn.init.normal_(m.weight, mean=<span class="number">0</span>, std=<span class="number">0.01</span>)</span><br><span class="line">        nn.init.zeros_(m.bias)</span><br><span class="line">net.apply(init_normal)</span><br><span class="line">net[<span class="number">0</span>].weight.data[<span class="number">0</span>], net[<span class="number">0</span>].bias.data[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<p>我们还可以对某些块应用不同的初始化方法。 例如，下面我们使用Xavier初始化方法初始化第一个神经网络层， 然后将第三个神经网络层初始化为常量值42。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">init_xavier</span>(<span class="params">m</span>):</span></span><br><span class="line">    <span class="comment"># 检查m是否为线性层 (nn.Linear)</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">type</span>(m) == nn.Linear:</span><br><span class="line">        <span class="comment"># 使用Xavier均匀初始化方法初始化权重</span></span><br><span class="line">        nn.init.xavier_uniform_(m.weight)</span><br><span class="line">        </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">init_42</span>(<span class="params">m</span>):</span></span><br><span class="line">    <span class="comment"># 检查m是否为线性层 (nn.Linear)</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">type</span>(m) == nn.Linear:</span><br><span class="line">        <span class="comment"># 将权重初始化为常数42</span></span><br><span class="line">        nn.init.constant_(m.weight, <span class="number">42</span>)</span><br><span class="line">  </span><br><span class="line">net[<span class="number">0</span>].apply(init_xavier)</span><br><span class="line">net[<span class="number">2</span>].apply(init_42)       </span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong>自定义初始化</strong></p>
+<p> 在下面的例子中，我们使用以下的分布为任意权重参数$w$定义初始化方法：</p>
+<script type="math/tex; mode=display">
+\begin{split}\begin{aligned}
+    w \sim \begin{cases}
+        U(5, 10) & \text{ 可能性 } \frac{1}{4} \\
+            0    & \text{ 可能性 } \frac{1}{2} \\
+        U(-10, -5) & \text{ 可能性 } \frac{1}{4}
+    \end{cases}
+\end{aligned}\end{split}</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_init</span>(<span class="params">m</span>):</span></span><br><span class="line">    <span class="comment"># 检查传入的模块 m 是否是线性层 (nn.Linear)</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">type</span>(m) == nn.Linear:</span><br><span class="line">        <span class="comment"># 打印出线性层的参数名称和形状。这里使用了列表解析和 named_parameters 方法来获取参数，</span></span><br><span class="line">        <span class="comment"># 并且仅展示了第一个参数（通常是权重）的名称和形状。</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Init&quot;</span>, *[(name, param.shape)</span><br><span class="line">                        <span class="keyword">for</span> name, param <span class="keyword">in</span> m.named_parameters()][<span class="number">0</span>])</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 使用均匀分布初始化权重，范围是 [-10, 10]。</span></span><br><span class="line">        nn.init.uniform_(m.weight, -<span class="number">10</span>, <span class="number">10</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 修改权重，只保留绝对值大于等于5的权重，其他的权重被设置为0。</span></span><br><span class="line">        <span class="comment"># 这是通过先计算 m.weight.data.abs() &gt;= 5 得到一个布尔型张量，</span></span><br><span class="line">        <span class="comment"># 然后用这个张量乘以 m.weight.data 实现的。</span></span><br><span class="line">        m.weight.data *= m.weight.data.<span class="built_in">abs</span>() &gt;= <span class="number">5</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将自定义初始化函数 my_init 应用到网络的所有层上。</span></span><br><span class="line"><span class="comment"># apply 方法会递归地遍历所有子模块，并对每个子模块调用 my_init 函数。</span></span><br><span class="line">net.apply(my_init)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印出第一个线性层的前两个权重数据。</span></span><br><span class="line"><span class="comment"># 这里假设 net[0] 是一个 nn.Linear 层，并且我们感兴趣的是查看经过自定义初始化后的前两行权重值。</span></span><br><span class="line">net[<span class="number">0</span>].weight[:<span class="number">2</span>]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="参数绑定"><a href="#参数绑定" class="headerlink" title="参数绑定"></a>参数绑定</h3><p>有时我们希望在多个层间共享参数： 我们可以定义一个<strong>全连接层</strong>，然后使用它的参数来设置另一个层的参数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 我们需要给共享层一个名称，以便可以引用它的参数</span></span><br><span class="line">shared = nn.Linear(<span class="number">8</span>, <span class="number">8</span>)  <span class="comment"># 定义一个共享的全连接层（稠密层），输入和输出特征数量都是8</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个神经网络，其中包含了一个输入层，两个激活层，两次使用共享层，和一个输出层</span></span><br><span class="line">net = nn.Sequential(</span><br><span class="line">    nn.Linear(<span class="number">4</span>, <span class="number">8</span>),  <span class="comment"># 第一个全连接层，将输入特征从4维映射到8维</span></span><br><span class="line">    nn.ReLU(),  <span class="comment"># 第一个ReLU激活函数，引入非线性</span></span><br><span class="line">    shared,  <span class="comment"># 第一次使用共享层</span></span><br><span class="line">    nn.ReLU(),  <span class="comment"># 第二个ReLU激活函数</span></span><br><span class="line">    shared,  <span class="comment"># 第二次使用相同的共享层</span></span><br><span class="line">    nn.ReLU(),  <span class="comment"># 第三个ReLU激活函数</span></span><br><span class="line">    nn.Linear(<span class="number">8</span>, <span class="number">1</span>)  <span class="comment"># 输出层，将特征从8维映射到1维</span></span><br><span class="line">)</span><br><span class="line">net(X)  <span class="comment"># 将输入数据X通过网络进行前向传播</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查共享层的两个实例是否有相同的权重数据</span></span><br><span class="line"><span class="built_in">print</span>(net[<span class="number">2</span>].weight.data[<span class="number">0</span>] == net[<span class="number">4</span>].weight.data[<span class="number">0</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改共享层中的权重参数</span></span><br><span class="line">net[<span class="number">2</span>].weight.data[<span class="number">0</span>, <span class="number">0</span>] = <span class="number">100</span>  <span class="comment"># 将共享层的第一个权重修改为100</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 确保共享层的修改影响到了所有引用该层的地方，证明它们实际上是同一个对象</span></span><br><span class="line"><span class="built_in">print</span>(net[<span class="number">2</span>].weight.data[<span class="number">0</span>] == net[<span class="number">4</span>].weight.data[<span class="number">0</span>])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tensor([<span class="literal">True</span>, <span class="literal">True</span>, <span class="literal">True</span>, <span class="literal">True</span>, <span class="literal">True</span>, <span class="literal">True</span>, <span class="literal">True</span>, <span class="literal">True</span>])</span><br><span class="line">tensor([<span class="literal">True</span>, <span class="literal">True</span>, <span class="literal">True</span>, <span class="literal">True</span>, <span class="literal">True</span>, <span class="literal">True</span>, <span class="literal">True</span>, <span class="literal">True</span>])</span><br></pre></td></tr></table></figure>
+<p>这个例子表明第三个和第五个神经网络层的参数是绑定的。 它们不仅值相等，而且由相同的张量表示。 因此，如果我们改变其中一个参数，另一个参数也会改变</p>
+<hr>
+<h2 id="延后初始化"><a href="#延后初始化" class="headerlink" title="延后初始化"></a>延后初始化</h2><p>深度学习框架无法判断网络的输入维度是什么。 这里的诀窍是框架的<strong><em>延后初始化</em></strong>（defers initialization）， 即直到数据第一次通过模型传递时，框架才会动态地推断出每个层的大小。</p>
+<p>在以后，当使用卷积神经网络时， 由于输入维度（即图像的分辨率）将影响每个后续层的维数， 有了该技术将更加方便。 现在我们在编写代码时无须知道维度是什么就可以设置参数， 这种能力可以大大简化定义和修改模型的任务。 接下来，我们将更深入地研究初始化机制。</p>
+<p><strong>实例化网络</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> torch <span class="keyword">import</span> nn</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;延后初始化&quot;&quot;&quot;</span></span><br><span class="line">net = nn.Sequential(nn.LazyLinear(<span class="number">256</span>), nn.ReLU(), nn.LazyLinear(<span class="number">10</span>))</span><br><span class="line"><span class="comment"># print(net[0].weight)  # 尚未初始化</span></span><br><span class="line"><span class="built_in">print</span>(net)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>此时，因为输入维数是未知的，所以网络不可能知道输入层权重的维数。 因此，框架尚未初始化任何参数，我们通过尝试访问以下参数进行确认。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[net[i].state_dict() <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(net))]</span><br></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[OrderedDict([(<span class="string">&#x27;weight&#x27;</span>, &lt;UninitializedParameter&gt;),</span><br><span class="line">              (<span class="string">&#x27;bias&#x27;</span>, &lt;UninitializedParameter&gt;)]),</span><br><span class="line"> OrderedDict(),</span><br><span class="line"> OrderedDict([(<span class="string">&#x27;weight&#x27;</span>, &lt;UninitializedParameter&gt;),</span><br><span class="line">              (<span class="string">&#x27;bias&#x27;</span>, &lt;UninitializedParameter&gt;)])]</span><br></pre></td></tr></table></figure>
+<p>请注意，每个层对象都存在，但权重为空。 使用<code>net.get_weights()</code>将抛出一个错误，因为权重尚未初始化。</p>
+<p>接下来让我们将数据通过网络，最终使框架初始化参数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">X = torch.rand(<span class="number">2</span>, <span class="number">20</span>)</span><br><span class="line">net(X)</span><br><span class="line"><span class="built_in">print</span>(net)</span><br></pre></td></tr></table></figure>
+<p>一旦我们知道输入维数是20，框架可以通过代入值20来识别第一层权重矩阵的形状。 识别出第一层的形状后，框架处理第二层，依此类推，直到所有形状都已知为止。 注意，在这种情况下，只有第一层需要延迟初始化，但是框架仍是按顺序初始化的。 等到知道了所有的参数形状，框架就可以初始化参数。</p>
+<hr>
+<h2 id="自定义层"><a href="#自定义层" class="headerlink" title="自定义层"></a>自定义层</h2><h3 id="不带参数的层"><a href="#不带参数的层" class="headerlink" title="不带参数的层"></a>不带参数的层</h3><p>下面的<code>CenteredLayer</code>类要从其输入中减去均值。 要构建它，我们只需继承基础层类并实现前向传播功能。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"><span class="keyword">from</span> torch <span class="keyword">import</span> nn</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CenteredLayer</span>(<span class="params">nn.Module</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span>(<span class="params">self, X</span>):</span></span><br><span class="line">        <span class="keyword">return</span> X - X.mean()</span><br></pre></td></tr></table></figure>
+<p>现在，我们可以将层作为组件合并到更复杂的模型中。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net = nn.Sequential(nn.Linear(<span class="number">8</span>, <span class="number">128</span>), CenteredLayer())</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="带参数的层"><a href="#带参数的层" class="headerlink" title="带参数的层"></a>带参数的层</h3><p>我们继续定义具有参数的层， 这些参数可以通过训练进行调整。 我们可以使用内置函数来创建参数，这些函数提供一些基本的管理功能。 比如管理访问、初始化、共享、保存和加载模型参数。 这样做的好处之一是：我们不需要为每个自定义层编写自定义的序列化程序。</p>
+<p>现在，让我们实现自定义版本的全连接层。 回想一下，该层需要两个参数，一个用于表示权重，另一个用于表示偏置项。 在此实现中，我们使用修正线性单元作为激活函数。 该层需要输入参数：<code>in_units</code>和<code>units</code>，分别表示输入数和输出数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 定义一个继承自nn.Module的自定义层，这样它就可以利用PyTorch的自动求导等功能</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyLinear</span>(<span class="params">nn.Module</span>):</span></span><br><span class="line">    <span class="comment"># 类的初始化函数，接收输入特征数量（in_units）和输出特征数量（units）作为参数</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, in_units, units</span>):</span></span><br><span class="line">        <span class="built_in">super</span>().__init__()  <span class="comment"># 调用父类的初始化函数，进行必要的初始化操作</span></span><br><span class="line">        <span class="comment"># 创建一个参数，表示权重，使用正态分布随机初始化。权重的形状是[in_units, units]，</span></span><br><span class="line">        <span class="comment"># 这样它就可以和输入数据进行矩阵乘法操作</span></span><br><span class="line">        self.weight = nn.Parameter(torch.randn(in_units, units))</span><br><span class="line">        <span class="comment"># 创建一个参数，表示偏置，也使用正态分布随机初始化。偏置的形状是[units,]，</span></span><br><span class="line">        <span class="comment"># 每个输出特征都有一个对应的偏置</span></span><br><span class="line">        self.bias = nn.Parameter(torch.randn(units,))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 定义前向传播函数，接收输入X</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span>(<span class="params">self, X</span>):</span></span><br><span class="line">        <span class="comment"># 计算输入X和权重的矩阵乘法，然后加上偏置。注意这里直接使用了`.data`，</span></span><br><span class="line">        <span class="comment"># 通常不推荐这样做，因为这样会绕过PyTorch的自动求导，不会计算梯度</span></span><br><span class="line">        linear = torch.matmul(X, self.weight.data) + self.bias.data</span><br><span class="line">        <span class="comment"># 应用ReLU激活函数，将所有负值设为0，返回激活后的结果</span></span><br><span class="line">        <span class="keyword">return</span> F.relu(linear)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>接下来，我们实例化<code>MyLinear</code>类并访问其模型参数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">linear = MyLinear(<span class="number">5</span>, <span class="number">3</span>)</span><br><span class="line">linear.weight</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Parameter containing:</span><br><span class="line">tensor([[ <span class="number">0.1775</span>, -<span class="number">1.4539</span>,  <span class="number">0.3972</span>],</span><br><span class="line">        [-<span class="number">0.1339</span>,  <span class="number">0.5273</span>,  <span class="number">1.3041</span>],</span><br><span class="line">        [-<span class="number">0.3327</span>, -<span class="number">0.2337</span>, -<span class="number">0.6334</span>],</span><br><span class="line">        [ <span class="number">1.2076</span>, -<span class="number">0.3937</span>,  <span class="number">0.6851</span>],</span><br><span class="line">        [-<span class="number">0.4716</span>,  <span class="number">0.0894</span>, -<span class="number">0.9195</span>]], requires_grad=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+<p>我们可以使用自定义层直接执行前向传播计算。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">linear(torch.rand(<span class="number">2</span>, <span class="number">5</span>))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tensor([[<span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>],</span><br><span class="line">        [<span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>]])</span><br></pre></td></tr></table></figure>
+<p>我们还可以使用自定义层构建模型，就像使用内置的全连接层一样使用自定义层。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">net = nn.Sequential(MyLinear(<span class="number">64</span>, <span class="number">8</span>), MyLinear(<span class="number">8</span>, <span class="number">1</span>))</span><br><span class="line">net(torch.rand(<span class="number">2</span>, <span class="number">64</span>))</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="读写文件"><a href="#读写文件" class="headerlink" title="读写文件"></a>读写文件</h2><h3 id="加载和保存张量"><a href="#加载和保存张量" class="headerlink" title="加载和保存张量"></a>加载和保存张量</h3><p>对于单个张量，我们可以直接调用<code>load</code>和<code>save</code>函数分别读写它们。 这两个函数都要求我们提供一个名称，<code>save</code>要求将要保存的变量作为输入。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> torch <span class="keyword">import</span> nn</span><br><span class="line"><span class="keyword">from</span> torch.nn <span class="keyword">import</span> functional <span class="keyword">as</span> F</span><br><span class="line"></span><br><span class="line">x = torch.arange(<span class="number">4</span>)</span><br><span class="line">torch.save(x, <span class="string">&#x27;x-file&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>我们现在可以将存储在文件中的数据读回内存。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">x2 = torch.load(<span class="string">&#x27;x-file&#x27;</span>)</span><br><span class="line">x2</span><br><span class="line"><span class="comment">#输出结果:tensor([0, 1, 2, 3])</span></span><br></pre></td></tr></table></figure>
+<p>我们甚至可以写入或读取从字符串映射到张量的字典。 当我们要读取或写入模型中的所有权重时，这很方便。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mydict = &#123;<span class="string">&#x27;x&#x27;</span>: x, <span class="string">&#x27;y&#x27;</span>: y&#125;</span><br><span class="line">torch.save(mydict, <span class="string">&#x27;mydict&#x27;</span>)</span><br><span class="line">mydict2 = torch.load(<span class="string">&#x27;mydict&#x27;</span>)</span><br><span class="line">mydict2</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="加载和保存模型参数"><a href="#加载和保存模型参数" class="headerlink" title="加载和保存模型参数"></a>加载和保存模型参数</h3><p>保存单个权重向量（或其他张量）确实有用， 但是如果我们想保存整个模型，并在以后加载它们， 单独保存每个向量则会变得很麻烦。 毕竟，我们可能有数百个参数散布在各处。 因此，深度学习框架提供了内置函数来保存和加载整个网络。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MLP</span>(<span class="params">nn.Module</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        self.hidden = nn.Linear(<span class="number">20</span>, <span class="number">256</span>)</span><br><span class="line">        self.output = nn.Linear(<span class="number">256</span>, <span class="number">10</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span>(<span class="params">self, x</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self.output(F.relu(self.hidden(x)))</span><br><span class="line"></span><br><span class="line">net = MLP()</span><br><span class="line">X = torch.randn(size=(<span class="number">2</span>, <span class="number">20</span>))</span><br><span class="line">Y = net(X)</span><br></pre></td></tr></table></figure>
+<p>接下来，我们将模型的参数存储在一个叫做“<code>mlp.params</code>”的文件中。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">torch.save(net.state_dict(), <span class="string">&#x27;mlp.params&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>为了恢复模型，我们实例化了原始多层感知机模型的一个备份。 这里我们不需要随机初始化模型参数，而是直接读取文件中存储的参数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">clone = MLP()</span><br><span class="line">clone.load_state_dict(torch.load(<span class="string">&#x27;mlp.params&#x27;</span>))</span><br><span class="line">clone.<span class="built_in">eval</span>()</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">输出结果：</span></span><br><span class="line"><span class="string">MLP(</span></span><br><span class="line"><span class="string">  (hidden): Linear(in_features=20, out_features=256, bias=True)</span></span><br><span class="line"><span class="string">  (output): Linear(in_features=256, out_features=10, bias=True)</span></span><br><span class="line"><span class="string">)</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></div><div class="post_share"><div class="social-share" data-image="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231210050612555.png" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/social-share.js/1.0.16/css/share.min.css" media="print" onload="this.media='all'"><script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/social-share.js/1.0.16/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/post/58837.html"><img class="prev-cover" src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231210050612555.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">4.0 多层感知机</div></div></a></div><div class="next-post pull-right"><a href="/post/4590.html"><img class="next-cover" src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231210050612555.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">6.0 卷积神经网络</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Candle</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">192</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">20</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">24</div></a></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#pytorch%E5%9F%BA%E7%A1%80"><span class="toc-number">1.</span> <span class="toc-text">pytorch基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9D%97"><span class="toc-number">1.1.</span> <span class="toc-text">块</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9D%97%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-number">1.1.1.</span> <span class="toc-text">块的定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9D%97"><span class="toc-number">1.1.2.</span> <span class="toc-text">自定义块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%BA%E5%BA%8F%E5%9D%97"><span class="toc-number">1.1.3.</span> <span class="toc-text">顺序块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8%E5%89%8D%E5%90%91%E4%BC%A0%E6%92%AD%E5%87%BD%E6%95%B0%E4%B8%AD%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81"><span class="toc-number">1.1.4.</span> <span class="toc-text">在前向传播函数中执行代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E7%AE%A1%E7%90%86"><span class="toc-number">1.2.</span> <span class="toc-text">参数管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E8%AE%BF%E9%97%AE"><span class="toc-number">1.2.1.</span> <span class="toc-text">参数访问</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">1.2.2.</span> <span class="toc-text">参数初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E7%BB%91%E5%AE%9A"><span class="toc-number">1.2.3.</span> <span class="toc-text">参数绑定</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BB%B6%E5%90%8E%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">1.3.</span> <span class="toc-text">延后初始化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B1%82"><span class="toc-number">1.4.</span> <span class="toc-text">自定义层</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8D%E5%B8%A6%E5%8F%82%E6%95%B0%E7%9A%84%E5%B1%82"><span class="toc-number">1.4.1.</span> <span class="toc-text">不带参数的层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%A6%E5%8F%82%E6%95%B0%E7%9A%84%E5%B1%82"><span class="toc-number">1.4.2.</span> <span class="toc-text">带参数的层</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%BB%E5%86%99%E6%96%87%E4%BB%B6"><span class="toc-number">1.5.</span> <span class="toc-text">读写文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A0%E8%BD%BD%E5%92%8C%E4%BF%9D%E5%AD%98%E5%BC%A0%E9%87%8F"><span class="toc-number">1.5.1.</span> <span class="toc-text">加载和保存张量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A0%E8%BD%BD%E5%92%8C%E4%BF%9D%E5%AD%98%E6%A8%A1%E5%9E%8B%E5%8F%82%E6%95%B0"><span class="toc-number">1.5.2.</span> <span class="toc-text">加载和保存模型参数</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recommend-post"><div class="item-headline"><i class="fas fa-dharmachakra"></i><span>相关推荐</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/post/40793.html" title="1.0 Pytorch入门"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231210050612555.png" alt="1.0 Pytorch入门"></a><div class="content"><a class="title" href="/post/40793.html" title="1.0 Pytorch入门">1.0 Pytorch入门</a><time datetime="2023-12-24" title="������ 2023-12-24">2023-12-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/56727.html" title="3.0 softmax回归"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231210050612555.png" alt="3.0 softmax回归"></a><div class="content"><a class="title" href="/post/56727.html" title="3.0 softmax回归">3.0 softmax回归</a><time datetime="2024-02-20" title="������ 2024-02-20">2024-02-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/62658.html" title="2.0 线性回归"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231210050612555.png" alt="2.0 线性回归"></a><div class="content"><a class="title" href="/post/62658.html" title="2.0 线性回归">2.0 线性回归</a><time datetime="2023-12-25" title="������ 2023-12-25">2023-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/58837.html" title="4.0 多层感知机"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231210050612555.png" alt="4.0 多层感知机"></a><div class="content"><a class="title" href="/post/58837.html" title="4.0 多层感知机">4.0 多层感知机</a><time datetime="2024-02-21" title="������ 2024-02-21">2024-02-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/54714.html" title="7.0 现代卷积神经网络"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231210050612555.png" alt="7.0 现代卷积神经网络"></a><div class="content"><a class="title" href="/post/54714.html" title="7.0 现代卷积神经网络">7.0 现代卷积神经网络</a><time datetime="2024-02-23" title="������ 2024-02-23">2024-02-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/4590.html" title="6.0 卷积神经网络"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231210050612555.png" alt="6.0 卷积神经网络"></a><div class="content"><a class="title" href="/post/4590.html" title="6.0 卷积神经网络">6.0 卷积神经网络</a><time datetime="2024-02-22" title="������ 2024-02-22">2024-02-22</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2024 By Candle</div><div class="framework-info"><span>Powered by </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a></div><div class="footer_custom_text">So Long, and Thanks for All the Fish</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.2
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container:not\([display]\)').forEach(node => {
+            const target = node.parentNode
+            if (target.nodeName.toLowerCase() === 'li') {
+              target.parentNode.classList.add('has-jax')
+            } else {
+              target.classList.add('has-jax')
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-y/mathjax/3.2.0/es5/tex-mml-chtml.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script></div><script src="https://npm.elemecdn.com/pjax/pjax.min.js"></script><script>let pjaxSelectors = [
+  'title',
+  '#config-diff',
+  '#body-wrap',
+  '#rightside-config-hide',
+  '#rightside-config-show',
+  '.js-pjax'
+]
+
+if (false) {
+  pjaxSelectors.unshift('meta[property="og:image"]', 'meta[property="og:title"]', 'meta[property="og:url"]')
+}
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.removeEventListener('scroll', window.tocScrollFn)
+  window.removeEventListener('scroll', scrollCollect)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // Analytics
+  if (false) {
+    MtaH5.pgv()
+  }
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

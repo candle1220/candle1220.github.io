@@ -1,0 +1,371 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>10.0 注意力机制 | Night's Watch</title><meta name="keywords" content="深度学习"><meta name="author" content="Candle"><meta name="copyright" content="Candle"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="注意力机制注意力提示定义首先，考虑一个相对简单的状况， 即只使用非自主性提示。 要想将选择偏向于感官输入， 则可以简单地使用参数化的全连接层， 甚至是非参数化的最大汇聚层或平均汇聚层。 因此，“是否包含自主性提示”将注意力机制与全连接层或汇聚层区别开来。 在注意力机制的背景下，自主性提示被称为查询（query）。 给定任何查询，注意力机制通过注意力汇聚（attention pooling） 将选择">
+<meta property="og:type" content="article">
+<meta property="og:title" content="10.0 注意力机制">
+<meta property="og:url" content="http://candle1220.github.io/post/55896.html">
+<meta property="og:site_name" content="Night&#39;s Watch">
+<meta property="og:description" content="注意力机制注意力提示定义首先，考虑一个相对简单的状况， 即只使用非自主性提示。 要想将选择偏向于感官输入， 则可以简单地使用参数化的全连接层， 甚至是非参数化的最大汇聚层或平均汇聚层。 因此，“是否包含自主性提示”将注意力机制与全连接层或汇聚层区别开来。 在注意力机制的背景下，自主性提示被称为查询（query）。 给定任何查询，注意力机制通过注意力汇聚（attention pooling） 将选择">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231210050612555.png">
+<meta property="article:published_time" content="2024-02-25T09:50:38.989Z">
+<meta property="article:modified_time" content="2024-02-27T12:44:07.287Z">
+<meta property="article:author" content="Candle">
+<meta property="article:tag" content="深度学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231210050612555.png"><link rel="shortcut icon" href="/img/candle.png"><link rel="canonical" href="http://candle1220.github.io/post/55896"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#55d5fc","bgDark":"#121212","position":"top-center"},
+  source: {
+    jQuery: 'https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/3.6.0/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.js',
+      css: 'https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '10.0 注意力机制',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-02-27 20:44:07'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    document.addEventListener('pjax:complete', detectApple)})(window)</script><link rel="stylesheet" href="/css/background.css"><link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/Swiper/8.0.6/swiper-bundle.min.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/head.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">195</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">20</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">24</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-crow"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/background.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Night's Watch</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-crow"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">10.0 注意力机制</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-02-25T09:50:38.989Z" title="发表于 2024-02-25 17:50:38">2024-02-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-02-27T12:44:07.287Z" title="更新于 2024-02-27 20:44:07">2024-02-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">人工智能</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="10.0 注意力机制"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="注意力机制"><a href="#注意力机制" class="headerlink" title="注意力机制"></a>注意力机制</h1><h2 id="注意力提示"><a href="#注意力提示" class="headerlink" title="注意力提示"></a>注意力提示</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>首先，考虑一个相对简单的状况， 即只使用非自主性提示。 要想将选择偏向于感官输入， 则可以简单地使用参数化的全连接层， 甚至是非参数化的最大汇聚层或平均汇聚层。</p>
+<p>因此，“是否包含自主性提示”将注意力机制与全连接层或汇聚层区别开来。 在注意力机制的背景下，自主性提示被称为<strong><em>查询</em></strong>（query）。 给定任何查询，注意力机制通过<strong><em>注意力汇聚</em></strong>（attention pooling） 将选择引导至<em>感官输入</em>（sensory inputs，例如中间特征表示）。 在注意力机制中，这些感官输入被称为<strong><em>值</em></strong>（value）。 更通俗的解释，每个值都与一个<strong><em>键</em></strong>（key）配对， 这可以想象为感官输入的非自主提示。</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraqkv.svg" alt="../_images/qkv.svg"></p>
+<p> 如图所示，可以通过设计注意力汇聚的方式， 便于给定的查询（自主性提示）与键（非自主性提示）进行匹配， 这将引导得出最匹配的值（感官输入）。</p>
+<p>注意力机制通过注意力汇聚将<strong><em>查询</em></strong>（自主性提示）和<strong><em>键</em></strong>（非自主性提示）结合在一起，实现对<strong><em>值</em></strong>（感官输入）的选择倾向</p>
+<hr>
+<h3 id="可视化"><a href="#可视化" class="headerlink" title="可视化"></a>可视化</h3><p>平均汇聚层可以被视为输入的加权平均值， 其中各输入的权重是一样的。 实际上，注意力汇聚得到的是加权平均的总和值， 其中权重是在给定的查询和不同的键之间计算得出的。</p>
+<p>为了可视化注意力权重，需要定义一个<code>show_heatmaps</code>函数。 其输入<code>matrices</code>的形状是 （要显示的行数，要显示的列数，查询的数目，键的数目）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> d2l <span class="keyword">import</span> torch <span class="keyword">as</span> d2l</span><br><span class="line"></span><br><span class="line"><span class="comment"># #@save 注释用于标记这个函数可能会被保存或导入到其他脚本中使用</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show_heatmaps</span>(<span class="params">matrices, xlabel, ylabel, titles=<span class="literal">None</span>, figsize=(<span class="params"><span class="number">2.5</span>, <span class="number">2.5</span></span>),</span></span></span><br><span class="line"><span class="params"><span class="function">                  cmap=<span class="string">&#x27;Reds&#x27;</span></span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;显示矩阵热图&quot;&quot;&quot;</span></span><br><span class="line">    d2l.use_svg_display()  <span class="comment"># 使用SVG格式显示图像，以获得更清晰的图像质量</span></span><br><span class="line">    num_rows, num_cols = matrices.shape[<span class="number">0</span>], matrices.shape[<span class="number">1</span>]  <span class="comment"># 获取矩阵数组的行数和列数</span></span><br><span class="line">    fig, axes = d2l.plt.subplots(num_rows, num_cols, figsize=figsize,</span><br><span class="line">                                 sharex=<span class="literal">True</span>, sharey=<span class="literal">True</span>, squeeze=<span class="literal">False</span>)</span><br><span class="line">    <span class="comment"># 创建一个图形和一组子图，每个矩阵都会在子图中显示</span></span><br><span class="line">    <span class="keyword">for</span> i, (row_axes, row_matrices) <span class="keyword">in</span> <span class="built_in">enumerate</span>(<span class="built_in">zip</span>(axes, matrices)):</span><br><span class="line">        <span class="keyword">for</span> j, (ax, matrix) <span class="keyword">in</span> <span class="built_in">enumerate</span>(<span class="built_in">zip</span>(row_axes, row_matrices)):</span><br><span class="line">            pcm = ax.imshow(matrix.detach().numpy(), cmap=cmap)</span><br><span class="line">            <span class="comment"># 使用imshow函数绘制矩阵的热图，detach().numpy()将矩阵从PyTorch张量转换为NumPy数组</span></span><br><span class="line">            <span class="keyword">if</span> i == num_rows - <span class="number">1</span>:</span><br><span class="line">                ax.set_xlabel(xlabel)  <span class="comment"># 在最下方的子图设置x轴标签</span></span><br><span class="line">            <span class="keyword">if</span> j == <span class="number">0</span>:</span><br><span class="line">                ax.set_ylabel(ylabel)  <span class="comment"># 在最左侧的子图设置y轴标签</span></span><br><span class="line">            <span class="keyword">if</span> titles:</span><br><span class="line">                ax.set_title(titles[j])  <span class="comment"># 如果提供了标题，为每个子图设置标题</span></span><br><span class="line">    fig.colorbar(pcm, ax=axes, shrink=<span class="number">0.6</span>)  <span class="comment"># 为子图集添加一个颜色条，显示颜色映射的数值范围</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>下面使用一个简单的例子进行演示。 在本例子中，仅当查询和键相同时，注意力权重为1，否则为0。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">attention_weights = torch.eye(<span class="number">10</span>).reshape((<span class="number">1</span>, <span class="number">1</span>, <span class="number">10</span>, <span class="number">10</span>))</span><br><span class="line">show_heatmaps(attention_weights, xlabel=<span class="string">&#x27;Keys&#x27;</span>, ylabel=<span class="string">&#x27;Queries&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraoutput_attention-cues_054b1a_36_0.svg" alt="../_images/output_attention-cues_054b1a_36_0.svg"></p>
+<hr>
+<h2 id="Nadaraya-Watson-核回归"><a href="#Nadaraya-Watson-核回归" class="headerlink" title="Nadaraya-Watson 核回归"></a>Nadaraya-Watson 核回归</h2><h3 id="生成数据集"><a href="#生成数据集" class="headerlink" title="生成数据集"></a>生成数据集</h3><p>简单起见，考虑下面这个回归问题：给定的成对的“输入－输出”数据集$\{(x_1, y_1), \ldots, (x_n, y_n)\}$，如何学习$f$来预测任意新输入$x$的输出$\hat{y} = f(x)$？</p>
+<p>根据下面的非线性函数生成一个人工数据集，其中加入的噪声项为$\epsilon$：</p>
+<script type="math/tex; mode=display">
+y_i = 2\sin(x_i) + x_i^{0.8} + \epsilon</script><p>其中$\epsilon$服从均值为$0$和标准差为$0.5$的正态分布。在这里生成了$50$个训练样本和$50$个测试样本。为了更好地可视化之后的注意力模式，需要将训练样本进行<strong>排序</strong>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">n_train = <span class="number">50</span>  <span class="comment"># 训练样本数</span></span><br><span class="line">x_train, _ = torch.sort(torch.rand(n_train) * <span class="number">5</span>)   <span class="comment"># 排序后的训练样本</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span>(<span class="params">x</span>):</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">2</span> * torch.sin(x) + x**<span class="number">0.8</span></span><br><span class="line"></span><br><span class="line">y_train = f(x_train) + torch.normal(<span class="number">0.0</span>, <span class="number">0.5</span>, (n_train,))  <span class="comment"># 训练样本的输出</span></span><br><span class="line">x_test = torch.arange(<span class="number">0</span>, <span class="number">5</span>, <span class="number">0.1</span>)  <span class="comment"># 测试样本</span></span><br><span class="line">y_truth = f(x_test)  <span class="comment"># 测试样本的真实输出</span></span><br><span class="line">n_test = <span class="built_in">len</span>(x_test)  <span class="comment"># 测试样本数</span></span><br></pre></td></tr></table></figure>
+<p>下面的函数将绘制所有的训练样本（样本由圆圈表示）， 不带噪声项的真实数据生成函数$f$（标记为“Truth”）， 以及学习得到的预测函数（标记为“Pred”）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">plot_kernel_reg</span>(<span class="params">y_hat</span>):</span></span><br><span class="line">    d2l.plot(x_test, [y_truth, y_hat], <span class="string">&#x27;x&#x27;</span>, <span class="string">&#x27;y&#x27;</span>, legend=[<span class="string">&#x27;Truth&#x27;</span>, <span class="string">&#x27;Pred&#x27;</span>],</span><br><span class="line">             xlim=[<span class="number">0</span>, <span class="number">5</span>], ylim=[-<span class="number">1</span>, <span class="number">5</span>])</span><br><span class="line">    d2l.plt.plot(x_train, y_train, <span class="string">&#x27;o&#x27;</span>, alpha=<span class="number">0.5</span>);</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="平均汇聚"><a href="#平均汇聚" class="headerlink" title="平均汇聚"></a>平均汇聚</h3><p>先使用最简单的估计器来解决回归问题。基于平均汇聚来计算所有训练样本输出值的平均值：</p>
+<script type="math/tex; mode=display">
+f(x) = \frac{1}{n}\sum_{i=1}^n y_i</script><p>如图所示，这个估计器确实不够聪明。真实函数$f$（“Truth”）和预测函数（“Pred”）相差很大。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#torch.repeat_interleave 是一个PyTorch函数，用于沿指定维度重复张量中的元素。</span></span><br><span class="line">y_hat = torch.repeat_interleave(y_train.mean(), n_test)</span><br><span class="line">plot_kernel_reg(y_hat)</span><br></pre></td></tr></table></figure>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraoutput_nadaraya-waston_736177_39_0.svg" alt="../_images/output_nadaraya-waston_736177_39_0.svg"></p>
+<hr>
+<h3 id="非参数注意力汇聚"><a href="#非参数注意力汇聚" class="headerlink" title="非参数注意力汇聚"></a>非参数注意力汇聚</h3><p>显然，平均汇聚忽略了输入$x_i$。于是Nadaraya和Watson提出了一个更好的想法，根据输入的位置对输出$y_i$进行加权：</p>
+<script type="math/tex; mode=display">
+f(x) = \sum_{i=1}^n \frac{K(x - x_i)}{\sum_{j=1}^n K(x - x_j)} y_i</script><p>其中$K$是<strong>核</strong>（kernel）。公式所描述的估计器被称为<strong>Nadaraya-Watson核回归</strong></p>
+<p>这里不会深入讨论核函数的细节，但受此启发，我们可以从注意力机制框架的角度重写成为一个更加通用的<strong>注意力汇聚</strong>（attention pooling）公式：</p>
+<script type="math/tex; mode=display">
+f(x) = \sum_{i=1}^n \alpha(x, x_i) y_i,</script><p>其中$x$是查询，$(x_i, y_i)$是键值对。注意力汇聚是$y_i$的加权平均。将查询$x$和键$x_i$之间的关系建模为<strong>注意力权重</strong>$\alpha(x, x_i)$，这个权重将被分配给每一个对应值$y_i$。对于任何查询，模型在所有键值对注意力权重都是一个有效的概率分布：它们是非负的，并且总和为1。</p>
+<p>为了更好地理解注意力汇聚，下面考虑一个<strong>高斯核</strong>（Gaussian kernel），其定义为：</p>
+<script type="math/tex; mode=display">
+K(u) = \frac{1}{\sqrt{2\pi}} \exp(-\frac{u^2}{2}).</script><p>将高斯核代入可以得到：</p>
+<script type="math/tex; mode=display">
+\begin{aligned} f(x) &=\sum_{i=1}^n \alpha(x, x_i) y_i\\ &= \sum_{i=1}^n \frac{\exp\left(-\frac{1}{2}(x - x_i)^2\right)}{\sum_{j=1}^n \exp\left(-\frac{1}{2}(x - x_j)^2\right)} y_i \\&= \sum_{i=1}^n \mathrm{softmax}\left(-\frac{1}{2}(x - x_i)^2\right) y_i. \end{aligned}</script><p>在公式中，如果一个键$x_i$越是接近给定的查询$x$，那么分配给这个键对应值$y_i$的注意力权重就会越大，也就“获得了更多的注意力”。</p>
+<p>值得注意的是，Nadaraya-Watson核回归是一个非参数模型。因此，公式是<strong>非参数的注意力汇聚</strong>模型。接下来，我们将基于这个非参数的注意力汇聚模型来绘制预测结果。绘制的结果会发现新的模型预测线是平滑的，并且比平均汇聚的预测更接近真实。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># X_repeat的形状:(n_test,n_train),</span></span><br><span class="line"><span class="comment"># 每一行都包含着相同的测试输入（例如：同样的查询）</span></span><br><span class="line">X_repeat = x_test.repeat_interleave(n_train).reshape((-<span class="number">1</span>, n_train))</span><br><span class="line"><span class="comment"># x_train包含着键。attention_weights的形状：(n_test,n_train),</span></span><br><span class="line"><span class="comment"># 每一行都包含着要在给定的每个查询的值（y_train）之间分配的注意力权重</span></span><br><span class="line">attention_weights = nn.functional.softmax(-(X_repeat - x_train)**<span class="number">2</span> / <span class="number">2</span>, dim=<span class="number">1</span>)</span><br><span class="line"><span class="comment"># y_hat的每个元素都是值的加权平均值，其中的权重是注意力权重</span></span><br><span class="line">y_hat = torch.matmul(attention_weights, y_train)</span><br><span class="line">plot_kernel_reg(y_hat)</span><br></pre></td></tr></table></figure>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraoutput_nadaraya-waston_736177_54_0.svg" alt="../_images/output_nadaraya-waston_736177_54_0.svg"></p>
+<p>现在来观察注意力的权重。 这里测试数据的输入相当于查询，而训练数据的输入相当于键。 因为两个输入都是经过排序的，因此由观察可知“查询-键”对越接近， 注意力汇聚的注意力权重就越高。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">d2l.show_heatmaps(attention_weights.unsqueeze(<span class="number">0</span>).unsqueeze(<span class="number">0</span>),</span><br><span class="line">                  xlabel=<span class="string">&#x27;Sorted training inputs&#x27;</span>,</span><br><span class="line">                  ylabel=<span class="string">&#x27;Sorted testing inputs&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraoutput_nadaraya-waston_736177_69_0.svg" alt="../_images/output_nadaraya-waston_736177_69_0.svg"></p>
+<hr>
+<h3 id="带参数注意力汇聚"><a href="#带参数注意力汇聚" class="headerlink" title="带参数注意力汇聚"></a>带参数注意力汇聚</h3><p>非参数的Nadaraya-Watson核回归具有<em>一致性</em>（consistency）的优点： 如果有足够的数据，此模型会收敛到最优结果。 尽管如此，我们还是可以轻松地将可学习的参数集成到注意力汇聚中。</p>
+<p>在下面的查询$x$和键$x_i$之间的距离乘以可学习参数$w$：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}f(x) &= \sum_{i=1}^n \alpha(x, x_i) y_i \\&= \sum_{i=1}^n \frac{\exp\left(-\frac{1}{2}((x - x_i)w)^2\right)}{\sum_{j=1}^n \exp\left(-\frac{1}{2}((x - x_j)w)^2\right)} y_i \\&= \sum_{i=1}^n \mathrm{softmax}\left(-\frac{1}{2}((x - x_i)w)^2\right) y_i.\end{aligned}</script><p>本节的余下部分将通过训练这个模型来学习注意力汇聚的参数。</p>
+<p><strong>批量矩阵乘法</strong></p>
+<p>在注意力机制的背景中，我们可以使用小批量矩阵乘法来计算小批量数据中的加权平均值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">weights = torch.ones((<span class="number">2</span>, <span class="number">10</span>)) * <span class="number">0.1</span></span><br><span class="line">values = torch.arange(<span class="number">20.0</span>).reshape((<span class="number">2</span>, <span class="number">10</span>))</span><br><span class="line">torch.bmm(weights.unsqueeze(<span class="number">1</span>), values.unsqueeze(-<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
+<p><code>torch.bmm</code></p>
+<ul>
+<li><strong>功能</strong>：<code>torch.bmm</code> 是批量矩阵乘法（Batch Matrix Multiplication）的缩写。这个函数用于计算两个张量中包含的多组矩阵的乘积。具体来说，如果你有两个三维张量，每个张量中包含了多个二维矩阵，<code>torch.bmm</code> 可以一次性计算这些矩阵的乘积。</li>
+<li><strong>输入</strong>：两个形状为 <code>(b, n, m)</code> 和 <code>(b, m, p)</code> 的张量，其中 <code>b</code> 是批次大小，表示有多少组矩阵需要相乘，<code>n</code>, <code>m</code>, <code>p</code> 分别是这些矩阵的维度。</li>
+<li><strong>输出</strong>：一个形状为 <code>(b, n, p)</code> 的张量，包含了每一组输入矩阵乘积的结果。</li>
+</ul>
+<p><code>torch.unsqueeze</code></p>
+<ul>
+<li><strong>功能</strong>：<code>torch.unsqueeze</code> 用于在指定位置增加一个维度（即增加一个轴）。这个操作不会改变张量的数据，但会改变张量的形状</li>
+<li><strong>输入</strong>：一个张量和一个指定的维度（位置）。</li>
+<li><p><strong>输出</strong>：形状改变后的张量，其在指定位置上增加了一个大小为1的维度。</p>
+</li>
+<li><p><code>weights.unsqueeze(1)</code> 将 <code>weights</code> 张量从形状 <code>(2, 10)</code> 改变为 <code>(2, 1, 10)</code>。这里，<code>1</code> 表示在原有的行和列之间增加了一个新的维度。</p>
+</li>
+<li><code>values.unsqueeze(-1)</code> 将 <code>values</code> 张量从形状 <code>(2, 10)</code> 改变为 <code>(2, 10, 1)</code>。这里，<code>-1</code> 表示在张量的最后增加了一个新的维度。</li>
+</ul>
+<hr>
+<p>接下来，将训练数据集变换为键和值用于训练注意力模型。 在带参数的注意力汇聚模型中， 任何一个训练样本的输入都会和除自己以外的所有训练样本的“键－值”对进行计算， 从而得到其对应的预测输出。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># X_tile的形状:(n_train，n_train)，每一行都包含着相同的训练输入</span></span><br><span class="line">X_tile = x_train.repeat((n_train, <span class="number">1</span>))</span><br><span class="line"><span class="comment"># Y_tile的形状:(n_train，n_train)，每一行都包含着相同的训练输出</span></span><br><span class="line">Y_tile = y_train.repeat((n_train, <span class="number">1</span>))</span><br><span class="line"><span class="comment"># keys的形状:(&#x27;n_train&#x27;，&#x27;n_train&#x27;-1)</span></span><br><span class="line">keys = X_tile[(<span class="number">1</span> - torch.eye(n_train)).<span class="built_in">type</span>(torch.<span class="built_in">bool</span>)].reshape((n_train, -<span class="number">1</span>))</span><br><span class="line"><span class="comment"># values的形状:(&#x27;n_train&#x27;，&#x27;n_train&#x27;-1)</span></span><br><span class="line">values = Y_tile[(<span class="number">1</span> - torch.eye(n_train)).<span class="built_in">type</span>(torch.<span class="built_in">bool</span>)].reshape((n_train, -<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
+<p>训练带参数的注意力汇聚模型时，使用平方损失函数和随机梯度下降。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">net = NWKernelRegression()</span><br><span class="line">loss = nn.MSELoss(reduction=<span class="string">&#x27;none&#x27;</span>)</span><br><span class="line">trainer = torch.optim.SGD(net.parameters(), lr=<span class="number">0.5</span>)</span><br><span class="line">animator = d2l.Animator(xlabel=<span class="string">&#x27;epoch&#x27;</span>, ylabel=<span class="string">&#x27;loss&#x27;</span>, xlim=[<span class="number">1</span>, <span class="number">5</span>])</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>):</span><br><span class="line">    trainer.zero_grad()</span><br><span class="line">    l = loss(net(x_train, keys, values), y_train)</span><br><span class="line">    l.<span class="built_in">sum</span>().backward()</span><br><span class="line">    trainer.step()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&#x27;epoch <span class="subst">&#123;epoch + <span class="number">1</span>&#125;</span>, loss <span class="subst">&#123;<span class="built_in">float</span>(l.<span class="built_in">sum</span>()):<span class="number">.6</span>f&#125;</span>&#x27;</span>)</span><br><span class="line">    animator.add(epoch + <span class="number">1</span>, <span class="built_in">float</span>(l.<span class="built_in">sum</span>()))</span><br></pre></td></tr></table></figure>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraoutput_nadaraya-waston_736177_144_0.svg" alt="../_images/output_nadaraya-waston_736177_144_0.svg"></p>
+<p>如下所示，训练完带参数的注意力汇聚模型后可以发现： 在尝试拟合带噪声的训练数据时， 预测结果绘制的线不如之前非参数模型的平滑。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">d2l.show_heatmaps(net.attention_weights.unsqueeze(<span class="number">0</span>).unsqueeze(<span class="number">0</span>),</span><br><span class="line">                  xlabel=<span class="string">&#x27;Sorted training inputs&#x27;</span>,</span><br><span class="line">                  ylabel=<span class="string">&#x27;Sorted testing inputs&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraoutput_nadaraya-waston_736177_174_0.svg" alt="../_images/output_nadaraya-waston_736177_174_0.svg"></p>
+<hr>
+<h2 id="注意力评分函数"><a href="#注意力评分函数" class="headerlink" title="注意力评分函数"></a>注意力评分函数</h2><p>高斯核指数部分可以视为<em>注意力评分函数</em>（attention scoring function）， 简称<em>评分函数</em>（scoring function）， 然后把这个函数的输出结果输入到softmax函数中进行运算。 通过上述步骤，将得到与键对应的值的概率分布（即注意力权重）。 最后，注意力汇聚的输出就是基于这些注意力权重的值的加权和。</p>
+<p>从宏观来看，上述算法可以用来实现注意力机制框架。图中说明了如何将注意力汇聚的输出计算成为值的加权和，其中$a$表示注意力评分函数。由于注意力权重是概率分布，因此加权和其本质上是加权平均值。</p>
+<p><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraattention-output.svg" alt="../_images/attention-output.svg"></p>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></div><div class="post_share"><div class="social-share" data-image="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231210050612555.png" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/social-share.js/1.0.16/css/share.min.css" media="print" onload="this.media='all'"><script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/social-share.js/1.0.16/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/post/54714.html"><img class="prev-cover" src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231210050612555.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">7.0 现代卷积神经网络</div></div></a></div><div class="next-post pull-right"><a href="/post/53892.html"><img class="next-cover" src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231210050612555.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">8.0 循环神经网络</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com/typora/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Candle</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">195</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">20</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">24</div></a></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6"><span class="toc-number">1.</span> <span class="toc-text">注意力机制</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%8F%90%E7%A4%BA"><span class="toc-number">1.1.</span> <span class="toc-text">注意力提示</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89"><span class="toc-number">1.1.1.</span> <span class="toc-text">定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E8%A7%86%E5%8C%96"><span class="toc-number">1.1.2.</span> <span class="toc-text">可视化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nadaraya-Watson-%E6%A0%B8%E5%9B%9E%E5%BD%92"><span class="toc-number">1.2.</span> <span class="toc-text">Nadaraya-Watson 核回归</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="toc-number">1.2.1.</span> <span class="toc-text">生成数据集</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B3%E5%9D%87%E6%B1%87%E8%81%9A"><span class="toc-number">1.2.2.</span> <span class="toc-text">平均汇聚</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%9E%E5%8F%82%E6%95%B0%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%B1%87%E8%81%9A"><span class="toc-number">1.2.3.</span> <span class="toc-text">非参数注意力汇聚</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%A6%E5%8F%82%E6%95%B0%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%B1%87%E8%81%9A"><span class="toc-number">1.2.4.</span> <span class="toc-text">带参数注意力汇聚</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E5%8A%9B%E8%AF%84%E5%88%86%E5%87%BD%E6%95%B0"><span class="toc-number">1.3.</span> <span class="toc-text">注意力评分函数</span></a></li></ol></li></ol></div></div><div class="card-widget card-recommend-post"><div class="item-headline"><i class="fas fa-dharmachakra"></i><span>相关推荐</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/post/40793.html" title="1.0 Pytorch入门"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231210050612555.png" alt="1.0 Pytorch入门"></a><div class="content"><a class="title" href="/post/40793.html" title="1.0 Pytorch入门">1.0 Pytorch入门</a><time datetime="2023-12-24" title="������ 2023-12-24">2023-12-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/62658.html" title="2.0 线性回归"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231210050612555.png" alt="2.0 线性回归"></a><div class="content"><a class="title" href="/post/62658.html" title="2.0 线性回归">2.0 线性回归</a><time datetime="2023-12-25" title="������ 2023-12-25">2023-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/58837.html" title="4.0 多层感知机"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231210050612555.png" alt="4.0 多层感知机"></a><div class="content"><a class="title" href="/post/58837.html" title="4.0 多层感知机">4.0 多层感知机</a><time datetime="2024-02-21" title="������ 2024-02-21">2024-02-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/21849.html" title="5.0 pytorch基础"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231210050612555.png" alt="5.0 pytorch基础"></a><div class="content"><a class="title" href="/post/21849.html" title="5.0 pytorch基础">5.0 pytorch基础</a><time datetime="2024-02-21" title="������ 2024-02-21">2024-02-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/56727.html" title="3.0 softmax回归"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231210050612555.png" alt="3.0 softmax回归"></a><div class="content"><a class="title" href="/post/56727.html" title="3.0 softmax回归">3.0 softmax回归</a><time datetime="2024-02-20" title="������ 2024-02-20">2024-02-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/6823.html" title="9.0 现代循环神经网络"><img src="https://candle-1308820096.cos.ap-chengdu.myqcloud.com//typoraimage-20231210050612555.png" alt="9.0 现代循环神经网络"></a><div class="content"><a class="title" href="/post/6823.html" title="9.0 现代循环神经网络">9.0 现代循环神经网络</a><time datetime="2024-02-27" title="������ 2024-02-27">2024-02-27</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2024 By Candle</div><div class="framework-info"><span>Powered by </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a></div><div class="footer_custom_text">So Long, and Thanks for All the Fish</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.2
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container:not\([display]\)').forEach(node => {
+            const target = node.parentNode
+            if (target.nodeName.toLowerCase() === 'li') {
+              target.parentNode.classList.add('has-jax')
+            } else {
+              target.classList.add('has-jax')
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-y/mathjax/3.2.0/es5/tex-mml-chtml.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script></div><script src="https://npm.elemecdn.com/pjax/pjax.min.js"></script><script>let pjaxSelectors = [
+  'title',
+  '#config-diff',
+  '#body-wrap',
+  '#rightside-config-hide',
+  '#rightside-config-show',
+  '.js-pjax'
+]
+
+if (false) {
+  pjaxSelectors.unshift('meta[property="og:image"]', 'meta[property="og:title"]', 'meta[property="og:url"]')
+}
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.removeEventListener('scroll', window.tocScrollFn)
+  window.removeEventListener('scroll', scrollCollect)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // Analytics
+  if (false) {
+    MtaH5.pgv()
+  }
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
